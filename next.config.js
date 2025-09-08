@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Static export for Netlify
+  output: 'export',
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  
   images: {
+    unoptimized: true, // Required for static export
     remotePatterns: [
       {
         protocol: 'https',
@@ -13,11 +19,15 @@ const nextConfig = {
     ],
     formats: ['image/webp', 'image/avif'],
   },
+  
   // Performance optimizations
   poweredByHeader: false,
   compress: true,
-  // Allow dev origins for cross-origin requests
-  allowedDevOrigins: ['192.168.1.5'],
+  
+  // Netlify-specific optimizations
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
 }
 
 module.exports = nextConfig
