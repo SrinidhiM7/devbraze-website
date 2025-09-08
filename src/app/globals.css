@@ -1,0 +1,323 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+  
+  /* Futuristic color palette */
+  --cyber-cyan: #00d9ff;
+  --cyber-purple: #a855f7;
+  --cyber-pink: #ec4899;
+  --cyber-blue: #3b82f6;
+  --cyber-green: #10b981;
+  --neon-yellow: #fbbf24;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--cyber-cyan), var(--cyber-purple));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00b8d4, #9333ea);
+}
+
+/* Glow effect */
+.glow-effect {
+  box-shadow: 0 0 20px rgba(63, 169, 245, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-effect:hover {
+  box-shadow: 0 0 30px rgba(155, 81, 224, 0.5);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(90deg, #3FA9F5, #9B51E0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(63, 169, 245, 0.2);
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Button glow */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-glow:hover::before {
+  left: 100%;
+}
+
+/* Loading spinner */
+.spinner {
+  border: 2px solid #3FA9F5;
+  border-top: 2px solid #9B51E0;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Parallax effect */
+.parallax {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Selection color */
+::selection {
+  background: linear-gradient(90deg, #3FA9F5, #9B51E0);
+  color: white;
+}
+
+/* Focus styles */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--cyber-cyan);
+  outline-offset: 2px;
+}
+
+/* Futuristic enhancements */
+.futuristic-border {
+  border-image: linear-gradient(45deg, var(--cyber-cyan), var(--cyber-purple)) 1;
+}
+
+.cyber-glow {
+  box-shadow: 
+    0 0 5px var(--cyber-cyan),
+    0 0 10px var(--cyber-cyan),
+    0 0 15px var(--cyber-cyan),
+    0 0 20px var(--cyber-cyan);
+}
+
+.neon-text {
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 15px currentColor,
+    0 0 20px currentColor;
+}
+
+/* Orbitron font for headings */
+.font-orbitron {
+  font-family: 'Orbitron', monospace;
+}
+
+/* Matrix-style background animation */
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.matrix-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, var(--cyber-cyan), transparent),
+    radial-gradient(2px 2px at 40px 70px, var(--cyber-purple), transparent),
+    radial-gradient(1px 1px at 90px 40px, var(--cyber-pink), transparent);
+  background-repeat: repeat;
+  background-size: 100px 100px;
+  animation: matrix-rain 20s linear infinite;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+/* Holographic effect */
+.holographic {
+  background: linear-gradient(
+    45deg,
+    var(--cyber-cyan) 0%,
+    var(--cyber-purple) 25%,
+    var(--cyber-pink) 50%,
+    var(--cyber-blue) 75%,
+    var(--cyber-cyan) 100%
+  );
+  background-size: 400% 400%;
+  animation: holographic-shift 4s ease-in-out infinite;
+}
+
+@keyframes holographic-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Pulsing effect */
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--cyber-cyan);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--cyber-cyan), 0 0 30px var(--cyber-cyan);
+  }
+}
+
+/* Futuristic grid pattern */
+.cyber-grid {
+  background-image: 
+    linear-gradient(rgba(0, 217, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 217, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Circuit board pattern */
+.circuit-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(90deg, transparent 24%, rgba(0, 217, 255, 0.05) 25%, rgba(0, 217, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 217, 255, 0.05) 75%, rgba(0, 217, 255, 0.05) 76%, transparent 77%, transparent),
+    linear-gradient(rgba(0, 217, 255, 0.05) 24%, transparent 25%, transparent 26%, rgba(0, 217, 255, 0.05) 27%, rgba(0, 217, 255, 0.05) 74%, transparent 75%, transparent 76%, rgba(0, 217, 255, 0.05) 77%, rgba(0, 217, 255, 0.05));
+  background-size: 50px 50px;
+  pointer-events: none;
+}
+
+/* Additional animations for achievements and team sections */
+@keyframes animate-spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animate-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: animate-spin-slow 8s linear infinite;
+}
+
+.animate-spin-reverse {
+  animation: animate-spin-reverse 10s linear infinite;
+}
+
+/* Radial gradient utility */
+.bg-radial-gradient {
+  background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+}
+
+/* Line clamp utility */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Dotted background patterns - Only 2 alternating colors */
+.dotted-bg-primary {
+  background-image: radial-gradient(circle, rgba(34, 211, 238, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-color: #0a0a0a;
+}
+
+.dotted-bg-secondary {
+  background-image: radial-gradient(circle, rgba(34, 211, 238, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-color: #1a1a1a;
+}
+
