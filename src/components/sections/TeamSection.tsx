@@ -2,49 +2,34 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Github, Linkedin, Mail, ChevronLeft, ChevronRight, Users, Award, Star } from 'lucide-react'
+import { Github, Linkedin, Mail, Users, Award, Star } from 'lucide-react'
+import Image from 'next/image'
 import { teamMembers, TeamMember } from '@/data/team'
 
 export default function TeamSection() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isMobile, setIsMobile] = useState(false)
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
 
+  // Prevent body scroll when modal is open
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
-
-  const nextSlide = () => {
-    if (isMobile) {
-      setCurrentIndex((prev) => (prev + 1) % Math.ceil(teamMembers.length / 1))
+    if (selectedMember) {
+      document.body.classList.add('modal-open')
     } else {
-      setCurrentIndex((prev) => (prev + 1) % Math.ceil(teamMembers.length / 3))
+      document.body.classList.remove('modal-open')
     }
-  }
 
-  const prevSlide = () => {
-    if (isMobile) {
-      setCurrentIndex((prev) => (prev - 1 + Math.ceil(teamMembers.length / 1)) % Math.ceil(teamMembers.length / 1))
-    } else {
-      setCurrentIndex((prev) => (prev - 1 + Math.ceil(teamMembers.length / 3)) % Math.ceil(teamMembers.length / 3))
+    // Cleanup function to restore scroll on unmount
+    return () => {
+      document.body.classList.remove('modal-open')
     }
-  }
-
-  const getVisibleMembers = () => {
-    const itemsPerSlide = isMobile ? 1 : 3
-    const startIndex = currentIndex * itemsPerSlide
-    return teamMembers.slice(startIndex, startIndex + itemsPerSlide)
-  }
+  }, [selectedMember])
 
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('')
+  }
+
+  const handleImageError = (memberId: string) => {
+    setImageErrors(prev => new Set([...prev, memberId]))
   }
 
   return (
@@ -75,153 +60,126 @@ export default function TeamSection() {
           </p>
         </motion.div>
 
-        {/* Team Grid with Slider */}
-        <div className="relative">
-          {/* Navigation Buttons */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-3 bg-black/60 backdrop-blur-sm border border-cyan-500/30 rounded-full hover:border-cyan-400 transition-all duration-300 group"
-            disabled={currentIndex === 0}
-          >
-            <ChevronLeft className="w-6 h-6 text-cyan-400 group-hover:text-white" />
-          </button>
-
-          <button
-            onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-3 bg-black/60 backdrop-blur-sm border border-cyan-500/30 rounded-full hover:border-cyan-400 transition-all duration-300 group"
-            disabled={currentIndex >= Math.ceil(teamMembers.length / (isMobile ? 1 : 3)) - 1}
-          >
-            <ChevronRight className="w-6 h-6 text-cyan-400 group-hover:text-white" />
-          </button>
-
-          {/* Team Members Grid */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 px-12"
-            layout
-          >
-            <AnimatePresence mode="popLayout">
-              {getVisibleMembers().map((member, index) => (
-                <motion.div
-                  key={`${member.id}-${currentIndex}`}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -30 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group"
-                >
-                  <div className="relative">
-                    {/* Card Background with Gradient Border */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                    
-                    <div className="relative bg-black/80 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-6 hover:border-cyan-400/60 transition-all duration-300 group-hover:transform group-hover:scale-105">
-                      {/* Profile Picture */}
-                      <div className="flex justify-center mb-6">
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full p-1 animate-pulse">
-                            <div className="w-24 h-24 bg-black rounded-full"></div>
-                          </div>
-                          <div className="relative w-24 h-24 bg-gradient-to-br from-cyan-500/40 to-purple-500/40 rounded-full flex items-center justify-center border-2 border-cyan-400/50 group-hover:border-cyan-400 transition-colors duration-300">
+        {/* Team Grid - All Members */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xs:gap-8 mb-12 xs:mb-16">
+          {teamMembers.map((member, index) => (
+            <motion.div
+              key={member.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group"
+            >
+              <div className="relative">
+                {/* Card Background with Gradient Border */}
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                
+                <div className="relative bg-black/80 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-6 hover:border-cyan-400/60 transition-all duration-300 group-hover:transform group-hover:scale-105">
+                  {/* Profile Picture */}
+                  <div className="flex justify-center mb-6">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full p-1 animate-pulse">
+                        <div className="w-24 h-24 bg-black rounded-full"></div>
+                      </div>
+                      <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-cyan-400/50 group-hover:border-cyan-400 transition-colors duration-300">
+                        {!imageErrors.has(member.id) ? (
+                          <Image
+                            src={member.image}
+                            alt={member.name}
+                            fill
+                            className="object-cover"
+                            onError={() => handleImageError(member.id)}
+                            sizes="96px"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-cyan-500/40 to-purple-500/40 flex items-center justify-center">
                             <span className="text-2xl font-bold gradient-text">
                               {getInitials(member.name)}
                             </span>
                           </div>
-                          {/* Online Status Indicator */}
-                          <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-black flex items-center justify-center">
-                            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Member Info */}
-                      <div className="text-center space-y-3">
-                        <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
-                          {member.name}
-                        </h3>
-                        <p className="text-sm font-semibold gradient-text">
-                          {member.role}
-                        </p>
-                        <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
-                          {member.bio}
-                        </p>
-                      </div>
-
-                      {/* Skills Preview - Top 3 */}
-                      <div className="mt-4 flex flex-wrap gap-2 justify-center">
-                        {member.skills.slice(0, 3).map((skill) => (
-                          <span
-                            key={skill}
-                            className="px-3 py-1 bg-cyan-500/20 border border-cyan-400/30 rounded-full text-xs text-cyan-400"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                        {member.skills.length > 3 && (
-                          <span className="px-3 py-1 bg-purple-500/20 border border-purple-400/30 rounded-full text-xs text-purple-400">
-                            +{member.skills.length - 3} more
-                          </span>
                         )}
                       </div>
-
-                      {/* Social Links */}
-                      <div className="flex justify-center gap-3 mt-6">
-                        {member.social.github && (
-                          <a
-                            href={member.social.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300 group"
-                          >
-                            <Github className="w-4 h-4 text-cyan-400" />
-                          </a>
-                        )}
-                        {member.social.linkedin && (
-                          <a
-                            href={member.social.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
-                          >
-                            <Linkedin className="w-4 h-4 text-cyan-400" />
-                          </a>
-                        )}
-                        {member.social.email && (
-                          <a
-                            href={`mailto:${member.social.email}`}
-                            className="p-2 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
-                          >
-                            <Mail className="w-4 h-4 text-cyan-400" />
-                          </a>
-                        )}
+                      {/* Online Status Indicator */}
+                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-black flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                       </div>
-
-                      {/* View More Button */}
-                      <button
-                        onClick={() => setSelectedMember(member)}
-                        className="w-full mt-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-lg text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300 text-sm font-medium"
-                      >
-                        View Details
-                      </button>
                     </div>
                   </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
 
-          {/* Slide Indicators */}
-          <div className="flex justify-center gap-2 mt-8">
-            {Array.from({ length: Math.ceil(teamMembers.length / (isMobile ? 1 : 3)) }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex
-                    ? 'bg-cyan-400 scale-125'
-                    : 'bg-cyan-400/30 hover:bg-cyan-400/60'
-                }`}
-              />
-            ))}
-          </div>
+                  {/* Member Info */}
+                  <div className="text-center space-y-3">
+                    <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
+                      {member.name}
+                    </h3>
+                    <p className="text-sm font-semibold gradient-text">
+                      {member.role}
+                    </p>
+                    <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
+                      {member.bio}
+                    </p>
+                  </div>
+
+                  {/* Skills Preview - Top 3 */}
+                  <div className="mt-4 flex flex-wrap gap-2 justify-center">
+                    {member.skills.slice(0, 3).map((skill: string) => (
+                      <span
+                        key={skill}
+                        className="px-3 py-1 bg-cyan-500/20 border border-cyan-400/30 rounded-full text-xs text-cyan-400"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                    {member.skills.length > 3 && (
+                      <span className="px-3 py-1 bg-purple-500/20 border border-purple-400/30 rounded-full text-xs text-purple-400">
+                        +{member.skills.length - 3} more
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Social Links */}
+                  <div className="flex justify-center gap-3 mt-6">
+                    {member.social.github && (
+                      <a
+                        href={member.social.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300 group"
+                      >
+                        <Github className="w-4 h-4 text-cyan-400" />
+                      </a>
+                    )}
+                    {member.social.linkedin && (
+                      <a
+                        href={member.social.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                      >
+                        <Linkedin className="w-4 h-4 text-cyan-400" />
+                      </a>
+                    )}
+                    {member.social.email && (
+                      <a
+                        href={`mailto:${member.social.email}`}
+                        className="p-2 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                      >
+                        <Mail className="w-4 h-4 text-cyan-400" />
+                      </a>
+                    )}
+                  </div>
+
+                  {/* View More Button */}
+                  <button
+                    onClick={() => setSelectedMember(member)}
+                    className="w-full mt-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-lg text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300 text-sm font-medium"
+                  >
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
         {/* Team Stats */}
@@ -235,7 +193,7 @@ export default function TeamSection() {
           {[
             { 
               icon: Users, 
-              number: "10", 
+              number: "8", 
               label: "Core Members", 
               description: "Dedicated leaders driving innovation" 
             },
@@ -307,43 +265,56 @@ export default function TeamSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="modal-overlay modal-backdrop bg-black/80"
             onClick={() => setSelectedMember(null)}
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-black/90 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.8, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 50 }}
+              className="modal-content bg-black/95 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-6 xs:p-8 overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center gap-6 mb-6">
-                <div className="relative">
-                  <div className="w-24 h-24 bg-gradient-to-br from-cyan-500/40 to-purple-500/40 rounded-full flex items-center justify-center border-2 border-cyan-400">
-                    <span className="text-2xl font-bold gradient-text">
-                      {getInitials(selectedMember.name)}
-                    </span>
+              <div className="flex flex-col xs:flex-row items-center xs:items-start gap-4 xs:gap-6 mb-6">
+                <div className="relative flex-shrink-0">
+                  <div className="w-20 h-20 xs:w-24 xs:h-24 rounded-full overflow-hidden border-2 border-cyan-400">
+                    {!imageErrors.has(selectedMember.id) ? (
+                      <Image
+                        src={selectedMember.image}
+                        alt={selectedMember.name}
+                        fill
+                        className="object-cover"
+                        onError={() => handleImageError(selectedMember.id)}
+                        sizes="96px"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-cyan-500/40 to-purple-500/40 flex items-center justify-center">
+                        <span className="text-xl xs:text-2xl font-bold gradient-text">
+                          {getInitials(selectedMember.name)}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white">{selectedMember.name}</h3>
-                  <p className="text-lg gradient-text font-semibold">{selectedMember.role}</p>
+                <div className="text-center xs:text-left">
+                  <h3 className="text-xl xs:text-2xl font-bold text-white">{selectedMember.name}</h3>
+                  <p className="text-base xs:text-lg gradient-text font-semibold">{selectedMember.role}</p>
                 </div>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4 xs:space-y-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-3">About</h4>
-                  <p className="text-gray-300 leading-relaxed">{selectedMember.bio}</p>
+                  <h4 className="text-base xs:text-lg font-semibold text-white mb-2 xs:mb-3">About</h4>
+                  <p className="text-gray-300 leading-relaxed text-sm xs:text-base">{selectedMember.bio}</p>
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-3">Skills & Expertise</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <h4 className="text-base xs:text-lg font-semibold text-white mb-2 xs:mb-3">Skills & Expertise</h4>
+                  <div className="flex flex-wrap gap-1.5 xs:gap-2">
                     {selectedMember.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="px-3 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-400"
+                        className="px-2 xs:px-3 py-1 xs:py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-full text-xs xs:text-sm text-cyan-400"
                       >
                         {skill}
                       </span>
@@ -351,15 +322,15 @@ export default function TeamSection() {
                   </div>
                 </div>
 
-                <div className="flex justify-center gap-4 pt-6">
+                <div className="flex justify-center gap-3 xs:gap-4 pt-4 xs:pt-6">
                   {selectedMember.social.github && (
                     <a
                       href={selectedMember.social.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                      className="p-2 xs:p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
                     >
-                      <Github className="w-5 h-5 text-cyan-400" />
+                      <Github className="w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
                     </a>
                   )}
                   {selectedMember.social.linkedin && (
@@ -367,17 +338,17 @@ export default function TeamSection() {
                       href={selectedMember.social.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                      className="p-2 xs:p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
                     >
-                      <Linkedin className="w-5 h-5 text-cyan-400" />
+                      <Linkedin className="w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
                     </a>
                   )}
                   {selectedMember.social.email && (
                     <a
                       href={`mailto:${selectedMember.social.email}`}
-                      className="p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                      className="p-2 xs:p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
                     >
-                      <Mail className="w-5 h-5 text-cyan-400" />
+                      <Mail className="w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
                     </a>
                   )}
                 </div>
@@ -385,7 +356,7 @@ export default function TeamSection() {
 
               <button
                 onClick={() => setSelectedMember(null)}
-                className="mt-6 w-full py-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-lg text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300"
+                className="mt-4 xs:mt-6 w-full py-2 xs:py-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-lg text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300 text-sm xs:text-base"
               >
                 Close
               </button>
