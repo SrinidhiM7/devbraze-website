@@ -65,17 +65,17 @@ export default function Footer() {
 
   return (
     <footer className="bg-black border-t border-white/10">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 xs:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xs:gap-8">
           {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="space-y-4"
+            className="space-y-3 xs:space-y-4 sm:col-span-2 lg:col-span-1"
           >
-            <div className="flex items-center space-x-3">
-              <div className="relative w-12 h-12">
+            <div className="flex items-center space-x-2 xs:space-x-3">
+              <div className="relative w-10 h-10 xs:w-12 xs:h-12">
                 <Image
                   src="/DevBraze Logo Blue Border.png"
                   alt="DevBraze Logo"
@@ -84,26 +84,26 @@ export default function Footer() {
                 />
               </div>
               <div>
-                <h3 className="text-xl font-bold gradient-text">{"</DevBraze>"}</h3>
-                <p className="text-sm text-gray-400">School of ECE</p>
+                <h3 className="text-lg xs:text-xl font-bold gradient-text">{"</DevBraze>"}</h3>
+                <p className="text-xs xs:text-sm text-gray-400">School of ECE</p>
               </div>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-xs xs:text-sm leading-relaxed max-w-md">
               Empowering ECE students through technology, innovation, and collaborative learning. 
               Join us in building the future of technology.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3 xs:space-x-4">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.name}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 ${social.color}`}
+                  className={`p-1.5 xs:p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 ${social.color}`}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <social.icon className="w-5 h-5" />
+                  <social.icon className="w-4 h-4 xs:w-5 xs:h-5" />
                 </motion.a>
               ))}
             </div>
@@ -115,18 +115,18 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="space-y-4"
+            className="space-y-3 xs:space-y-4"
           >
-            <h3 className="text-lg font-semibold text-white">Quick Links</h3>
-            <ul className="space-y-2">
+            <h3 className="text-base xs:text-lg font-semibold text-white">Quick Links</h3>
+            <ul className="space-y-1.5 xs:space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <button
                     onClick={() => scrollToSection(link.href)}
-                    className="text-gray-400 hover:text-white transition-colors duration-300 text-sm flex items-center group"
+                    className="text-gray-400 hover:text-white transition-colors duration-300 text-xs xs:text-sm flex items-center group"
                   >
                     {link.name}
-                    <ExternalLink className="w-3 h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <ExternalLink className="w-2.5 h-2.5 xs:w-3 xs:h-3 ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </button>
                 </li>
               ))}
@@ -139,14 +139,14 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="space-y-4"
+            className="space-y-3 xs:space-y-4"
           >
-            <h3 className="text-lg font-semibold text-white">Contact Us</h3>
-            <ul className="space-y-3">
+            <h3 className="text-base xs:text-lg font-semibold text-white">Contact Us</h3>
+            <ul className="space-y-2 xs:space-y-3">
               {contactInfo.map((contact, index) => (
-                <li key={index} className="flex items-start space-x-3">
-                  <contact.icon className="w-4 h-4 text-devbraze-blue mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-400 text-sm">{contact.text}</span>
+                <li key={index} className="flex items-start space-x-2 xs:space-x-3">
+                  <contact.icon className="w-3.5 h-3.5 xs:w-4 xs:h-4 text-devbraze-blue mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-400 text-xs xs:text-sm">{contact.text}</span>
                 </li>
               ))}
             </ul>
@@ -158,20 +158,20 @@ export default function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="space-y-4"
+            className="space-y-3 xs:space-y-4 sm:col-span-2 lg:col-span-1"
           >
-            <h3 className="text-lg font-semibold text-white">Stay Updated</h3>
-            <p className="text-gray-400 text-sm">
+            <h3 className="text-base xs:text-lg font-semibold text-white">Stay Updated</h3>
+            <p className="text-gray-400 text-xs xs:text-sm">
               Get the latest news about our events, workshops, and opportunities.
             </p>
             <div className="space-y-2">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-devbraze-blue transition-colors duration-300"
+                className="w-full px-2.5 xs:px-3 py-1.5 xs:py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-devbraze-blue transition-colors duration-300 text-xs xs:text-sm"
               />
               <motion.button
-                className="w-full px-4 py-2 bg-devbraze-gradient rounded-lg text-white font-medium hover:opacity-90 transition-opacity duration-300"
+                className="w-full px-3 xs:px-4 py-1.5 xs:py-2 bg-devbraze-gradient rounded-lg text-white font-medium hover:opacity-90 transition-opacity duration-300 text-xs xs:text-sm"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -187,12 +187,12 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0"
+          className="border-t border-white/10 mt-8 xs:mt-12 pt-6 xs:pt-8 flex flex-col sm:flex-row justify-between items-center space-y-3 xs:space-y-4 sm:space-y-0"
         >
-                      <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} {"</DevBraze>"}. All rights reserved. Made with ❤️ by {"</DevBraze>"} Team.
-            </p>
-          <div className="flex space-x-6 text-sm">
+          <p className="text-gray-400 text-xs xs:text-sm text-center sm:text-left">
+            © {new Date().getFullYear()} {"</DevBraze>"}. All rights reserved. Made with ❤️ by {"</DevBraze>"} Team.
+          </p>
+          <div className="flex space-x-4 xs:space-x-6 text-xs xs:text-sm">
             <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
               Privacy Policy
             </a>

@@ -1,10 +1,16 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
+})
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://devbraze.com'),
   title: '</DevBraze> - Technical Community of School of ECE',
   description: '</DevBraze> is the premier technical community of School of ECE, fostering innovation, learning, and collaboration among ECE students through workshops, hackathons, and technical projects.',
   keywords: '</DevBraze>, ECE, technical community, programming, technology, workshops, hackathons',
@@ -38,6 +44,12 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -45,7 +57,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-black text-white min-h-screen`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className={`${inter.className} bg-black text-white min-h-screen antialiased`}>
         {children}
       </body>
     </html>

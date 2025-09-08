@@ -1,50 +1,58 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { Github, Linkedin, Mail } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Github, Linkedin, Mail, ChevronLeft, ChevronRight, Users, Award, Star } from 'lucide-react'
 import { teamMembers, TeamMember } from '@/data/team'
 
 export default function TeamSection() {
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  const sectionRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    if (isAutoPlaying) {
-      const interval = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % teamMembers.length)
-      }, 5000)
-      return () => clearInterval(interval)
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
     }
-  }, [isAutoPlaying])
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
-  const nextMember = () => {
-    setCurrentIndex((prev) => (prev + 1) % teamMembers.length)
-    setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 10000)
+  const nextSlide = () => {
+    if (isMobile) {
+      setCurrentIndex((prev) => (prev + 1) % Math.ceil(teamMembers.length / 1))
+    } else {
+      setCurrentIndex((prev) => (prev + 1) % Math.ceil(teamMembers.length / 3))
+    }
   }
 
-  const prevMember = () => {
-    setCurrentIndex((prev) => (prev - 1 + teamMembers.length) % teamMembers.length)
-    setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 10000)
+  const prevSlide = () => {
+    if (isMobile) {
+      setCurrentIndex((prev) => (prev - 1 + Math.ceil(teamMembers.length / 1)) % Math.ceil(teamMembers.length / 1))
+    } else {
+      setCurrentIndex((prev) => (prev - 1 + Math.ceil(teamMembers.length / 3)) % Math.ceil(teamMembers.length / 3))
+    }
   }
 
-  const selectMember = (index: number) => {
-    setCurrentIndex(index)
-    setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 10000)
+  const getVisibleMembers = () => {
+    const itemsPerSlide = isMobile ? 1 : 3
+    const startIndex = currentIndex * itemsPerSlide
+    return teamMembers.slice(startIndex, startIndex + itemsPerSlide)
   }
 
-  const currentMember = teamMembers[currentIndex]
+  const getInitials = (name: string) => {
+    return name.split(' ').map(n => n[0]).join('')
+  }
 
   return (
-    <section id="team" ref={sectionRef} className="py-20 dotted-bg-secondary relative overflow-hidden">
-      {/* Futuristic background elements */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-cyan-500/30 to-transparent rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-gradient-to-tl from-purple-500/30 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
+    <section id="team" className="py-20 dotted-bg-secondary relative overflow-hidden">
+      {/* Modern Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-cyan-500/10 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-gradient-to-tl from-purple-500/10 to-transparent rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -56,227 +64,164 @@ export default function TeamSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Meet Our <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Core Team</span>
-          </h2>
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <Users className="w-8 h-8 text-cyan-400" />
+            <h2 className="text-4xl md:text-5xl font-bold">
+              Our <span className="gradient-text">Core Team</span>
+            </h2>
+          </div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            The passionate innovators who drive DevBraze forward, leading by example 
-            and inspiring the next generation of tech pioneers.
+            Meet the passionate innovators driving DevBraze forward and shaping the future of tech education
           </p>
         </motion.div>
 
-        {/* Circular Team Slider */}
-        <div className="grid lg:grid-cols-2 gap-16 items-start max-w-7xl mx-auto">
-          {/* Left Side - Circular Selector with Clock Needle */}
-          <div className="relative flex justify-center">
-            <div className="relative w-[600px] h-[600px] flex items-center justify-center">
-              <div className="relative w-[550px] h-[550px]">
-                {/* Central Hub */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full flex items-center justify-center z-30">
-                  <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center">
-                    <div className="w-3 h-3 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full"></div>
-                  </div>
-                </div>
+        {/* Team Grid with Slider */}
+        <div className="relative">
+          {/* Navigation Buttons */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-3 bg-black/60 backdrop-blur-sm border border-cyan-500/30 rounded-full hover:border-cyan-400 transition-all duration-300 group"
+            disabled={currentIndex === 0}
+          >
+            <ChevronLeft className="w-6 h-6 text-cyan-400 group-hover:text-white" />
+          </button>
 
-                {/* Clock Needle - Properly centered */}
-                {/* <motion.div
-                  className="absolute z-5"
-                  style={{
-                    top: '22%',
-                    left: '50%',
-                    width: '4px',
-                    height: '130px',
-                    background: 'linear-gradient(to top, #22d3ee, #a855f7)',
-                    transformOrigin: '2px 190px', // Bottom center of the needle
-                    transform: 'translate(-2px, -190px)', // Position so bottom is at center
-                  }}
-                  animate={{
-                    rotate: (currentIndex * 360) / teamMembers.length
-                  }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-                  initial={{ rotate: 0 }}
+          <button
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-3 bg-black/60 backdrop-blur-sm border border-cyan-500/30 rounded-full hover:border-cyan-400 transition-all duration-300 group"
+            disabled={currentIndex >= Math.ceil(teamMembers.length / (isMobile ? 1 : 3)) - 1}
+          >
+            <ChevronRight className="w-6 h-6 text-cyan-400 group-hover:text-white" />
+          </button>
+
+          {/* Team Members Grid */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 px-12"
+            layout
+          >
+            <AnimatePresence mode="popLayout">
+              {getVisibleMembers().map((member, index) => (
+                <motion.div
+                  key={`${member.id}-${currentIndex}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -30 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="group"
                 >
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-5 h-5 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full border-2 border-white"></div>
-                </motion.div> */}
-
-                {/* Team Member Circles */}
-                {teamMembers.map((member, index) => {
-                  const angle = (index * 360) / teamMembers.length
-                  const isActive = index === currentIndex
-                  const radius = 200 // Increased radius for larger circles
-                  const centerX = 275 // Half of 550px container
-                  const centerY = 275 // Half of 550px container
-                  
-                  const x = centerX + radius * Math.cos((angle - 90) * Math.PI / 180)
-                  const y = centerY + radius * Math.sin((angle - 90) * Math.PI / 180)
-                  
-                  return (
-                    <motion.button
-                      key={member.id}
-                      onClick={() => selectMember(index)}
-                      className={`absolute w-24 h-24 rounded-full border-2 transition-all duration-500 overflow-hidden ${
-                        isActive 
-                          ? 'border-cyan-400 scale-125 shadow-lg shadow-cyan-400/50 z-10' 
-                          : 'border-cyan-500/30 hover:border-cyan-400/60 hover:scale-110'
-                      }`}
-                      style={{
-                        left: `${x - 48}px`, // Half of 96px (w-24)
-                        top: `${y - 48}px`,  // Half of 96px (h-24)
-                      }}
-                      whileHover={{ scale: isActive ? 1.35 : 1.2 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <div className={`w-full h-full rounded-full flex items-center justify-center text-base font-bold transition-all duration-300 ${
-                        isActive 
-                          ? 'bg-gradient-to-r from-cyan-500/60 to-purple-500/60 text-white' 
-                          : 'bg-black/80 text-cyan-400 hover:bg-cyan-500/20'
-                      }`}>
-                        {/* Placeholder for image - will be replaced with actual images */}
-                        <div className="text-xl font-bold">
-                          {member.name.split(' ').map(n => n[0]).join('')}
+                  <div className="relative">
+                    {/* Card Background with Gradient Border */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                    
+                    <div className="relative bg-black/80 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-6 hover:border-cyan-400/60 transition-all duration-300 group-hover:transform group-hover:scale-105">
+                      {/* Profile Picture */}
+                      <div className="flex justify-center mb-6">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full p-1 animate-pulse">
+                            <div className="w-24 h-24 bg-black rounded-full"></div>
+                          </div>
+                          <div className="relative w-24 h-24 bg-gradient-to-br from-cyan-500/40 to-purple-500/40 rounded-full flex items-center justify-center border-2 border-cyan-400/50 group-hover:border-cyan-400 transition-colors duration-300">
+                            <span className="text-2xl font-bold gradient-text">
+                              {getInitials(member.name)}
+                            </span>
+                          </div>
+                          {/* Online Status Indicator */}
+                          <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-black flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                          </div>
                         </div>
                       </div>
-                      
-                      {/* Active pulse effect */}
-                      {isActive && (
-                        <motion.div
-                          className="absolute inset-0 rounded-full border-2 border-cyan-400/50"
-                          animate={{ scale: [1, 1.2, 1] }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        />
-                      )}
-                    </motion.button>
-                  )
-                })}
 
-                {/* Connecting Lines */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
-                  <defs>
-                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgba(34, 211, 238, 0.2)" />
-                      <stop offset="100%" stopColor="rgba(168, 85, 247, 0.2)" />
-                    </linearGradient>
-                  </defs>
-                  {teamMembers.map((_, index) => {
-                    const angle = (index * 360) / teamMembers.length
-                    const radius = 200
-                    const centerX = 275
-                    const centerY = 275
-                    const x = centerX + radius * Math.cos((angle - 90) * Math.PI / 180)
-                    const y = centerY + radius * Math.sin((angle - 90) * Math.PI / 180)
-                    
-                    return (
-                      <line
-                        key={index}
-                        x1={centerX}
-                        y1={centerY}
-                        x2={x}
-                        y2={y}
-                        stroke="url(#lineGradient)"
-                        strokeWidth="1"
-                        strokeDasharray={index === currentIndex ? "none" : "5,5"}
-                        opacity={index === currentIndex ? 0.8 : 0.3}
-                      />
-                    )
-                  })}
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side - Member Details Card */}
-          <motion.div
-            key={currentMember.id}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6 h-[600px] flex items-center"
-          >
-            <div className="relative w-full">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-xl"></div>
-              <div className="relative bg-black/60 backdrop-blur-lg border border-cyan-500/30 rounded-3xl p-8 hover:border-cyan-400/50 transition-all duration-300">
-                {/* Member Image Placeholder */}
-                <div className="flex justify-center mb-6">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-2xl p-1 animate-pulse">
-                      <div className="w-32 h-32 bg-black rounded-2xl"></div>
-                    </div>
-                    <div className="relative w-32 h-32 bg-gradient-to-br from-cyan-500/30 to-purple-500/30 rounded-2xl border-2 border-cyan-400/50 flex items-center justify-center">
-                      <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                        {currentMember.name.split(' ').map(n => n[0]).join('')}
+                      {/* Member Info */}
+                      <div className="text-center space-y-3">
+                        <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
+                          {member.name}
+                        </h3>
+                        <p className="text-sm font-semibold gradient-text">
+                          {member.role}
+                        </p>
+                        <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
+                          {member.bio}
+                        </p>
                       </div>
+
+                      {/* Skills Preview - Top 3 */}
+                      <div className="mt-4 flex flex-wrap gap-2 justify-center">
+                        {member.skills.slice(0, 3).map((skill) => (
+                          <span
+                            key={skill}
+                            className="px-3 py-1 bg-cyan-500/20 border border-cyan-400/30 rounded-full text-xs text-cyan-400"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                        {member.skills.length > 3 && (
+                          <span className="px-3 py-1 bg-purple-500/20 border border-purple-400/30 rounded-full text-xs text-purple-400">
+                            +{member.skills.length - 3} more
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Social Links */}
+                      <div className="flex justify-center gap-3 mt-6">
+                        {member.social.github && (
+                          <a
+                            href={member.social.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300 group"
+                          >
+                            <Github className="w-4 h-4 text-cyan-400" />
+                          </a>
+                        )}
+                        {member.social.linkedin && (
+                          <a
+                            href={member.social.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                          >
+                            <Linkedin className="w-4 h-4 text-cyan-400" />
+                          </a>
+                        )}
+                        {member.social.email && (
+                          <a
+                            href={`mailto:${member.social.email}`}
+                            className="p-2 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                          >
+                            <Mail className="w-4 h-4 text-cyan-400" />
+                          </a>
+                        )}
+                      </div>
+
+                      {/* View More Button */}
+                      <button
+                        onClick={() => setSelectedMember(member)}
+                        className="w-full mt-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-lg text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300 text-sm font-medium"
+                      >
+                        View Details
+                      </button>
                     </div>
                   </div>
-                </div>
-
-                {/* Member Info */}
-                <div className="text-center space-y-4">
-                  <h3 className="text-3xl font-bold text-white">
-                    {currentMember.name}
-                  </h3>
-                  <p className="text-xl font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                    {currentMember.role}
-                  </p>
-                  <p className="text-gray-300 leading-relaxed text-lg">
-                    {currentMember.bio}
-                  </p>
-                </div>
-
-                {/* Skills */}
-                <div className="mt-6">
-                  <h4 className="text-lg font-semibold text-white mb-4 flex items-center justify-center gap-2">
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
-                    Skills & Expertise
-                  </h4>
-                  <div className="flex flex-wrap gap-3 justify-center">
-                    {currentMember.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-400 hover:border-cyan-400 transition-colors duration-300"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Social Links */}
-                <div className="flex justify-center gap-4 mt-6">
-                  {currentMember.social.github && (
-                    <motion.a
-                      href={currentMember.social.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 bg-black/40 hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-purple-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
-                      whileHover={{ scale: 1.1, y: -2 }}
-                    >
-                      <Github className="w-5 h-5 text-cyan-400" />
-                    </motion.a>
-                  )}
-                  {currentMember.social.linkedin && (
-                    <motion.a
-                      href={currentMember.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 bg-black/40 hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-purple-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
-                      whileHover={{ scale: 1.1, y: -2 }}
-                    >
-                      <Linkedin className="w-5 h-5 text-cyan-400" />
-                    </motion.a>
-                  )}
-                  {currentMember.social.email && (
-                    <motion.a
-                      href={`mailto:${currentMember.social.email}`}
-                      className="p-3 bg-black/40 hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-purple-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
-                      whileHover={{ scale: 1.1, y: -2 }}
-                    >
-                      <Mail className="w-5 h-5 text-cyan-400" />
-                    </motion.a>
-                  )}
-                </div>
-              </div>
-            </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </motion.div>
+
+          {/* Slide Indicators */}
+          <div className="flex justify-center gap-2 mt-8">
+            {Array.from({ length: Math.ceil(teamMembers.length / (isMobile ? 1 : 3)) }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex
+                    ? 'bg-cyan-400 scale-125'
+                    : 'bg-cyan-400/30 hover:bg-cyan-400/60'
+                }`}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Team Stats */}
@@ -285,12 +230,27 @@ export default function TeamSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mt-20 grid md:grid-cols-3 gap-8"
+          className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8"
         >
           {[
-            { number: "10", label: "Core Team Members", description: "Leading innovators" },
-            { number: "15+", label: "Department Volunteers", description: "Supporting community" },
-            { number: "250+", label: "Active Community Members", description: "Growing network" }
+            { 
+              icon: Users, 
+              number: "10", 
+              label: "Core Members", 
+              description: "Dedicated leaders driving innovation" 
+            },
+            { 
+              icon: Award, 
+              number: "50+", 
+              label: "Projects Delivered", 
+              description: "Successful community initiatives" 
+            },
+            { 
+              icon: Star, 
+              number: "250+", 
+              label: "Students Mentored", 
+              description: "Growing tech community" 
+            }
           ].map((stat, index) => (
             <motion.div
               key={index}
@@ -300,7 +260,8 @@ export default function TeamSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="text-center p-8 bg-black/40 backdrop-blur-lg border border-cyan-500/20 rounded-xl hover:border-cyan-400/40 transition-all duration-300 group"
             >
-              <h4 className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">
+              <stat.icon className="w-12 h-12 text-cyan-400 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+              <h4 className="text-4xl font-bold mb-2 gradient-text">
                 {stat.number}
               </h4>
               <p className="text-white font-semibold mb-2">{stat.label}</p>
@@ -321,24 +282,117 @@ export default function TeamSection() {
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl"></div>
             <div className="relative bg-black/60 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-12">
               <h3 className="text-3xl font-bold text-white mb-4">
-                Want to Join Our Core Team?
+                Ready to Join Our Team?
               </h3>
               <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-                We're always looking for passionate, dedicated individuals who share our vision 
-                of empowering the ECE community through technology and innovation.
+                We're looking for passionate individuals who want to make a difference in the tech community
               </p>
               <motion.button
                 onClick={() => document.querySelector('#join')?.scrollIntoView({ behavior: 'smooth' })}
                 className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full text-white font-semibold text-lg hover:from-cyan-400 hover:to-purple-400 hover:shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300"
-                whileHover={{ scale: 1.05, y: -2 }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Apply to Join Core Team
+                Apply Now
               </motion.button>
             </div>
           </div>
         </motion.div>
       </div>
+
+      {/* Member Detail Modal */}
+      <AnimatePresence>
+        {selectedMember && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setSelectedMember(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="bg-black/90 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-6 mb-6">
+                <div className="relative">
+                  <div className="w-24 h-24 bg-gradient-to-br from-cyan-500/40 to-purple-500/40 rounded-full flex items-center justify-center border-2 border-cyan-400">
+                    <span className="text-2xl font-bold gradient-text">
+                      {getInitials(selectedMember.name)}
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-white">{selectedMember.name}</h3>
+                  <p className="text-lg gradient-text font-semibold">{selectedMember.role}</p>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-3">About</h4>
+                  <p className="text-gray-300 leading-relaxed">{selectedMember.bio}</p>
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-3">Skills & Expertise</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedMember.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-3 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-400"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex justify-center gap-4 pt-6">
+                  {selectedMember.social.github && (
+                    <a
+                      href={selectedMember.social.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                    >
+                      <Github className="w-5 h-5 text-cyan-400" />
+                    </a>
+                  )}
+                  {selectedMember.social.linkedin && (
+                    <a
+                      href={selectedMember.social.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                    >
+                      <Linkedin className="w-5 h-5 text-cyan-400" />
+                    </a>
+                  )}
+                  {selectedMember.social.email && (
+                    <a
+                      href={`mailto:${selectedMember.social.email}`}
+                      className="p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                    >
+                      <Mail className="w-5 h-5 text-cyan-400" />
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              <button
+                onClick={() => setSelectedMember(null)}
+                className="mt-6 w-full py-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-lg text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300"
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

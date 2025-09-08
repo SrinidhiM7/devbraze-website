@@ -81,17 +81,17 @@ export default function ProjectsSection() {
         </div>
       </div>
 
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-devbraze-gradient transition-all duration-300">
+      <div className="p-4 xs:p-6">
+        <h3 className="text-lg xs:text-xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-devbraze-gradient transition-all duration-300">
           {project.title}
         </h3>
-        <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+        <p className="text-gray-400 text-xs xs:text-sm mb-3 xs:mb-4 leading-relaxed">
           {project.description}
         </p>
 
         {/* Technologies */}
-        <div className="mb-4">
-          <div className="flex flex-wrap gap-2">
+        <div className="mb-3 xs:mb-4">
+          <div className="flex flex-wrap gap-1 xs:gap-2">
             {project.technologies.slice(0, 3).map((tech, idx) => (
               <span
                 key={idx}
@@ -109,25 +109,27 @@ export default function ProjectsSection() {
         </div>
 
         {/* Team Members */}
-        <div className="mb-4">
-          <div className="flex items-center gap-2 text-sm text-gray-400">
-            <Users className="w-4 h-4" />
+        <div className="mb-3 xs:mb-4">
+          <div className="flex items-center gap-2 text-xs xs:text-sm text-gray-400">
+            <Users className="w-3 h-3 xs:w-4 xs:h-4" />
             <span>{project.teamMembers.length} team member{project.teamMembers.length !== 1 ? 's' : ''}</span>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-2 xs:gap-3">
           {project.githubLink && (
-            <button className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-sm font-medium transition-colors duration-300 flex items-center justify-center gap-2">
-              <Github className="w-4 h-4" />
-              Code
+            <button className="flex-1 px-3 xs:px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-xs xs:text-sm font-medium transition-colors duration-300 flex items-center justify-center gap-1 xs:gap-2">
+              <Github className="w-3 h-3 xs:w-4 xs:h-4" />
+              <span className="hidden xs:inline">Code</span>
+              <span className="xs:hidden">Git</span>
             </button>
           )}
           {project.liveLink && (
-            <button className="flex-1 px-4 py-2 bg-devbraze-gradient rounded-lg text-white text-sm font-medium hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-2">
-              <ExternalLink className="w-4 h-4" />
-              Live Demo
+            <button className="flex-1 px-3 xs:px-4 py-2 bg-devbraze-gradient rounded-lg text-white text-xs xs:text-sm font-medium hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-1 xs:gap-2">
+              <ExternalLink className="w-3 h-3 xs:w-4 xs:h-4" />
+              <span className="hidden xs:inline">Live Demo</span>
+              <span className="xs:hidden">Demo</span>
             </button>
           )}
         </div>
@@ -144,37 +146,38 @@ export default function ProjectsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          className="text-center mb-8 xs:mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
             Our <span className="gradient-text">Projects</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
+          <p className="text-lg xs:text-xl text-gray-400 max-w-3xl mx-auto mb-6 xs:mb-8 px-4 xs:px-0">
             Innovative solutions built by our community members, showcasing the power of 
             collaborative learning and cutting-edge technology.
           </p>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
+          <div className="flex flex-wrap justify-center gap-2 mb-6 xs:mb-8 px-2 xs:px-0">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`px-4 py-2 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
+                className={`px-3 xs:px-4 py-2 rounded-full font-medium transition-all duration-300 flex items-center gap-2 text-sm xs:text-base ${
                   selectedCategory === category.id
                     ? 'bg-devbraze-gradient text-white'
                     : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <category.icon className="w-4 h-4" />
-                {category.name}
+                <category.icon className="w-3 h-3 xs:w-4 xs:h-4" />
+                <span className="hidden xs:inline">{category.name}</span>
+                <span className="xs:hidden">{category.name.split(' ')[0]}</span>
               </button>
             ))}
           </div>
         </motion.div>
 
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 xs:gap-8 mb-12 xs:mb-16">
           {filteredProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
@@ -182,10 +185,10 @@ export default function ProjectsSection() {
 
         {/* No Projects Message */}
         {filteredProjects.length === 0 && (
-          <div className="text-center py-16">
-            <Code className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-white mb-2">No Projects Found</h3>
-            <p className="text-gray-400">
+          <div className="text-center py-12 xs:py-16">
+            <Code className="w-12 h-12 xs:w-16 xs:h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl xs:text-2xl font-bold text-white mb-2">No Projects Found</h3>
+            <p className="text-gray-400 px-4 xs:px-0">
               No projects found in this category. Try selecting a different category.
             </p>
           </div>
@@ -197,23 +200,23 @@ export default function ProjectsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="grid md:grid-cols-3 gap-8 mb-16"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4 xs:gap-8 mb-12 xs:mb-16"
         >
-          <div className="text-center p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl">
-            <h4 className="text-3xl font-bold gradient-text mb-2">{projects.length}</h4>
-            <p className="text-gray-400">Total Projects</p>
+          <div className="text-center p-4 xs:p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl">
+            <h4 className="text-2xl xs:text-3xl font-bold gradient-text mb-2">{projects.length}</h4>
+            <p className="text-gray-400 text-sm xs:text-base">Total Projects</p>
           </div>
-          <div className="text-center p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl">
-            <h4 className="text-3xl font-bold gradient-text mb-2">
+          <div className="text-center p-4 xs:p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl">
+            <h4 className="text-2xl xs:text-3xl font-bold gradient-text mb-2">
               {projects.filter(p => p.status === 'completed').length}
             </h4>
-            <p className="text-gray-400">Completed Projects</p>
+            <p className="text-gray-400 text-sm xs:text-base">Completed Projects</p>
           </div>
-          <div className="text-center p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl">
-            <h4 className="text-3xl font-bold gradient-text mb-2">
+          <div className="text-center p-4 xs:p-6 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl">
+            <h4 className="text-2xl xs:text-3xl font-bold gradient-text mb-2">
               {new Set(projects.flatMap(p => p.technologies)).size}
             </h4>
-            <p className="text-gray-400">Technologies Used</p>
+            <p className="text-gray-400 text-sm xs:text-base">Technologies Used</p>
           </div>
         </motion.div>
 
@@ -225,17 +228,17 @@ export default function ProjectsSection() {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <div className="bg-gradient-to-r from-devbraze-blue/10 to-devbraze-purple/10 border border-white/10 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-white mb-4">
+          <div className="bg-gradient-to-r from-devbraze-blue/10 to-devbraze-purple/10 border border-white/10 rounded-2xl p-6 xs:p-8">
+            <h3 className="text-xl xs:text-2xl font-bold text-white mb-4">
               Have a Project Idea?
             </h3>
-            <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
+            <p className="text-gray-400 mb-4 xs:mb-6 max-w-2xl mx-auto text-sm xs:text-base px-4 xs:px-0">
               Join {"</DevBraze>"} and turn your ideas into reality. Collaborate with talented peers, 
               learn new technologies, and build something amazing together.
             </p>
             <motion.button
               onClick={() => document.querySelector('#join')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-8 py-4 bg-devbraze-gradient rounded-full text-white font-semibold hover:shadow-2xl transition-all duration-300"
+              className="px-6 xs:px-8 py-3 xs:py-4 bg-devbraze-gradient rounded-full text-white font-semibold hover:shadow-2xl transition-all duration-300 text-sm xs:text-base"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >

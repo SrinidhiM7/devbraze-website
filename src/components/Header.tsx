@@ -47,11 +47,11 @@ export default function Header() {
     >
       {/* Logo - Fixed Position */}
       <motion.div 
-        className="fixed top-4 left-4 z-50 flex items-center space-x-3"
+        className="fixed top-2 left-2 xs:top-4 xs:left-4 z-50 flex items-center space-x-2 xs:space-x-3"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <div className="relative w-10 h-10 lg:w-12 lg:h-12">
+        <div className="relative w-8 h-8 xs:w-10 xs:h-10 lg:w-12 lg:h-12">
           <Image
             src="/DevBraze Logo Blue Border.png"
             alt="DevBraze Logo"
@@ -60,11 +60,11 @@ export default function Header() {
             priority
           />
         </div>
-        <div className="hidden sm:block">
-          <h1 className="text-xl lg:text-2xl font-bold gradient-text">
+        <div className="hidden xs:block">
+          <h1 className="text-lg xs:text-xl lg:text-2xl font-bold gradient-text">
             {"</DevBraze>"}
           </h1>
-          <p className="text-xs text-gray-400 -mt-1">
+          <p className="text-xs text-gray-400 -mt-1 hidden sm:block">
             School of ECE
           </p>
         </div>
@@ -72,14 +72,14 @@ export default function Header() {
 
       {/* Centered Navigation */}
       <nav className="flex justify-center">
-        <div className="flex items-center justify-center h-16 lg:h-20 w-full max-w-4xl px-4">
+        <div className="flex items-center justify-center h-14 xs:h-16 lg:h-20 w-full max-w-4xl px-2 xs:px-4">
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-between w-full max-w-3xl">
             {menuItems.map((item) => (
               <motion.button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                className="text-white hover:text-transparent hover:bg-clip-text hover:bg-devbraze-gradient transition-all duration-300 font-medium text-lg px-4 py-2 relative group"
+                className="text-white hover:text-transparent hover:bg-clip-text hover:bg-devbraze-gradient transition-all duration-300 font-medium text-base xl:text-lg px-2 xl:px-4 py-2 relative group"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -98,14 +98,14 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <motion.button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-3 rounded-full bg-black/60 backdrop-blur-lg border border-white/10 hover:bg-white/20 transition-colors duration-300"
+            className="lg:hidden p-2 xs:p-3 rounded-full bg-black/60 backdrop-blur-lg border border-white/10 hover:bg-white/20 transition-colors duration-300 fixed top-2 right-2 xs:top-4 xs:right-4 z-50"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
             {isOpen ? (
-              <X className="w-6 h-6" />
+              <X className="w-5 h-5 xs:w-6 xs:h-6" />
             ) : (
-              <Menu className="w-6 h-6" />
+              <Menu className="w-5 h-5 xs:w-6 xs:h-6" />
             )}
           </motion.button>
         </div>
@@ -116,24 +116,27 @@ export default function Header() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="lg:hidden fixed top-20 left-1/2 transform -translate-x-1/2 z-40 bg-black/90 backdrop-blur-lg border border-white/10 rounded-2xl p-6 min-w-[280px]"
+            initial={{ opacity: 0, scale: 0.8, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: -10 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="lg:hidden fixed top-16 xs:top-20 left-0 right-0 z-40 flex justify-center px-4"
           >
-            <div className="space-y-3">
-              {menuItems.map((item, index) => (
-                <motion.button
-                  key={item.name}
-                  onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-center px-6 py-3 text-white hover:bg-white/10 rounded-lg transition-colors duration-300 text-lg font-medium"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  {item.name}
-                </motion.button>
-              ))}
+            <div className="bg-black/90 backdrop-blur-lg border border-white/10 rounded-xl xs:rounded-2xl p-4 xs:p-6 w-[280px] xs:w-[320px]">
+              <div className="space-y-2 xs:space-y-3">
+                {menuItems.map((item, index) => (
+                  <motion.button
+                    key={item.name}
+                    onClick={() => scrollToSection(item.href)}
+                    className="block w-full text-center px-4 xs:px-6 py-2 xs:py-3 text-white hover:bg-white/10 rounded-lg transition-colors duration-300 text-base xs:text-lg font-medium"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    {item.name}
+                  </motion.button>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}

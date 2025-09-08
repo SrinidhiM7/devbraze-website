@@ -135,7 +135,7 @@ export default function JoinUsSection() {
   ]
 
   return (
-    <section id="join" ref={sectionRef} className="py-20 dotted-bg-secondary relative overflow-hidden">
+    <section id="join" ref={sectionRef} className="py-16 xs:py-20 dotted-bg-secondary relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -143,36 +143,36 @@ export default function JoinUsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12 xs:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
             Join <span className="gradient-text">{"</DevBraze>"}</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-lg xs:text-xl text-gray-400 max-w-xs xs:max-w-lg sm:max-w-2xl md:max-w-3xl mx-auto">
             Ready to be part of something amazing? Join our core team and help shape the future 
             of technology education at School of ECE.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-8 xs:gap-12">
           {/* Benefits Section */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="space-y-8"
+            className="space-y-6 xs:space-y-8"
           >
             <div>
-              <h3 className="text-3xl font-bold text-white mb-6">Why Join {"</DevBraze>"}?</h3>
-              <p className="text-gray-400 mb-8 leading-relaxed">
+              <h3 className="text-2xl xs:text-3xl font-bold text-white mb-4 xs:mb-6">Why Join {"</DevBraze>"}?</h3>
+              <p className="text-gray-400 mb-6 xs:mb-8 leading-relaxed text-sm xs:text-base">
                 {"</DevBraze>"} offers a unique opportunity to grow both personally and professionally. 
                 As a core team member, you'll be at the forefront of innovation, leading initiatives 
                 that impact hundreds of students.
               </p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 xs:space-y-6">
               {benefits.map((benefit, index) => (
                 <motion.div
                   key={benefit.title}
@@ -180,22 +180,22 @@ export default function JoinUsSection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="flex items-start gap-4 p-4 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300"
+                  className="flex items-start gap-3 xs:gap-4 p-3 xs:p-4 bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300"
                 >
-                  <div className="p-3 bg-devbraze-gradient rounded-xl flex-shrink-0">
-                    <benefit.icon className="w-6 h-6 text-white" />
+                  <div className="p-2 xs:p-3 bg-devbraze-gradient rounded-lg xs:rounded-xl flex-shrink-0">
+                    <benefit.icon className="w-5 h-5 xs:w-6 xs:h-6 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-semibold text-white mb-2">{benefit.title}</h4>
-                    <p className="text-gray-400 text-sm">{benefit.description}</p>
+                    <h4 className="text-base xs:text-lg font-semibold text-white mb-1 xs:mb-2">{benefit.title}</h4>
+                    <p className="text-gray-400 text-xs xs:text-sm">{benefit.description}</p>
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            <div className="bg-devbraze-gradient/10 border border-devbraze-blue/30 rounded-xl p-6">
-              <h4 className="text-lg font-semibold text-white mb-3">What We're Looking For:</h4>
-              <ul className="space-y-2 text-gray-300 text-sm">
+            <div className="bg-devbraze-gradient/10 border border-devbraze-blue/30 rounded-xl p-4 xs:p-6">
+              <h4 className="text-base xs:text-lg font-semibold text-white mb-2 xs:mb-3">What We're Looking For:</h4>
+              <ul className="space-y-1.5 xs:space-y-2 text-gray-300 text-xs xs:text-sm">
                 <li>• Passionate about technology and innovation</li>
                 <li>• Strong communication and leadership skills</li>
                 <li>• Commitment to community service and learning</li>
@@ -212,17 +212,17 @@ export default function JoinUsSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-white mb-6">Apply to Join Core Team</h3>
+            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl xs:rounded-2xl p-6 xs:p-8">
+              <h3 className="text-xl xs:text-2xl font-bold text-white mb-4 xs:mb-6">Apply to Join Core Team</h3>
               
               {submitStatus === 'success' && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg flex items-center gap-3"
+                  className="mb-4 xs:mb-6 p-3 xs:p-4 bg-green-500/20 border border-green-500/30 rounded-lg flex items-center gap-2 xs:gap-3"
                 >
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                  <span className="text-green-400">Application submitted successfully! We'll be in touch soon.</span>
+                  <CheckCircle className="w-4 h-4 xs:w-5 xs:h-5 text-green-400" />
+                  <span className="text-green-400 text-sm xs:text-base">Application submitted successfully! We'll be in touch soon.</span>
                 </motion.div>
               )}
 
@@ -230,18 +230,18 @@ export default function JoinUsSection() {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center gap-3"
+                  className="mb-4 xs:mb-6 p-3 xs:p-4 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center gap-2 xs:gap-3"
                 >
-                  <AlertCircle className="w-5 h-5 text-red-400" />
-                  <span className="text-red-400">Something went wrong. Please try again.</span>
+                  <AlertCircle className="w-4 h-4 xs:w-5 xs:h-5 text-red-400" />
+                  <span className="text-red-400 text-sm xs:text-base">Something went wrong. Please try again.</span>
                 </motion.div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4 xs:space-y-6">
                 {/* Name and Email */}
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
                   <div className="form-field">
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-xs xs:text-sm font-medium text-gray-300 mb-1.5 xs:mb-2">
                       Full Name *
                     </label>
                     <input
@@ -270,15 +270,15 @@ export default function JoinUsSection() {
                 </div>
 
                 {/* Year and Branch */}
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
                   <div className="form-field">
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-xs xs:text-sm font-medium text-gray-300 mb-1.5 xs:mb-2">
                       Academic Year *
                     </label>
                     <select
                       value={formData.year}
                       onChange={(e) => setFormData(prev => ({ ...prev, year: e.target.value }))}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-devbraze-blue transition-colors duration-300"
+                      className="w-full px-3 xs:px-4 py-2 xs:py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:border-devbraze-blue transition-colors duration-300 text-sm xs:text-base"
                     >
                       <option value="">Select your year</option>
                       {years.map(year => (
@@ -289,14 +289,14 @@ export default function JoinUsSection() {
                   </div>
 
                   <div className="form-field">
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-xs xs:text-sm font-medium text-gray-300 mb-1.5 xs:mb-2">
                       Branch *
                     </label>
                     <input
                       type="text"
                       value={formData.branch}
                       onChange={(e) => setFormData(prev => ({ ...prev, branch: e.target.value }))}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-devbraze-blue transition-colors duration-300"
+                      className="w-full px-3 xs:px-4 py-2 xs:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-devbraze-blue transition-colors duration-300 text-sm xs:text-base"
                       placeholder="e.g., Electronics & Communication"
                     />
                     {errors.branch && <p className="text-red-400 text-xs mt-1">{errors.branch}</p>}
@@ -305,16 +305,16 @@ export default function JoinUsSection() {
 
                 {/* Interests */}
                 <div className="form-field">
-                  <label className="block text-sm font-medium text-gray-300 mb-3">
+                  <label className="block text-xs xs:text-sm font-medium text-gray-300 mb-2 xs:mb-3">
                     Areas of Interest * (Select all that apply)
                   </label>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 xs:grid-cols-2 gap-1.5 xs:gap-2">
                     {interestOptions.map(interest => (
                       <button
                         key={interest}
                         type="button"
                         onClick={() => handleInterestToggle(interest)}
-                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                        className={`px-2.5 xs:px-3 py-1.5 xs:py-2 rounded-lg text-xs xs:text-sm font-medium transition-all duration-300 ${
                           formData.interests.includes(interest)
                             ? 'bg-devbraze-gradient text-white'
                             : 'bg-white/10 text-gray-400 hover:bg-white/20 hover:text-white'

@@ -6,6 +6,14 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      'xs': '475px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
         'devbraze-blue': '#3FA9F5',
@@ -21,7 +29,8 @@ module.exports = {
         'slide-in': 'slideIn 0.5s ease-out',
         'fade-in': 'fadeIn 0.6s ease-out',
         'bounce-slow': 'bounce 3s infinite',
-        'spin-slow': 'spin 3s linear infinite',
+        'spin-slow': 'spin 8s linear infinite',
+        'spin-slower': 'spin 12s linear infinite',
       },
       keyframes: {
         float: {
@@ -40,10 +49,20 @@ module.exports = {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' }
         }
+      },
+      // Performance optimizations
+      willChange: {
+        'transform': 'transform',
+        'opacity': 'opacity',
+        'filter': 'filter',
       }
     },
   },
   plugins: [],
   darkMode: 'class',
+  // Performance optimizations
+  corePlugins: {
+    preflight: true,
+  },
 }
 

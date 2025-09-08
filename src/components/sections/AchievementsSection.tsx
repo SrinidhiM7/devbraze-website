@@ -73,20 +73,20 @@ export default function AchievementsSection() {
     return (
       <div className="relative group h-full">
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-        <div className="relative bg-black/60 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-6 hover:border-cyan-400/50 transition-all duration-300 h-full flex flex-col">
+        <div className="relative bg-black/60 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-4 xs:p-6 hover:border-cyan-400/50 transition-all duration-300 h-full flex flex-col">
           {/* Achievement Type Badge */}
-          <div className="absolute top-4 right-4">
-            <div className={`p-2 rounded-lg bg-gradient-to-r ${getTypeColor(achievement.type)} opacity-80`}>
-              <TypeIcon className="w-4 h-4 text-white" />
+          <div className="absolute top-3 xs:top-4 right-3 xs:right-4">
+            <div className={`p-1.5 xs:p-2 rounded-lg bg-gradient-to-r ${getTypeColor(achievement.type)} opacity-80`}>
+              <TypeIcon className="w-3 h-3 xs:w-4 xs:h-4 text-white" />
             </div>
           </div>
 
           {/* Main Icon */}
-          <div className="flex items-center justify-center mb-6">
+          <div className="flex items-center justify-center mb-4 xs:mb-6">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-xl blur-md opacity-60"></div>
-              <div className="relative p-3 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-xl border border-cyan-400/30">
-                {IconComponent && <IconComponent className="w-10 h-10 text-cyan-400" />}
+              <div className="relative p-2 xs:p-3 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-xl border border-cyan-400/30">
+                {IconComponent && <IconComponent className="w-8 h-8 xs:w-10 xs:h-10 text-cyan-400" />}
               </div>
             </div>
           </div>
@@ -94,17 +94,17 @@ export default function AchievementsSection() {
           {/* Content */}
           <div className="text-center flex-grow flex flex-col justify-between">
             <div>
-              <h3 className="text-xl font-bold text-white mb-3 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              <h3 className="text-lg xs:text-xl font-bold text-white mb-2 xs:mb-3 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
                 {achievement.title}
               </h3>
-              <p className="text-gray-300 text-sm mb-4 leading-relaxed line-clamp-3">
+              <p className="text-gray-300 text-xs xs:text-sm mb-3 xs:mb-4 leading-relaxed line-clamp-3">
                 {achievement.description}
               </p>
             </div>
-            <div className="flex items-center justify-center gap-4 text-sm text-gray-400 mt-auto">
+            <div className="flex items-center justify-center gap-2 xs:gap-4 text-xs xs:text-sm text-gray-400 mt-auto">
               <span>{formatDate(achievement.date)}</span>
               {achievement.value && (
-                <span className="text-cyan-400 font-bold text-lg">
+                <span className="text-cyan-400 font-bold text-base xs:text-lg">
                   {achievement.value}{achievement.unit}
                 </span>
               )}
@@ -133,22 +133,22 @@ export default function AchievementsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12 xs:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
             Member <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Achievements</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-lg xs:text-xl text-gray-400 max-w-3xl mx-auto px-4 xs:px-0">
             Celebrating the outstanding accomplishments of our community members in hackathons, 
             competitions, and professional achievements.
           </p>
         </motion.div>
 
         {/* Achievement Cards */}
-        <div className="mb-16">
+        <div className="mb-12 xs:mb-16">
           <div className="max-w-6xl mx-auto">
             {memberAchievements.length > 0 ? (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 xs:gap-8">
                   {memberAchievements.map((achievement, index) => (
                     <motion.div
                       key={achievement.id}
@@ -164,7 +164,7 @@ export default function AchievementsSection() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-gray-400 text-lg">No achievements to display at the moment.</p>
+                <p className="text-gray-400 text-base xs:text-lg">No achievements to display at the moment.</p>
               </div>
             )}
           </div>
@@ -176,7 +176,7 @@ export default function AchievementsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6"
+          className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 xs:gap-6"
         >
           {milestones.slice(0, 4).map((milestone, index) => {
             const IconComponent = iconMap[milestone.icon as keyof typeof iconMap]
@@ -187,17 +187,17 @@ export default function AchievementsSection() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center p-6 bg-black/40 backdrop-blur-lg border border-cyan-500/20 rounded-xl hover:border-cyan-400/40 transition-all duration-300 group"
+                className="text-center p-4 xs:p-6 bg-black/40 backdrop-blur-lg border border-cyan-500/20 rounded-xl hover:border-cyan-400/40 transition-all duration-300 group"
               >
-                <div className="inline-flex p-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {IconComponent && <IconComponent className="w-8 h-8 text-cyan-400" />}
+                <div className="inline-flex p-2 xs:p-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-xl mb-3 xs:mb-4 group-hover:scale-110 transition-transform duration-300">
+                  {IconComponent && <IconComponent className="w-6 h-6 xs:w-8 xs:h-8 text-cyan-400" />}
                 </div>
-                <div className="text-2xl md:text-3xl font-bold text-white mb-2">
+                <div className="text-xl xs:text-2xl md:text-3xl font-bold text-white mb-1 xs:mb-2">
                   <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
                     {milestone.value}{milestone.unit}
                   </span>
                 </div>
-                <h3 className="text-sm font-semibold text-white mb-1">{milestone.title}</h3>
+                <h3 className="text-xs xs:text-sm font-semibold text-white mb-1">{milestone.title}</h3>
                 <p className="text-xs text-gray-400">{milestone.description}</p>
               </motion.div>
             )
