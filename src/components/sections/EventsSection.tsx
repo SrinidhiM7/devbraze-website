@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Calendar, MapPin, Users, Star, Clock, ExternalLink, ChevronLeft, ChevronRight, Mail, Bell, Info } from 'lucide-react'
+import { Calendar, MapPin, Users, Star, Clock, ExternalLink, ChevronLeft, ChevronRight, Mail, Bell, Info, X } from 'lucide-react'
 import { pastEvents, upcomingEvents, Event } from '@/data/events'
 
 export default function EventsSection() {
   const [activeTab, setActiveTab] = useState<'past' | 'upcoming'>('upcoming')
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(false)
-  const [hoveredEvent, setHoveredEvent] = useState<string | null>(null)
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   const handleEmailSubmit = (e: React.FormEvent) => {
@@ -19,6 +19,14 @@ export default function EventsSection() {
       setEmail('')
       // Here you would typically send the email to your backend
       setTimeout(() => setIsSubscribed(false), 3000)
+    }
+  }
+
+  const handleViewDetails = (event: Event) => {
+    setSelectedEvent(event)
+    // Scroll to events section when modal opens
+    if (sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 
@@ -43,7 +51,6 @@ export default function EventsSection() {
   }
 
   const EventCard = ({ event, index }: { event: Event; index: number }) => {
-    const [isHovered, setIsHovered] = useState(false)
     
     return (
       <motion.div
@@ -52,8 +59,6 @@ export default function EventsSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: index * 0.05 }}
         className="event-card bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl xs:rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group relative"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         <div className="relative h-36 xs:h-48 bg-gradient-to-br from-devbraze-blue/20 to-devbraze-purple/20 overflow-hidden">
           {event.image && (
@@ -76,11 +81,6 @@ export default function EventsSection() {
               {formatDate(event.date)}
             </div>
           </div>
-          {event.fullDescription && (
-            <div className="absolute top-3 xs:top-4 right-3 xs:right-4 z-10">
-              <Info className="w-4 h-4 text-white/70 group-hover:text-white transition-colors duration-300" />
-            </div>
-          )}
         </div>
 
         <div className="p-4 xs:p-6">
@@ -114,70 +114,23 @@ export default function EventsSection() {
           )}
 
           {event.registrationLink && (
-            <button className="w-full px-3 xs:px-4 py-1.5 xs:py-2 bg-devbraze-gradient rounded-lg text-white font-medium hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-1.5 xs:gap-2 text-xs xs:text-sm">
+            <button className="w-full px-3 xs:px-4 py-1.5 xs:py-2 bg-devbraze-gradient rounded-lg text-white font-medium hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-1.5 xs:gap-2 text-xs xs:text-sm mb-3">
               Register Now
+              <ExternalLink className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
+            </button>
+          )}
+
+          {event.fullDescription && (
+            <button 
+              onClick={() => handleViewDetails(event)}
+              className="w-full px-3 xs:px-4 py-1.5 xs:py-2 bg-devbraze-gradient rounded-lg text-white font-medium hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-1.5 xs:gap-2 text-xs xs:text-sm"
+            >
+              View Details
               <ExternalLink className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
             </button>
           )}
         </div>
 
-        {/* Hover Overlay with Full Description */}
-        {isHovered && event.fullDescription && (
-          <div className="absolute inset-0 bg-black/95 backdrop-blur-sm rounded-xl xs:rounded-2xl overflow-hidden z-50">
-            <div className="h-full overflow-y-auto p-4 xs:p-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg xs:text-xl font-bold text-white bg-gradient-to-r from-devbraze-blue to-devbraze-purple bg-clip-text text-transparent">
-                    {event.title}
-                  </h3>
-                  <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                    <Calendar className="w-3.5 h-3.5" />
-                    {formatDate(event.date)}
-                  </div>
-                </div>
-                
-                <div className="text-gray-300 text-xs xs:text-sm leading-relaxed whitespace-pre-line">
-                  {event.fullDescription}
-                </div>
-
-                {event.highlights && (
-                  <div className="pt-3 border-t border-white/10">
-                    <div className="flex flex-wrap gap-1.5">
-                      {event.highlights.map((highlight, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-1 bg-devbraze-gradient/20 border border-devbraze-blue/30 rounded-lg text-xs text-devbraze-blue"
-                        >
-                          {highlight}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Image Gallery - Below Text */}
-                {event.images && event.images.length > 0 && (
-                  <div className="pt-3 border-t border-white/10">
-                    <div className="text-xs text-gray-400 mb-2">
-                      📸 Event Gallery ({event.images.length} photos)
-                    </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {event.images.map((image, idx) => (
-                        <div key={idx} className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden">
-                          <img 
-                            src={image} 
-                            alt={`${event.title} - Image ${idx + 1}`}
-                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
       </motion.div>
     )
   }
@@ -317,6 +270,104 @@ export default function EventsSection() {
         >
         </motion.div>
       </div>
+
+      {/* Event Detail Modal */}
+      <AnimatePresence>
+        {selectedEvent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
+            style={{ alignItems: 'flex-start', paddingTop: '250vh' }}
+            onClick={() => setSelectedEvent(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-2xl p-6 xs:p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedEvent(null)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200"
+              >
+                <X className="w-5 h-5 text-white" />
+              </button>
+
+              {/* Event Header */}
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${getEventTypeColor(selectedEvent.type)}`}>
+                    {selectedEvent.type.toUpperCase()}
+                  </span>
+                  <div className="flex items-center gap-1.5 text-sm text-gray-400">
+                    <Calendar className="w-4 h-4" />
+                    {formatDate(selectedEvent.date)}
+                  </div>
+                </div>
+                <h3 className="text-2xl xs:text-3xl font-bold text-white mb-2 bg-gradient-to-r from-devbraze-blue to-devbraze-purple bg-clip-text text-transparent">
+                  {selectedEvent.title}
+                </h3>
+                {selectedEvent.location && (
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <MapPin className="w-4 h-4" />
+                    {selectedEvent.location}
+                  </div>
+                )}
+              </div>
+
+              {/* Event Description */}
+              <div className="mb-6">
+                <h4 className="text-lg font-semibold text-white mb-3">About This Event</h4>
+                <p className="text-gray-300 leading-relaxed whitespace-pre-line">
+                  {selectedEvent.fullDescription}
+                </p>
+              </div>
+
+              {/* Highlights */}
+              {selectedEvent.highlights && (
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-white mb-3">Event Highlights</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedEvent.highlights.map((highlight, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1.5 bg-devbraze-gradient/20 border border-devbraze-blue/30 rounded-lg text-sm text-devbraze-blue font-medium"
+                      >
+                        {highlight}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Image Gallery */}
+              {selectedEvent.images && selectedEvent.images.length > 0 && (
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-3">
+                    Event Gallery ({selectedEvent.images.length} photos)
+                  </h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    {selectedEvent.images.map((image, idx) => (
+                      <div key={idx} className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden">
+                        <img 
+                          src={image} 
+                          alt={`${selectedEvent.title} - Image ${idx + 1}`}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
