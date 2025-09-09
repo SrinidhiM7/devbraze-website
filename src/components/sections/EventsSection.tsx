@@ -1,14 +1,15 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { Calendar, MapPin, Users, Star, Clock, ExternalLink, ChevronLeft, ChevronRight, Mail, Bell } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Calendar, MapPin, Users, Star, Clock, ExternalLink, ChevronLeft, ChevronRight, Mail, Bell, Info } from 'lucide-react'
 import { pastEvents, upcomingEvents, Event } from '@/data/events'
 
 export default function EventsSection() {
   const [activeTab, setActiveTab] = useState<'past' | 'upcoming'>('upcoming')
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(false)
+  const [hoveredEvent, setHoveredEvent] = useState<string | null>(null)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   const handleEmailSubmit = (e: React.FormEvent) => {
@@ -41,72 +42,145 @@ export default function EventsSection() {
     return colors[type as keyof typeof colors] || 'bg-gray-500'
   }
 
-
-
-  const EventCard = ({ event, index }: { event: Event; index: number }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="event-card bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl xs:rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group"
-    >
-      <div className="relative h-36 xs:h-48 bg-gradient-to-br from-devbraze-blue/20 to-devbraze-purple/20">
-        <div className="absolute inset-0 bg-devbraze-gradient opacity-20"></div>
-        <div className="absolute top-3 xs:top-4 left-3 xs:left-4">
-          <span className={`px-2 xs:px-3 py-1 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.type)}`}>
-            {event.type.toUpperCase()}
-          </span>
-        </div>
-        <div className="absolute bottom-3 xs:bottom-4 left-3 xs:left-4 text-white">
-          <div className="flex items-center gap-1.5 xs:gap-2 text-xs xs:text-sm">
-            <Calendar className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
-            {formatDate(event.date)}
+  const EventCard = ({ event, index }: { event: Event; index: number }) => {
+    const [isHovered, setIsHovered] = useState(false)
+    
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.05 }}
+        className="event-card bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl xs:rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group relative"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="relative h-36 xs:h-48 bg-gradient-to-br from-devbraze-blue/20 to-devbraze-purple/20 overflow-hidden">
+          {event.image && (
+            <img 
+              src={event.image} 
+              alt={event.title}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          )}
+          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-devbraze-gradient opacity-20"></div>
+          <div className="absolute top-3 xs:top-4 left-3 xs:left-4 z-10">
+            <span className={`px-2 xs:px-3 py-1 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.type)}`}>
+              {event.type.toUpperCase()}
+            </span>
           </div>
-        </div>
-      </div>
-
-      <div className="p-4 xs:p-6">
-        <h3 className="text-lg xs:text-xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-devbraze-gradient transition-all duration-300">
-          {event.title}
-        </h3>
-        <p className="text-gray-400 text-xs xs:text-sm mb-3 xs:mb-4 leading-relaxed">
-          {event.description}
-        </p>
-
-        {event.location && (
-          <div className="flex items-center gap-1.5 xs:gap-2 text-xs xs:text-sm text-gray-400 mb-2 xs:mb-3">
-            <MapPin className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
-            {event.location}
+          <div className="absolute bottom-3 xs:bottom-4 left-3 xs:left-4 text-white z-10">
+            <div className="flex items-center gap-1.5 xs:gap-2 text-xs xs:text-sm">
+              <Calendar className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
+              {formatDate(event.date)}
+            </div>
           </div>
-        )}
+          {event.fullDescription && (
+            <div className="absolute top-3 xs:top-4 right-3 xs:right-4 z-10">
+              <Info className="w-4 h-4 text-white/70 group-hover:text-white transition-colors duration-300" />
+            </div>
+          )}
+        </div>
 
-        {event.highlights && (
-          <div className="mb-3 xs:mb-4">
-            <div className="flex flex-wrap gap-1.5 xs:gap-2">
-              {event.highlights.slice(0, 3).map((highlight, idx) => (
-                <span
-                  key={idx}
-                  className="px-1.5 xs:px-2 py-0.5 xs:py-1 bg-devbraze-gradient/20 border border-devbraze-blue/30 rounded-lg text-xs text-devbraze-blue"
-                >
-                  {highlight}
-                </span>
-              ))}
+        <div className="p-4 xs:p-6">
+          <h3 className="text-lg xs:text-xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-devbraze-gradient transition-all duration-300">
+            {event.title}
+          </h3>
+          <p className="text-gray-400 text-xs xs:text-sm mb-3 xs:mb-4 leading-relaxed">
+            {event.description}
+          </p>
+
+          {event.location && (
+            <div className="flex items-center gap-1.5 xs:gap-2 text-xs xs:text-sm text-gray-400 mb-2 xs:mb-3">
+              <MapPin className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
+              {event.location}
+            </div>
+          )}
+
+          {event.highlights && (
+            <div className="mb-3 xs:mb-4">
+              <div className="flex flex-wrap gap-1.5 xs:gap-2">
+                {event.highlights.slice(0, 3).map((highlight, idx) => (
+                  <span
+                    key={idx}
+                    className="px-1.5 xs:px-2 py-0.5 xs:py-1 bg-devbraze-gradient/20 border border-devbraze-blue/30 rounded-lg text-xs text-devbraze-blue"
+                  >
+                    {highlight}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {event.registrationLink && (
+            <button className="w-full px-3 xs:px-4 py-1.5 xs:py-2 bg-devbraze-gradient rounded-lg text-white font-medium hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-1.5 xs:gap-2 text-xs xs:text-sm">
+              Register Now
+              <ExternalLink className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
+            </button>
+          )}
+        </div>
+
+        {/* Hover Overlay with Full Description */}
+        {isHovered && event.fullDescription && (
+          <div className="absolute inset-0 bg-black/95 backdrop-blur-sm rounded-xl xs:rounded-2xl overflow-hidden z-50">
+            <div className="h-full overflow-y-auto p-4 xs:p-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg xs:text-xl font-bold text-white bg-gradient-to-r from-devbraze-blue to-devbraze-purple bg-clip-text text-transparent">
+                    {event.title}
+                  </h3>
+                  <div className="flex items-center gap-1.5 text-xs text-gray-400">
+                    <Calendar className="w-3.5 h-3.5" />
+                    {formatDate(event.date)}
+                  </div>
+                </div>
+                
+                <div className="text-gray-300 text-xs xs:text-sm leading-relaxed whitespace-pre-line">
+                  {event.fullDescription}
+                </div>
+
+                {event.highlights && (
+                  <div className="pt-3 border-t border-white/10">
+                    <div className="flex flex-wrap gap-1.5">
+                      {event.highlights.map((highlight, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-1 bg-devbraze-gradient/20 border border-devbraze-blue/30 rounded-lg text-xs text-devbraze-blue"
+                        >
+                          {highlight}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Image Gallery - Below Text */}
+                {event.images && event.images.length > 0 && (
+                  <div className="pt-3 border-t border-white/10">
+                    <div className="text-xs text-gray-400 mb-2">
+                      📸 Event Gallery ({event.images.length} photos)
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      {event.images.map((image, idx) => (
+                        <div key={idx} className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden">
+                          <img 
+                            src={image} 
+                            alt={`${event.title} - Image ${idx + 1}`}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
-
-        {event.registrationLink && (
-          <button className="w-full px-3 xs:px-4 py-1.5 xs:py-2 bg-devbraze-gradient rounded-lg text-white font-medium hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-1.5 xs:gap-2 text-xs xs:text-sm">
-            Register Now
-            <ExternalLink className="w-3.5 h-3.5 xs:w-4 xs:h-4" />
-          </button>
-        )}
-      </div>
-    </motion.div>
-  )
-
-
+      </motion.div>
+    )
+  }
 
   return (
     <section id="events" ref={sectionRef} className="py-16 xs:py-20 dotted-bg-primary relative overflow-hidden">

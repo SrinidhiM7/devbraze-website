@@ -59,7 +59,7 @@ export const teamMembers: TeamMember[] = [
     role: 'Tech Lead',
     image: '/team/aniketh.png',
     bio: 'Technical visionary leading all technology initiatives and development projects. Passionate about cutting-edge technologies and mentoring fellow developers.',
-    skills: ['Full-Stack Development', 'System Architecture', 'Technical Leadership', 'Code Review', 'Mentoring'],
+    skills: ['Full-Stack Development', 'GenAI', 'AI/ML', 'Technical Leadership', 'Code Review', 'Mentoring'],
     social: {
       github: 'https://github.com/aniketh',
       linkedin: 'https://linkedin.com/in/aniketh',
