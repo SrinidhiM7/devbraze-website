@@ -9,6 +9,7 @@ export interface TeamMember {
     github?: string;
     linkedin?: string;
     twitter?: string;
+    instagram?: string;
     email?: string;
   };
 }
@@ -16,80 +17,82 @@ export interface TeamMember {
 export const teamMembers: TeamMember[] = [
   {
     id: '1',
-    name: 'Srinidhi',
+    name: 'Srinidhi M',
     role: 'President',
     image: '/team/srinidhi.png',
-    bio: 'Visionary leader driving </DevBraze> forward with passion for technology and innovation. Leading the community with a commitment to excellence and collaborative growth.',
-    skills: ['Leadership', 'Full-Stack Development', 'Project Management', 'Strategic Planning', 'Community Building'],
+    bio: 'An aspiring Electronics and Communication Engineer with a strong passion for intelligent systems, automation, and real-time applications. Bridging the gap between hardware and software to create innovative solutions that make a real difference. When not coding or building projects, you\'ll find him on the football pitch, capturing moments through his DSLR lens, or exploring new places.',
+    skills: ['ML & Deep Learning', 'Embedded C & IoT', 'Microcontrollers', 'Python', 'App Development', 'Web Development'],
     social: {
-      github: 'https://github.com/srinidhi',
-      linkedin: 'https://linkedin.com/in/srinidhi',
-      email: 'srinidhi@devbraze.com'
+      github: 'https://github.com/srinidhim7',
+      linkedin: 'https://www.linkedin.com/in/srinidhi-m-839290261',
+      instagram: 'https://www.instagram.com/srinidhi_m7',
+      email: 'srinidhim384@gmail.com'
     }
   },
   {
     id: '2',
-    name: 'Vedha',
+    name: 'Vedhashri M',
     role: 'Vice President',
     image: '/team/vedha.png',
-    bio: 'Dynamic leader supporting the president in driving organizational growth and community development. Passionate about technology and student empowerment.',
-    skills: ['Leadership', 'Operations Management', 'Team Coordination', 'Strategic Planning', 'Communication'],
+    bio: 'A passionate designer and public speaker who brings creativity and vision to every project. With a keen eye for design and exceptional communication skills, she leads by example and inspires others to achieve excellence. Always ready to take on new challenges and drive organizational growth.',
+    skills: ['Designing', 'Public Speaking', 'Leadership', 'Team Coordination', 'Strategic Planning'],
     social: {
-      github: 'https://github.com/vedha',
-      linkedin: 'https://linkedin.com/in/vedha',
-      email: 'vedha@devbraze.com'
+      linkedin: 'https://www.linkedin.com/in/vedhashri-magesh-701878309',
+      email: 'vedhashrimagesh@gmail.com'
     }
   },
   {
     id: '3',
-    name: 'Chirag',
+    name: 'Chirag Sharma',
     role: 'Treasurer',
     image: '/team/chirag.png',
-    bio: 'Financial expert managing </DevBraze> resources efficiently. Ensures transparent financial operations and sustainable growth of the organization.',
-    skills: ['Financial Management', 'Budget Planning', 'Analytics', 'Resource Allocation', 'Accounting'],
+    bio: 'A dedicated robotics enthusiast and skilled programmer who brings technical excellence to financial management. With expertise in ROS, robotics, and multiple programming languages, he ensures transparent financial operations while contributing to innovative technical solutions. His systematic approach makes him perfect for managing organizational resources.',
+    skills: ['ROS', 'Robotics and Automation', 'C++', 'Python', 'NodeRed', 'Git', 'Finance'],
     social: {
-      github: 'https://github.com/chirag',
-      linkedin: 'https://linkedin.com/in/chirag',
-      email: 'chirag@devbraze.com'
+      github: 'https://github.com/Chirag-Sharma-04',
+      linkedin: 'https://www.linkedin.com/in/chirag-sharma-cs',
+      instagram: 'https://www.instagram.com/chiragsharma728/',
+      email: 'chiragcs2004@gmail.com'
     }
   },
   {
     id: '4',
-    name: 'Aniketh',
-    role: 'Tech Lead',
+    name: 'Aniketh Bhosale',
+    role: 'Technical Team Lead',
     image: '/team/aniketh.png',
-    bio: 'Technical visionary leading all technology initiatives and development projects. Passionate about cutting-edge technologies and mentoring fellow developers.',
-    skills: ['Full-Stack Development', 'GenAI', 'AI/ML', 'Technical Leadership', 'Code Review', 'Mentoring'],
+    bio: 'A passionate technology enthusiast and natural leader who thrives on innovation and problem-solving. With a strong foundation in full-stack development and AI/ML, he guides the technical direction of DevBraze while mentoring fellow developers. His curiosity and dedication drive the team towards cutting-edge solutions.',
+    skills: ['Full-Stack Dev', 'GenAI', 'AI/ML', 'Tech Leadership', 'Code Review', 'Mentoring'],
     social: {
-      github: 'https://github.com/aniketh',
-      linkedin: 'https://linkedin.com/in/aniketh',
-      email: 'aniketh@devbraze.com'
+      github: 'https://github.com/AnikethBhosale',
+      linkedin: 'https://www.linkedin.com/in/aniketh-bhosale-849480250/',
+      instagram: 'https://www.instagram.com/aniketh_bhosale/',
+      email: 'anikethbhosale11@gmail.com'
     }
   },
   {
     id: '5',
     name: 'Jeevitha',
-    role: 'Design Lead',
+    role: 'Design and Content Team Lead',
     image: '/team/jeevitha.png',
-    bio: 'Creative designer crafting beautiful and intuitive user experiences. Leading the visual identity and design system of </DevBraze> with innovation and style.',
+    bio: 'Creative designer crafting beautiful and intuitive user experiences. Leading the visual identity and design system of DevBraze with innovation and style, ensuring every design element tells a story and enhances user engagement.',
     skills: ['UI/UX Design', 'Graphic Design', 'Design Systems', 'Prototyping', 'Brand Identity'],
     social: {
-      github: 'https://github.com/raju',
-      linkedin: 'https://linkedin.com/in/raju',
-      email: 'raju@devbraze.com'
+      github: 'https://github.com/jeevitha',
+      linkedin: 'https://linkedin.com/in/jeevitha',
+      email: 'jeevitha@devbraze.com'
     }
   },
   {
     id: '6',
-    name: 'Viha',
+    name: 'Viha Shomikha A S',
     role: 'Marketing Lead',
     image: '/team/viha.png',
-    bio: 'Marketing strategist promoting </DevBraze> and expanding community reach. Expert in digital marketing and brand development initiatives.',
-    skills: ['Digital Marketing', 'Brand Strategy', 'Content Marketing', 'SEO', 'Campaign Management'],
+    bio: 'A dynamic marketing strategist with excellent communication skills and a passion for coding. Lives by the motto "Eat, Sleep, Repeat" while tirelessly working to promote DevBraze and expand community reach through innovative digital marketing strategies and engaging public speaking.',
+    skills: ['Digital Marketing', 'Brand Strategy', 'Public Speaking', 'Coding', 'Campaign Mgmt'],
     social: {
-      github: 'https://github.com/viha',
-      linkedin: 'https://linkedin.com/in/viha',
-      email: 'viha@devbraze.com'
+      github: 'https://github.com/VihaShomikha',
+      linkedin: 'https://www.linkedin.com/in/vihashomikhaas',
+      email: 'vihashomikhaas@gmail.com'
     }
   },
   {
@@ -97,8 +100,8 @@ export const teamMembers: TeamMember[] = [
     name: 'Manoj',
     role: 'Social Media Lead',
     image: '/team/manoj.png',
-    bio: 'Social media expert managing </DevBraze> online presence and community engagement. Creating compelling content and building strong online communities.',
-    skills: ['Social Media Management', 'Content Creation', 'Community Engagement', 'Analytics', 'Influencer Relations'],
+    bio: 'Social media expert managing DevBraze online presence and community engagement. Creating compelling content and building strong online communities that inspire and connect tech enthusiasts from all backgrounds.',
+    skills: ['Social Media', 'Content Creation', 'Community Mgmt', 'Analytics', 'Influencer Relations'],
     social: {
       github: 'https://github.com/manoj',
       linkedin: 'https://linkedin.com/in/manoj',
@@ -107,15 +110,14 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: '8',
-    name: 'Affan',
+    name: 'Mohammed Affaan',
     role: 'Event Management Lead',
     image: '/team/affan.png',
-    bio: 'Event coordination expert ensuring flawless execution of all </DevBraze> events and workshops. Passionate about creating memorable experiences for the community.',
-    skills: ['Event Planning', 'Project Management', 'Logistics', 'Vendor Management', 'Team Coordination'],
+    bio: 'A curious fast learner with exceptional communication skills and a passion for event organization. Aiming to be a Robotics Engineer while expertly coordinating all DevBraze events and workshops. His crowd management expertise and organizational skills ensure flawless execution of memorable community experiences.',
+    skills: ['Communication', 'Python', 'Crowd Mgmt', 'Event Planning', 'Project Mgmt', 'Team Coordination'],
     social: {
-      github: 'https://github.com/affan',
-      linkedin: 'https://linkedin.com/in/affan',
-      email: 'affan@devbraze.com'
+      linkedin: 'https://www.linkedin.com/in/mohd-affaan-sharif-2386a0291',
+      email: 'mohammedaffaan733@gmail.com'
     }
   }
 ];

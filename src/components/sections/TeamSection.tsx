@@ -1,31 +1,34 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Github, Linkedin, Mail, Users, Award, Star } from 'lucide-react'
+import { Github, Linkedin, Mail, Users, Award, Star, X, Instagram } from 'lucide-react'
 import Image from 'next/image'
 import { teamMembers, TeamMember } from '@/data/team'
 
 export default function TeamSection() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set())
-
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (selectedMember) {
-      document.body.classList.add('modal-open')
-    } else {
-      document.body.classList.remove('modal-open')
-    }
-
-    // Cleanup function to restore scroll on unmount
-    return () => {
-      document.body.classList.remove('modal-open')
-    }
-  }, [selectedMember])
+  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 })
+  const sectionRef = useRef<HTMLDivElement>(null)
 
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('')
+  }
+
+  const handleViewDetails = (member: TeamMember, cardElement: HTMLElement) => {
+    setSelectedMember(member)
+    
+    // Get card position relative to the section (only Y position)
+    if (sectionRef.current && cardElement) {
+      const sectionRect = sectionRef.current.getBoundingClientRect()
+      const cardRect = cardElement.getBoundingClientRect()
+      
+      setModalPosition({
+        x: 0, // Keep x as 0 for horizontal centering
+        y: cardRect.top - sectionRect.top
+      })
+    }
   }
 
   const handleImageError = (memberId: string) => {
@@ -33,7 +36,7 @@ export default function TeamSection() {
   }
 
   return (
-    <section id="team" className="py-20 dotted-bg-secondary relative overflow-hidden">
+    <section id="team" ref={sectionRef} className="py-20 dotted-bg-secondary relative overflow-hidden">
       {/* Modern Background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-cyan-500/10 to-transparent rounded-full blur-3xl"></div>
@@ -75,7 +78,7 @@ export default function TeamSection() {
                 {/* Card Background with Gradient Border */}
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                 
-                <div className="relative bg-black/80 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-6 hover:border-cyan-400/60 transition-all duration-300 group-hover:transform group-hover:scale-105">
+                <div className="relative bg-black/80 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-6 hover:border-cyan-400/60 transition-all duration-300 group-hover:transform group-hover:scale-105 h-[520px] flex flex-col">
                   {/* Profile Picture */}
                   <div className="flex justify-center mb-6">
                     <div className="relative">
@@ -108,20 +111,22 @@ export default function TeamSection() {
                   </div>
 
                   {/* Member Info */}
-                  <div className="text-center space-y-3">
-                    <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300">
+                  <div className="text-center space-y-3 flex-grow">
+                    <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors duration-300 min-h-[28px]">
                       {member.name}
                     </h3>
-                    <p className="text-sm font-semibold gradient-text">
+                    <p className="text-sm font-semibold gradient-text min-h-[20px]">
                       {member.role}
                     </p>
-                    <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
-                      {member.bio}
-                    </p>
+                    <div className="h-[72px] flex items-start">
+                      <p className="text-gray-400 text-sm leading-relaxed line-clamp-3 text-center">
+                        {member.bio}
+                      </p>
+                    </div>
                   </div>
 
                   {/* Skills Preview - Top 3 */}
-                  <div className="mt-4 flex flex-wrap gap-2 justify-center">
+                  <div className="mt-4 mb-4 h-[60px] flex flex-wrap gap-2 justify-center content-start overflow-hidden">
                     {member.skills.slice(0, 3).map((skill: string) => (
                       <span
                         key={skill}
@@ -138,7 +143,7 @@ export default function TeamSection() {
                   </div>
 
                   {/* Social Links */}
-                  <div className="flex justify-center gap-3 mt-6">
+                  <div className="flex justify-center gap-3 mb-4 h-[40px] items-center">
                     {member.social.github && (
                       <a
                         href={member.social.github}
@@ -159,6 +164,16 @@ export default function TeamSection() {
                         <Linkedin className="w-4 h-4 text-cyan-400" />
                       </a>
                     )}
+                    {member.social.instagram && (
+                      <a
+                        href={member.social.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                      >
+                        <Instagram className="w-4 h-4 text-cyan-400" />
+                      </a>
+                    )}
                     {member.social.email && (
                       <a
                         href={`mailto:${member.social.email}`}
@@ -171,8 +186,8 @@ export default function TeamSection() {
 
                   {/* View More Button */}
                   <button
-                    onClick={() => setSelectedMember(member)}
-                    className="w-full mt-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-lg text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300 text-sm font-medium"
+                    onClick={(e) => handleViewDetails(member, e.currentTarget.closest('.group') as HTMLElement)}
+                    className="w-full py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-lg text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300 text-sm font-medium mt-auto"
                   >
                     View Details
                   </button>
@@ -265,16 +280,28 @@ export default function TeamSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="modal-overlay modal-backdrop bg-black/80"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[50] flex items-start justify-center p-4"
             onClick={() => setSelectedMember(null)}
+            style={{
+              paddingTop: `${modalPosition.y + (sectionRef.current?.offsetTop || 0)}px`
+            }}
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0, y: 50 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.8, opacity: 0, y: 50 }}
-              className="modal-content bg-black/95 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-6 xs:p-8 overflow-y-auto"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-2xl p-6 xs:p-8 w-[95%] max-w-6xl max-h-[90vh] overflow-y-auto relative"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedMember(null)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200"
+              >
+                <X className="w-5 h-5 text-white" />
+              </button>
+
               <div className="flex flex-col xs:flex-row items-center xs:items-start gap-4 xs:gap-6 mb-6">
                 <div className="relative flex-shrink-0">
                   <div className="w-20 h-20 xs:w-24 xs:h-24 rounded-full overflow-hidden border-2 border-cyan-400">
@@ -343,6 +370,16 @@ export default function TeamSection() {
                       <Linkedin className="w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
                     </a>
                   )}
+                  {selectedMember.social.instagram && (
+                    <a
+                      href={selectedMember.social.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 xs:p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                    >
+                      <Instagram className="w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
+                    </a>
+                  )}
                   {selectedMember.social.email && (
                     <a
                       href={`mailto:${selectedMember.social.email}`}
@@ -353,13 +390,6 @@ export default function TeamSection() {
                   )}
                 </div>
               </div>
-
-              <button
-                onClick={() => setSelectedMember(null)}
-                className="mt-4 xs:mt-6 w-full py-2 xs:py-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-lg text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300 text-sm xs:text-base"
-              >
-                Close
-              </button>
             </motion.div>
           </motion.div>
         )}

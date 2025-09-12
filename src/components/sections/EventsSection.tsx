@@ -10,6 +10,7 @@ export default function EventsSection() {
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
+  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 })
   const sectionRef = useRef<HTMLDivElement>(null)
 
   const handleEmailSubmit = (e: React.FormEvent) => {
@@ -22,11 +23,18 @@ export default function EventsSection() {
     }
   }
 
-  const handleViewDetails = (event: Event) => {
+  const handleViewDetails = (event: Event, cardElement: HTMLElement) => {
     setSelectedEvent(event)
-    // Scroll to events section when modal opens
-    if (sectionRef.current) {
-      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    
+    // Get card position relative to the section (only Y position)
+    if (sectionRef.current && cardElement) {
+      const sectionRect = sectionRef.current.getBoundingClientRect()
+      const cardRect = cardElement.getBoundingClientRect()
+      
+      setModalPosition({
+        x: 0, // Keep x as 0 for horizontal centering
+        y: cardRect.top - sectionRect.top
+      })
     }
   }
 
@@ -122,7 +130,7 @@ export default function EventsSection() {
 
           {event.fullDescription && (
             <button 
-              onClick={() => handleViewDetails(event)}
+              onClick={(e) => handleViewDetails(event, e.currentTarget.closest('.event-card') as HTMLElement)}
               className="w-full px-3 xs:px-4 py-1.5 xs:py-2 bg-devbraze-gradient rounded-lg text-white font-medium hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-1.5 xs:gap-2 text-xs xs:text-sm"
             >
               View Details
@@ -278,16 +286,18 @@ export default function EventsSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] flex items-center justify-center p-4"
-            style={{ alignItems: 'flex-start', paddingTop: '250vh' }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[50] flex items-start justify-center p-4"
             onClick={() => setSelectedEvent(null)}
+            style={{
+              paddingTop: `${modalPosition.y + (sectionRef.current?.offsetTop || 0)}px`
+            }}
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-2xl p-6 xs:p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative"
+              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-2xl p-6 xs:p-8 w-[95%] max-w-6xl max-h-[90vh] overflow-y-auto relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
