@@ -82,10 +82,10 @@ export default function TeamSection() {
                   {/* Profile Picture */}
                   <div className="flex justify-center mb-6">
                     <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full p-1 animate-pulse">
-                        <div className="w-24 h-24 bg-black rounded-full"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-3xl p-1 animate-pulse">
+                        <div className="w-24 h-24 bg-black rounded-3xl"></div>
                       </div>
-                      <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-cyan-400/50 group-hover:border-cyan-400 transition-colors duration-300">
+                      <div className="relative w-24 h-24 rounded-3xl overflow-hidden border-2 border-cyan-400/50 group-hover:border-cyan-400 transition-colors duration-300">
                         {!imageErrors.has(member.id) ? (
                           <Image
                             src={member.image}
@@ -291,7 +291,7 @@ export default function TeamSection() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-2xl p-6 xs:p-8 w-[95%] max-w-6xl max-h-[90vh] overflow-y-auto relative"
+              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-3xl p-6 xs:p-8 w-[95%] max-w-6xl max-h-[90vh] overflow-y-auto relative"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -302,92 +302,100 @@ export default function TeamSection() {
                 <X className="w-5 h-5 text-white" />
               </button>
 
-              <div className="flex flex-col xs:flex-row items-center xs:items-start gap-4 xs:gap-6 mb-6">
-                <div className="relative flex-shrink-0">
-                  <div className="w-20 h-20 xs:w-24 xs:h-24 rounded-full overflow-hidden border-2 border-cyan-400">
-                    {!imageErrors.has(selectedMember.id) ? (
-                      <Image
-                        src={selectedMember.image}
-                        alt={selectedMember.name}
-                        fill
-                        className="object-cover"
-                        onError={() => handleImageError(selectedMember.id)}
-                        sizes="96px"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-cyan-500/40 to-purple-500/40 flex items-center justify-center">
-                        <span className="text-xl xs:text-2xl font-bold gradient-text">
-                          {getInitials(selectedMember.name)}
+              <div className="flex flex-col lg:flex-row gap-6">
+                {/* Profile Picture - Left Side */}
+                <div className="flex-shrink-0 flex justify-center lg:justify-start">
+                  <div className="relative">
+                    <div className="w-80 h-60 lg:w-96 lg:h-48 rounded-3xl overflow-hidden border-4 border-cyan-400">
+                      {!imageErrors.has(selectedMember.id) ? (
+                        <Image
+                          src={selectedMember.image}
+                          alt={selectedMember.name}
+                          fill
+                          className="object-cover rounded-3xl"
+                          onError={() => handleImageError(selectedMember.id)}
+                          sizes="340px"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-cyan-500/40 to-purple-500/40 flex items-center justify-center rounded-3xl">
+                          <span className="text-2xl lg:text-4xl font-bold gradient-text">
+                            {getInitials(selectedMember.name)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Content - Right Side */}
+                <div className="flex-1 space-y-6">
+                  <div className="text-center lg:text-left">
+                    <h3 className="text-2xl lg:text-3xl font-bold text-white mb-2">{selectedMember.name}</h3>
+                    <p className="text-lg lg:text-xl gradient-text font-semibold">{selectedMember.role}</p>
+                  </div>
+
+                  <div>
+                    <h4 className="text-lg lg:text-xl font-semibold text-white mb-3">About</h4>
+                    <p className="text-gray-300 leading-relaxed text-base">{selectedMember.bio}</p>
+                  </div>
+
+                  <div>
+                    <h4 className="text-lg lg:text-xl font-semibold text-white mb-3">Skills & Expertise</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedMember.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="px-3 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-400"
+                        >
+                          {skill}
                         </span>
-                      </div>
-                    )}
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="text-center xs:text-left">
-                  <h3 className="text-xl xs:text-2xl font-bold text-white">{selectedMember.name}</h3>
-                  <p className="text-base xs:text-lg gradient-text font-semibold">{selectedMember.role}</p>
-                </div>
-              </div>
 
-              <div className="space-y-4 xs:space-y-6">
-                <div>
-                  <h4 className="text-base xs:text-lg font-semibold text-white mb-2 xs:mb-3">About</h4>
-                  <p className="text-gray-300 leading-relaxed text-sm xs:text-base">{selectedMember.bio}</p>
-                </div>
-
-                <div>
-                  <h4 className="text-base xs:text-lg font-semibold text-white mb-2 xs:mb-3">Skills & Expertise</h4>
-                  <div className="flex flex-wrap gap-1.5 xs:gap-2">
-                    {selectedMember.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-2 xs:px-3 py-1 xs:py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-full text-xs xs:text-sm text-cyan-400"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                  <div className="pt-4">
+                    <h4 className="text-lg lg:text-xl font-semibold text-white mb-3">Connect</h4>
+                    <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+                      {selectedMember.social.github && (
+                        <a
+                          href={selectedMember.social.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                        >
+                          <Github className="w-6 h-6 text-cyan-400" />
+                        </a>
+                      )}
+                      {selectedMember.social.linkedin && (
+                        <a
+                          href={selectedMember.social.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                        >
+                          <Linkedin className="w-6 h-6 text-cyan-400" />
+                        </a>
+                      )}
+                      {selectedMember.social.instagram && (
+                        <a
+                          href={selectedMember.social.instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                        >
+                          <Instagram className="w-6 h-6 text-cyan-400" />
+                        </a>
+                      )}
+                      {selectedMember.social.email && (
+                        <a
+                          href={`mailto:${selectedMember.social.email}`}
+                          className="p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
+                        >
+                          <Mail className="w-6 h-6 text-cyan-400" />
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-
-                <div className="flex justify-center gap-3 xs:gap-4 pt-4 xs:pt-6">
-                  {selectedMember.social.github && (
-                    <a
-                      href={selectedMember.social.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 xs:p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
-                    >
-                      <Github className="w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
-                    </a>
-                  )}
-                  {selectedMember.social.linkedin && (
-                    <a
-                      href={selectedMember.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 xs:p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
-                    >
-                      <Linkedin className="w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
-                    </a>
-                  )}
-                  {selectedMember.social.instagram && (
-                    <a
-                      href={selectedMember.social.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 xs:p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
-                    >
-                      <Instagram className="w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
-                    </a>
-                  )}
-                  {selectedMember.social.email && (
-                    <a
-                      href={`mailto:${selectedMember.social.email}`}
-                      className="p-2 xs:p-3 bg-black/40 hover:bg-cyan-500/20 border border-cyan-500/30 hover:border-cyan-400 rounded-lg transition-all duration-300"
-                    >
-                      <Mail className="w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
-                    </a>
-                  )}
                 </div>
               </div>
             </motion.div>

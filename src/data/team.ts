@@ -71,15 +71,14 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: '5',
-    name: 'Jeevitha',
+    name: 'Jeevitha K H',
     role: 'Design and Content Team Lead',
     image: '/team/jeevitha.png',
     bio: 'Creative designer crafting beautiful and intuitive user experiences. Leading the visual identity and design system of DevBraze with innovation and style, ensuring every design element tells a story and enhances user engagement.',
-    skills: ['UI/UX Design', 'Graphic Design', 'Design Systems', 'Prototyping', 'Brand Identity'],
+    skills: ['Digital Illustration', 'Graphic Design', 'Content Creation', 'Programming', 'Engineering', 'Creative Writing'],
     social: {
-      github: 'https://github.com/jeevitha',
-      linkedin: 'https://linkedin.com/in/jeevitha',
-      email: 'jeevitha@devbraze.com'
+      linkedin: 'https://www.linkedin.com/in/jeevitha-h-gowda-17a977203',
+      email: 'jeevithakh7@gmail.com'
     }
   },
   {
@@ -97,15 +96,16 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: '7',
-    name: 'Manoj',
-    role: 'Social Media Lead',
-    image: '/team/manoj.png',
-    bio: 'Social media expert managing DevBraze online presence and community engagement. Creating compelling content and building strong online communities that inspire and connect tech enthusiasts from all backgrounds.',
-    skills: ['Social Media', 'Content Creation', 'Community Mgmt', 'Analytics', 'Influencer Relations'],
+    name: 'Manoj Reddy',
+    role: 'Head of social media',
+    image: '/team/manoj.jpg',
+    bio: 'Visual Storyteller, meticulous eye for photography and videography. Driven by a passion for the craft and an unwavering dedication to the final product and Possesses a strong work ethic and a meticulous, goal-oriented approach. Committed to investing the time and effort necessary to achieve exceptional results on every project',
+    skills: ['Photography', 'Video Editing', 'Designing'],
     social: {
-      github: 'https://github.com/manoj',
-      linkedin: 'https://linkedin.com/in/manoj',
-      email: 'manoj@devbraze.com'
+      github: 'https://github.com/ManojReddy246',
+      linkedin: 'https://www.linkedin.com/in/manoj-reddy-421873382?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
+      instagram: 'https://www.instagram.com/themanojverse?igsh=MzM3aG53ejIxd3B5',
+      email: 'manojreddy2003mkd@gmail.com'
     }
   },
   {
