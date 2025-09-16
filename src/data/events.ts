@@ -53,36 +53,15 @@ export const pastEvents: Event[] = [
 
 export const upcomingEvents: Event[] = [
   {
-    id: '5',
-    title: 'Cloud Computing Workshop',
-    description: 'Hands-on workshop on AWS, Azure, and Google Cloud platforms with practical deployment exercises.',
-    date: '2025-01-15',
+    id: 'easyeda-2025-09-23',
+    title: 'EasyEDA Workshop',
+    description: 'PCB Design Workshop using EasyEDA Pro. Fee: ₹100/head. Laptops are compulsory.',
+    fullDescription: 'Hands-on PCB Design Workshop using EasyEDA Pro. Learn the complete workflow: schematic capture, custom libraries, routing & layout techniques, exporting 2-layer PCBs, 2D/3D visualization, DRC checks, preparing Gerber files for manufacturing, and guidance on ordering PCBs through EasyEDA. Fee: ₹100 per head. Laptops are compulsory.',
+    date: '2025-09-23',
     type: 'workshop',
-    image: '/api/placeholder/400/250',
-    location: 'ECE Lab 1',
-    registrationLink: '#register',
-    highlights: ['AWS certification', 'Live deployments', 'Free credits', 'Industry mentors']
-  },
-  {
-    id: '6',
-    title: 'Open Source Contribution Drive',
-    description: 'Learn how to contribute to open source projects and make your mark in the global developer community.',
-    date: '2025-02-01',
-    type: 'workshop',
-    image: '/api/placeholder/400/250',
-    location: 'Computer Center',
-    registrationLink: '#register',
-    highlights: ['GitHub mastery', 'Real contributions', 'Mentor guidance', 'Portfolio boost']
-  },
-  {
-    id: '7',
-    title: 'Tech Talk: Future of AI',
-    description: 'Industry experts discuss the future of artificial intelligence and its impact on various sectors.',
-    date: '2025-02-20',
-    type: 'seminar',
-    image: '/api/placeholder/400/250',
-    location: 'ECE Auditorium',
-    registrationLink: '#register',
-    highlights: ['Industry leaders', 'Future insights', 'Networking', 'Q&A session']
+    image: '/api/placeholder/800/500',
+    location: 'CV Raman Block (102/103)',
+    registrationLink: '/register/easyeda',
+    highlights: ['9am - 4pm', '₹100 per head', 'Laptops compulsory', 'Hands-on session']
   }
 ];

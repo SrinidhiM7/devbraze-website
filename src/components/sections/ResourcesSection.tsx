@@ -2,22 +2,12 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, Mail, Youtube, Github } from 'lucide-react'
+import { ExternalLink, Youtube, Github } from 'lucide-react'
 import { learningResources, ResourceCategory } from '@/data/resources'
 
 export default function ResourcesSection() {
   const [activeCategory, setActiveCategory] = useState(0)
-  const [email, setEmail] = useState('')
-  const [isSubscribed, setIsSubscribed] = useState(false)
-
-  const handleEmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (email) {
-      setIsSubscribed(true)
-      setEmail('')
-      setTimeout(() => setIsSubscribed(false), 3000)
-    }
-  }
+  
 
   const getIcon = (categoryId: string) => {
     switch (categoryId) {
@@ -139,61 +129,7 @@ export default function ResourcesSection() {
           </AnimatePresence>
         </div>
 
-        {/* Newsletter Subscription */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-2xl mx-auto"
-        >
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-2xl blur-xl"></div>
-            <div className="relative bg-black/60 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-6 xs:p-8">
-              <h3 className="text-xl xs:text-2xl font-bold text-white mb-3 xs:mb-4">
-                Stay Updated with Resources
-              </h3>
-              <p className="text-gray-400 mb-4 xs:mb-6 text-sm xs:text-base px-2 xs:px-0">
-                Subscribe to get notified when we add new resources and learning materials
-              </p>
-              
-              <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto">
-                <div className="flex flex-col sm:flex-row gap-3 xs:gap-4">
-                  <div className="relative flex-1">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
-                      required
-                      className="w-full pl-9 xs:pl-10 pr-3 xs:pr-4 py-2.5 xs:py-3 bg-black/50 border border-cyan-500/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 text-sm xs:text-base"
-                    />
-                  </div>
-                  <motion.button
-                    type="submit"
-                    disabled={isSubscribed}
-                    className="px-4 xs:px-6 py-2.5 xs:py-3 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl text-white font-semibold hover:from-cyan-400 hover:to-purple-400 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm xs:text-base"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {isSubscribed ? 'Subscribed!' : 'Subscribe'}
-                  </motion.button>
-                </div>
-              </form>
-              
-              {isSubscribed && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-3 xs:mt-4 text-green-400 font-medium text-sm xs:text-base"
-                >
-                  ✓ Successfully subscribed! You'll get updates about new resources.
-                </motion.div>
-              )}
-            </div>
-          </div>
-        </motion.div>
+        
       </div>
     </section>
   )

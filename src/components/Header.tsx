@@ -22,7 +22,6 @@ export default function Header() {
     { name: 'About', href: '#about' },
     { name: 'Events', href: '#events' },
     { name: 'Team', href: '#team' },
-    { name: 'Projects', href: '#projects' },
     { name: 'Resources', href: '#resources' },
     { name: 'Join Us', href: '#join' },
   ]

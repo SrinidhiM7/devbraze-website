@@ -12,6 +12,23 @@ export default function EventsSection() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 })
   const sectionRef = useRef<HTMLDivElement>(null)
+  const [timeLeft, setTimeLeft] = useState<{days: number; hours: number; minutes: number; seconds: number}>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+
+  // Countdown to last registration date: 19th September 2025 23:59:59 local
+  useEffect(() => {
+    const deadline = new Date('2025-09-19T23:59:59')
+    const timer = setInterval(() => {
+      const now = new Date()
+      const diffMs = deadline.getTime() - now.getTime()
+      const clamped = Math.max(diffMs, 0)
+      const days = Math.floor(clamped / (1000 * 60 * 60 * 24))
+      const hours = Math.floor((clamped % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      const minutes = Math.floor((clamped % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((clamped % (1000 * 60)) / 1000)
+      setTimeLeft({ days, hours, minutes, seconds })
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -177,10 +194,98 @@ export default function EventsSection() {
         )}
 
         {activeTab === 'upcoming' && upcomingEvents.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 lg:gap-8">
-            {upcomingEvents.map((event, index) => (
-              <EventCard key={event.id} event={event} index={index} />
-            ))}
+          <div className="max-w-5xl mx-auto">
+            {(() => {
+              const event = upcomingEvents[0]
+              return (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/60 backdrop-blur-lg"
+                >
+                  {/* Background image */}
+                  <div className="absolute inset-0">
+                    {event.image ? (
+                      <img src={event.image} alt={event.title} className="w-full h-full object-cover opacity-30" />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900"></div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-black via-black/60 to-transparent" />
+                  </div>
+
+                  {/* Content */}
+                  <div className="relative z-10 p-6 xs:p-8 md:p-10">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                      <div className="max-w-2xl">
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.type)}`}>
+                            {event.type.toUpperCase()}
+                          </span>
+                          <div className="flex items-center gap-1.5 text-sm text-gray-300">
+                            <Calendar className="w-4 h-4" />
+                            {formatDate(event.date)}
+                          </div>
+                          {event.location && (
+                            <div className="flex items-center gap-1.5 text-sm text-gray-300">
+                              <MapPin className="w-4 h-4" />
+                              {event.location}
+                            </div>
+                          )}
+                        </div>
+                        <h3 className="text-2xl xs:text-3xl md:text-4xl font-extrabold text-white mb-3">
+                          {event.title}
+                        </h3>
+                        <p className="text-gray-200 text-sm md:text-base max-w-2xl">
+                          {event.description} Time: 9am - 4pm. Venue: {event.location}.
+                        </p>
+                      </div>
+
+                      {/* Countdown */}
+                      <div className="shrink-0">
+                        <div className="text-center mb-2 text-gray-300 text-xs md:text-sm">Registration closes on Sep 19</div>
+                        <div className="grid grid-cols-4 gap-2">
+                          {[
+                            { label: 'Days', value: timeLeft.days },
+                            { label: 'Hours', value: timeLeft.hours },
+                            { label: 'Mins', value: timeLeft.minutes },
+                            { label: 'Secs', value: timeLeft.seconds },
+                          ].map((t) => (
+                            <div key={t.label} className="bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-center">
+                              <div className="text-xl md:text-2xl font-bold text-white leading-none">{t.value.toString().padStart(2, '0')}</div>
+                              <div className="text-[10px] md:text-xs text-gray-300 mt-1">{t.label}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Highlights */}
+                    {event.highlights && (
+                      <div className="flex flex-wrap gap-2 mt-6">
+                        {event.highlights.map((h, i) => (
+                          <span key={i} className="px-3 py-1.5 bg-devbraze-gradient/10 border border-devbraze-blue/30 text-devbraze-blue rounded-lg text-xs md:text-sm">
+                            {h}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* CTA */}
+                    <div className="mt-6 md:mt-8">
+                      <a
+                        href={event.registrationLink || '#'}
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:from-cyan-400 hover:to-purple-400 transition-all duration-300"
+                      >
+                        Register Now
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              )
+            })()}
           </div>
         )}
 
