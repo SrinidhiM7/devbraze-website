@@ -55,11 +55,11 @@ export const upcomingEvents: Event[] = [
   {
     id: 'easyeda-2025-09-23',
     title: 'EasyEDA Workshop',
-    description: 'PCB Design Workshop using EasyEDA Pro. Fee: ₹100/head. Laptops are compulsory.',
-    fullDescription: 'Hands-on PCB Design Workshop using EasyEDA Pro. Learn the complete workflow: schematic capture, custom libraries, routing & layout techniques, exporting 2-layer PCBs, 2D/3D visualization, DRC checks, preparing Gerber files for manufacturing, and guidance on ordering PCBs through EasyEDA. Fee: ₹100 per head. Laptops are compulsory.',
+    description: 'PCB Design Workshop using EasyEDA Pro',
+    fullDescription: 'Hands-on PCB Design Workshop using EasyEDA Pro. Learn the complete workflow: schematic capture, custom libraries, routing & layout techniques, exporting 2-layer PCBs, 2D/3D visualization, DRC checks, preparing Gerber files for manufacturing, and guidance on ordering PCBs through EasyEDA.',
     date: '2025-09-23',
     type: 'workshop',
-    image: '/api/placeholder/800/500',
+    image: 'https://cdn.pixabay.com/photo/2016/06/08/05/44/circuit-1443251_1280.jpg',
     location: 'CV Raman Block (102/103)',
     registrationLink: '/register/easyeda',
     highlights: ['9am - 4pm', '₹100 per head', 'Laptops compulsory', 'Hands-on session']

@@ -43,15 +43,18 @@ export default function Footer() {
   const contactInfo = [
     {
       icon: MapPin,
-      text: 'School of ECE, University Campus'
+      text: 'School of ECE, REVA University',
+      href: null
     },
     {
       icon: Mail,
-      text: 'contact@devbraze.com'
+      text: 'devbrazecommunity@gmail.com',
+      href: 'mailto:devbrazecommunity@gmail.com'
     },
     {
       icon: Phone,
-      text: '+91 98765 43210'
+      text: '+91 63646 48730',
+      href: 'tel:+916364648730'
     }
   ]
 
@@ -146,7 +149,16 @@ export default function Footer() {
               {contactInfo.map((contact, index) => (
                 <li key={index} className="flex items-start space-x-2 xs:space-x-3">
                   <contact.icon className="w-3.5 h-3.5 xs:w-4 xs:h-4 text-devbraze-blue mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-400 text-xs xs:text-sm">{contact.text}</span>
+                  {contact.href ? (
+                    <a
+                      href={contact.href}
+                      className="text-gray-400 hover:text-white transition-colors duration-300 text-xs xs:text-sm hover:underline"
+                    >
+                      {contact.text}
+                    </a>
+                  ) : (
+                    <span className="text-gray-400 text-xs xs:text-sm">{contact.text}</span>
+                  )}
                 </li>
               ))}
             </ul>

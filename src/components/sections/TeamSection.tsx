@@ -55,7 +55,7 @@ export default function TeamSection() {
           <div className="flex items-center justify-center gap-3 mb-6">
             <Users className="w-8 h-8 text-cyan-400" />
             <h2 className="text-4xl md:text-5xl font-bold">
-              Our <span className="gradient-text">Core Team</span>
+              Our <span className="gradient-text">Leadership Team</span>
             </h2>
           </div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
@@ -197,6 +197,98 @@ export default function TeamSection() {
           ))}
         </div>
 
+        {/* Team Structure Graphic */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mt-20 mb-16"
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Our Teams</h3>
+            <p className="text-gray-400 text-lg">Interconnected teams working together to drive innovation</p>
+          </div>
+          
+          {/* Central DevBraze Logo */}
+          <div className="flex justify-center mb-12">
+            <div className="relative">
+              <div className="w-32 h-32 border-2 border-cyan-400 rounded-lg relative">
+                {/* Microchip pins */}
+                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-3 bg-cyan-400"></div>
+                <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-3 bg-cyan-400"></div>
+                <div className="absolute -left-1 top-1/2 transform -translate-y-1/2 w-3 h-1 bg-cyan-400"></div>
+                <div className="absolute -right-1 top-1/2 transform -translate-y-1/2 w-3 h-1 bg-cyan-400"></div>
+                <div className="absolute -top-1 left-1/4 w-1 h-3 bg-cyan-400"></div>
+                <div className="absolute -top-1 right-1/4 w-1 h-3 bg-cyan-400"></div>
+                <div className="absolute -bottom-1 left-1/4 w-1 h-3 bg-cyan-400"></div>
+                <div className="absolute -bottom-1 right-1/4 w-1 h-3 bg-cyan-400"></div>
+                <div className="absolute -left-1 top-1/4 w-3 h-1 bg-cyan-400"></div>
+                <div className="absolute -left-1 bottom-1/4 w-3 h-1 bg-cyan-400"></div>
+                <div className="absolute -right-1 top-1/4 w-3 h-1 bg-cyan-400"></div>
+                <div className="absolute -right-1 bottom-1/4 w-3 h-1 bg-cyan-400"></div>
+                
+                {/* Inner logo */}
+                <div className="absolute inset-2 bg-black rounded flex items-center justify-center">
+                  <Image
+                    src="/DevBraze Logo Blue Border.png"
+                    alt="DevBraze Logo"
+                    width={80}
+                    height={80}
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Teams Grid */}
+          <div className="max-w-4xl mx-auto space-y-8">
+            {/* First 3 teams in 3-column grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                "CONTENT AND DESIGN TEAM",
+                "MARKETING TEAM", 
+                "EVENT MANAGEMENT TEAM"
+              ].map((team, index) => (
+                <motion.div
+                  key={team}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="bg-gray-800/90 backdrop-blur-lg border border-cyan-400/30 rounded-xl p-4 hover:border-cyan-400/60 transition-all duration-300 group"
+                >
+                  <p className="text-white font-bold text-sm text-center group-hover:text-cyan-400 transition-colors duration-300">
+                    {team}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Last 2 teams in centered 2-column grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+              {[
+                "TECH TEAM",
+                "SOCIAL MEDIA TEAM"
+              ].map((team, index) => (
+                <motion.div
+                  key={team}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: (index + 3) * 0.1 }}
+                  className="bg-gray-800/90 backdrop-blur-lg border border-cyan-400/30 rounded-xl p-4 hover:border-cyan-400/60 transition-all duration-300 group"
+                >
+                  <p className="text-white font-bold text-sm text-center group-hover:text-cyan-400 transition-colors duration-300">
+                    {team}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
         {/* Team Stats */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -208,21 +300,21 @@ export default function TeamSection() {
           {[
             { 
               icon: Users, 
-              number: "8", 
-              label: "Core Members", 
-              description: "Dedicated leaders driving innovation" 
+              number: "30+", 
+              label: "Members in Club", 
+              description: "Active community members" 
             },
             { 
               icon: Award, 
-              number: "50+", 
-              label: "Projects Delivered", 
-              description: "Successful community initiatives" 
+              number: "15+", 
+              label: "Events", 
+              description: "Successful community events" 
             },
             { 
               icon: Star, 
-              number: "250+", 
-              label: "Students Mentored", 
-              description: "Growing tech community" 
+              number: "500+", 
+              label: "Participants", 
+              description: "Students engaged in activities" 
             }
           ].map((stat, index) => (
             <motion.div

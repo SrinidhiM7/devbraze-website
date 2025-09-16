@@ -237,9 +237,15 @@ export default function EventsSection() {
                         <h3 className="text-2xl xs:text-3xl md:text-4xl font-extrabold text-white mb-3">
                           {event.title}
                         </h3>
-                        <p className="text-gray-200 text-sm md:text-base max-w-2xl">
-                          {event.description} Time: 9am - 4pm. Venue: {event.location}.
-                        </p>
+                        <div className="text-gray-200 text-sm md:text-base max-w-2xl">
+                          <p className="mb-2">{event.description}</p>
+                          <div className="space-y-1">
+                            <div>• Time: 9am - 4pm</div>
+                            <div>• Venue: {event.location}</div>
+                            <div>• Fee: ₹100 per head</div>
+                            <div>• Laptops are compulsory</div>
+                          </div>
+                        </div>
                       </div>
 
                       {/* Countdown */}

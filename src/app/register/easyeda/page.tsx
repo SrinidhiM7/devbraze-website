@@ -74,12 +74,19 @@ export default function EasyEDARegistrationPage() {
 
   return (
     <main className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Background decoration */}
-      <div className="fixed inset-0 pointer-events-none z-0 opacity-10">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-devbraze-gradient rounded-full blur-3xl"></div>
-        <div className="absolute top-3/4 right-1/4 w-80 h-80 bg-devbraze-gradient rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-96 h-96 bg-devbraze-gradient rounded-full blur-3xl"></div>
-      </div>
+      {/* Background image */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          backgroundImage: "url('https://cdn.pixabay.com/photo/2024/05/31/06/48/ai-generated-8799924_1280.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      />
+      {/* Dark overlay for readability */
+      }
+      <div className="fixed inset-0 z-0 bg-black/70" />
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-10 xs:py-14">
         <div className="mb-6">
@@ -100,9 +107,21 @@ export default function EasyEDARegistrationPage() {
             <h1 className="text-2xl xs:text-3xl font-extrabold mb-2">
               EasyEDA Workshop Registration
             </h1>
-            <p className="text-gray-300 mb-6">
-              PCB Design Workshop using EasyEDA Pro. Time: 9am - 4pm. Venue: CV Raman Block (102/103). Fee: ₹100 per head. Laptops are compulsory. Registration closes on Sep 19.
-            </p>
+            <div className="text-gray-300 mb-6">
+              <p className="mb-3">PCB Design Workshop using EasyEDA Pro</p>
+              <div className="space-y-1 text-sm">
+                <div>• Time: 9am - 4pm</div>
+                <div>• Venue: CV Raman Block (102/103)</div>
+                <div>• Fee: ₹100 per head</div>
+                <div>• Laptops are compulsory</div>
+                <div>• Registration closes on Sep 19</div>
+              </div>
+              <div className="mt-4 text-center">
+                <p className="text-sm text-gray-400 mb-1">Conducted by:</p>
+                <p className="text-lg font-bold text-cyan-400 mb-1">School Of Electronics & Communication Engineering</p>
+                <p className="text-base font-semibold text-purple-400">IEEE RAS REVA UNIVERSITY X &lt;/DevBraze&gt;</p>
+              </div>
+            </div>
 
             {submitted && (
               <div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-center">

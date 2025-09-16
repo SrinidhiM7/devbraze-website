@@ -8,7 +8,6 @@ import AboutSection from '@/components/sections/AboutSection'
 import EventsSection from '@/components/sections/EventsSection'
 import TeamSection from '@/components/sections/TeamSection'
 import ResourcesSection from '@/components/sections/ResourcesSection'
-import AchievementsSection from '@/components/sections/AchievementsSection'
 import JoinUsSection from '@/components/sections/JoinUsSection'
 
 export default function Home() {
@@ -50,8 +49,7 @@ export default function Home() {
       
       {/* Projects Section removed */}
       
-      {/* Achievements Section */}
-      <AchievementsSection />
+      
       
       {/* Resources Section */}
       <ResourcesSection />
