@@ -1,33 +1,21 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Github, Linkedin, Twitter, Instagram, Mail, MapPin, Phone, ExternalLink } from 'lucide-react'
+import { Linkedin, Instagram, Mail, MapPin, Phone, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 
 export default function Footer() {
   const socialLinks = [
     {
-      name: 'GitHub',
-      icon: Github,
-      href: 'https://github.com/devbraze',
-      color: 'hover:text-gray-300'
-    },
-    {
       name: 'LinkedIn',
       icon: Linkedin,
-      href: 'https://linkedin.com/company/devbraze',
-      color: 'hover:text-blue-400'
-    },
-    {
-      name: 'Twitter',
-      icon: Twitter,
-      href: 'https://twitter.com/devbraze',
+      href: 'https://www.linkedin.com/in/devbraze-reva-204872289',
       color: 'hover:text-blue-400'
     },
     {
       name: 'Instagram',
       icon: Instagram,
-      href: 'https://instagram.com/devbraze',
+      href: 'https://www.instagram.com/devbraze_reva',
       color: 'hover:text-pink-400'
     }
   ]

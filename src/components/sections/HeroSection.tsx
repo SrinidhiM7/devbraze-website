@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, Users, Calendar, Code, Github, Linkedin, Twitter, Instagram } from 'lucide-react'
+import { ChevronDown, Users, Calendar, Code, Linkedin, Instagram } from 'lucide-react'
 import Image from 'next/image'
 
 export default function HeroSection() {
@@ -23,16 +23,14 @@ export default function HeroSection() {
   }, [])
 
   const stats = [
-    { icon: Users, label: 'Active Members', value: 250 },
-    { icon: Calendar, label: 'Events Hosted', value: 45 },
-    { icon: Code, label: 'Projects', value: 30 }
+    { icon: Calendar, label: 'Events', value: '15+' },
+    { icon: Code, label: 'Workshops', value: '5+' },
+    { icon: Users, label: 'Participated', value: '500+' }
   ]
 
   const socialLinks = [
-    { icon: Github, href: 'https://github.com/devbraze', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com/company/devbraze', label: 'LinkedIn' },
-    { icon: Twitter, href: 'https://twitter.com/devbraze', label: 'Twitter' },
-    { icon: Instagram, href: 'https://instagram.com/devbraze', label: 'Instagram' }
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/devbraze-reva-204872289', label: 'LinkedIn' },
+    { icon: Instagram, href: 'https://www.instagram.com/devbraze_reva', label: 'Instagram' }
   ]
 
   const scrollToNext = () => {

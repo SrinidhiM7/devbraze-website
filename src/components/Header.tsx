@@ -23,8 +23,9 @@ export default function Header() {
     { name: 'Events', href: '#events' },
     { name: 'Team', href: '#team' },
     { name: 'Resources', href: '#resources' },
-    { name: 'Join Us', href: '#join' },
   ]
+
+  const joinUsItem = { name: 'Join Us', href: '#join' }
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href)
@@ -107,6 +108,16 @@ export default function Header() {
               <Menu className="w-5 h-5 xs:w-6 xs:h-6" />
             )}
           </motion.button>
+
+          {/* Join Us Button - Top Right */}
+          <motion.button
+            onClick={() => scrollToSection(joinUsItem.href)}
+            className="hidden lg:flex fixed top-4 right-4 z-50 px-6 py-2 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {joinUsItem.name}
+          </motion.button>
         </div>
 
       </nav>
@@ -119,7 +130,7 @@ export default function Header() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: -10 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="lg:hidden fixed top-16 xs:top-20 left-0 right-0 z-40 flex justify-center px-4"
+            className="lg:hidden fixed top-20 xs:top-24 left-0 right-0 z-40 flex justify-center px-4"
           >
             <div className="bg-black/90 backdrop-blur-lg border border-white/10 rounded-xl xs:rounded-2xl p-4 xs:p-6 w-[280px] xs:w-[320px]">
               <div className="space-y-2 xs:space-y-3">
@@ -135,6 +146,18 @@ export default function Header() {
                     {item.name}
                   </motion.button>
                 ))}
+                {/* Join Us Button in Mobile Menu */}
+                <motion.button
+                  onClick={() => scrollToSection(joinUsItem.href)}
+                  className="block w-full text-center px-4 xs:px-6 py-3 xs:py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-base xs:text-lg"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: menuItems.length * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {joinUsItem.name}
+                </motion.button>
               </div>
             </div>
           </motion.div>
