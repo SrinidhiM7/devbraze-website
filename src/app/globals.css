@@ -362,6 +362,40 @@ textarea:focus {
   .backdrop-blur-sm {
     backdrop-filter: blur(2px);
   }
+
+  /* Mobile-specific performance optimizations for events section */
+  .group:hover {
+    transform: none !important;
+  }
+
+  /* Disable transform animations on mobile to prevent flickering */
+  .group img {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Optimize mobile scrolling */
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Reduce repaints by using hardware acceleration */
+  .group {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Disable complex gradients on mobile */
+  .bg-gradient-to-r {
+    background: rgba(63, 169, 245, 0.1) !important;
+  }
+
+  /* Simplify shadows on mobile */
+  .drop-shadow-lg,
+  .drop-shadow-md {
+    filter: none;
+  }
 }
 
 /* Radial gradient utility */

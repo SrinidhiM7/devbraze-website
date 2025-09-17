@@ -4,6 +4,7 @@ import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, MapPin, Info, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { pastEvents, upcomingEvents, Event } from '@/data/events'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 export default function EventsSection() {
   const [activeTab, setActiveTab] = useState<'past' | 'upcoming'>('upcoming')
@@ -11,6 +12,7 @@ export default function EventsSection() {
   const [selectedPastEvent, setSelectedPastEvent] = useState<Event | null>(null)
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 })
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const isMobile = useIsMobile(768)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   const formatDate = (dateString: string) => {
@@ -66,13 +68,26 @@ export default function EventsSection() {
   }
 
   const EventCard = ({ event, index }: { event: Event; index: number }) => {
+    // Simplified animations for mobile to prevent flickering
+    const cardVariants = {
+      hidden: { opacity: 0, y: isMobile ? 20 : 30 },
+      visible: { 
+        opacity: 1, 
+        y: 0,
+        transition: { 
+          duration: isMobile ? 0.3 : 0.6, 
+          delay: isMobile ? 0 : index * 0.1 
+        }
+      }
+    }
+
     return (
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.6, delay: index * 0.1 }}
-        className="group relative overflow-hidden rounded-3xl border border-cyan-400/20 bg-black/70 backdrop-blur-lg hover:border-cyan-400/40 transition-all duration-300 h-full min-h-[500px] flex flex-col"
+        variants={cardVariants}
+        className={`group relative overflow-hidden rounded-3xl border border-cyan-400/20 bg-black/70 ${isMobile ? 'backdrop-blur-sm' : 'backdrop-blur-lg'} hover:border-cyan-400/40 ${isMobile ? 'transition-colors duration-200' : 'transition-all duration-300'} h-full min-h-[500px] flex flex-col`}
       >
         {/* Background Image - Full Card */}
         {event.image && (
@@ -80,16 +95,18 @@ export default function EventsSection() {
             <img
               src={event.image}
               alt={event.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className={`w-full h-full object-cover ${isMobile ? '' : 'group-hover:scale-105'} ${isMobile ? '' : 'transition-transform duration-500'}`}
               loading="lazy"
             />
             {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-all duration-300"></div>
+            <div className={`absolute inset-0 bg-black/60 ${isMobile ? '' : 'group-hover:bg-black/50'} ${isMobile ? '' : 'transition-all duration-300'}`}></div>
           </div>
         )}
 
-        {/* Enhanced Background gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/8 to-purple-500/8 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        {/* Enhanced Background gradient overlay - Disabled on mobile for performance */}
+        {!isMobile && (
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/8 to-purple-500/8 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        )}
 
         {/* Content - Positioned over image */}
         <div className="relative z-10 p-6 flex-1 flex flex-col h-full">
@@ -100,7 +117,7 @@ export default function EventsSection() {
             </span>
           </div>
 
-          <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2 drop-shadow-lg">
+          <h3 className={`text-2xl font-bold text-white mb-3 ${isMobile ? '' : 'group-hover:text-cyan-400 transition-colors duration-300'} line-clamp-2 drop-shadow-lg`}>
             {event.title}
           </h3>
 
@@ -147,7 +164,7 @@ export default function EventsSection() {
           <div className="mt-auto">
             <button
               onClick={(e) => handleViewPastEventDetails(event, e.currentTarget.closest('.group') as HTMLElement)}
-              className="w-full px-4 py-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-xl text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300 flex items-center justify-center gap-2 font-medium backdrop-blur-sm"
+              className={`w-full px-4 py-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-xl text-cyan-400 ${isMobile ? 'active:from-cyan-500/30 active:to-purple-500/30' : 'hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400'} ${isMobile ? 'transition-colors duration-200' : 'transition-all duration-300'} flex items-center justify-center gap-2 font-medium backdrop-blur-sm`}
             >
               <Info className="w-4 h-4" />
               View More
@@ -159,13 +176,26 @@ export default function EventsSection() {
   };
 
   const FeaturedEventCard = ({ event, index }: { event: Event; index: number }) => {
+    // Simplified animations for mobile
+    const featuredCardVariants = {
+      hidden: { opacity: 0, y: isMobile ? 20 : 30 },
+      visible: { 
+        opacity: 1, 
+        y: 0,
+        transition: { 
+          duration: isMobile ? 0.4 : 0.8, 
+          delay: isMobile ? 0 : index * 0.1 
+        }
+      }
+    }
+
     return (
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.8, delay: index * 0.1 }}
-        className="group relative overflow-hidden rounded-3xl border border-cyan-400/30 bg-black/80 backdrop-blur-lg hover:border-cyan-400/50 transition-all duration-300 col-span-full md:col-span-3 min-h-[500px] flex flex-col"
+        variants={featuredCardVariants}
+        className={`group relative overflow-hidden rounded-3xl border border-cyan-400/30 bg-black/80 ${isMobile ? 'backdrop-blur-sm' : 'backdrop-blur-lg'} hover:border-cyan-400/50 ${isMobile ? 'transition-colors duration-200' : 'transition-all duration-300'} col-span-full md:col-span-3 min-h-[500px] flex flex-col`}
       >
         {/* Background Image - Full Card */}
         {event.image && (
@@ -173,16 +203,18 @@ export default function EventsSection() {
             <img
               src={event.image}
               alt={event.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className={`w-full h-full object-cover ${isMobile ? '' : 'group-hover:scale-105'} ${isMobile ? '' : 'transition-transform duration-500'}`}
               loading="lazy"
             />
             {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-all duration-300"></div>
+            <div className={`absolute inset-0 bg-black/60 ${isMobile ? '' : 'group-hover:bg-black/50'} ${isMobile ? '' : 'transition-all duration-300'}`}></div>
           </div>
         )}
 
-        {/* Enhanced Background gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        {/* Enhanced Background gradient overlay - Disabled on mobile for performance */}
+        {!isMobile && (
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        )}
 
         {/* Content - Positioned over image */}
         <div className="relative z-10 p-8 flex flex-col justify-between h-full">
@@ -195,7 +227,7 @@ export default function EventsSection() {
               </span>
             </div>
 
-            <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors duration-300 drop-shadow-lg">
+            <h3 className={`text-3xl lg:text-4xl font-bold text-white mb-4 ${isMobile ? '' : 'group-hover:text-cyan-400 transition-colors duration-300'} drop-shadow-lg`}>
               {event.title}
             </h3>
 
@@ -240,7 +272,7 @@ export default function EventsSection() {
             <div className="mt-6">
               <a
                 href={event.registrationLink}
-                className="inline-flex items-center justify-center gap-3 w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg rounded-xl hover:from-cyan-400 hover:to-purple-400 hover:shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm"
+                className={`inline-flex items-center justify-center gap-3 w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg rounded-xl ${isMobile ? 'active:from-cyan-400 active:to-purple-400' : 'hover:from-cyan-400 hover:to-purple-400 hover:shadow-2xl hover:shadow-cyan-500/25 transform hover:scale-105'} ${isMobile ? 'transition-colors duration-200' : 'transition-all duration-300'} backdrop-blur-sm`}
               >
                 Register Now
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -364,11 +396,11 @@ export default function EventsSection() {
             }}
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: isMobile ? 0.95 : 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-6 w-full max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-5xl max-h-[85vh] sm:max-h-[90vh] overflow-y-auto relative mx-auto"
+              exit={{ scale: isMobile ? 0.95 : 0.8, opacity: 0 }}
+              transition={{ duration: isMobile ? 0.2 : 0.3 }}
+              className={`bg-gray-900/95 ${isMobile ? 'backdrop-blur-sm' : 'backdrop-blur-lg'} border border-white/10 rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-6 w-full max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-5xl max-h-[85vh] sm:max-h-[90vh] overflow-y-auto relative mx-auto`}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -406,13 +438,13 @@ export default function EventsSection() {
                         {/* Navigation Buttons */}
                         <button
                           onClick={prevImage}
-                          className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 p-3 sm:p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors touch-manipulation"
+                          className={`absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 p-3 sm:p-2 bg-black/50 ${isMobile ? 'active:bg-black/70' : 'hover:bg-black/70'} rounded-full text-white transition-colors touch-manipulation`}
                         >
                           <ChevronLeft className="w-5 h-5 sm:w-5 sm:h-5" />
                         </button>
                         <button
                           onClick={nextImage}
-                          className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 p-3 sm:p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors touch-manipulation"
+                          className={`absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 p-3 sm:p-2 bg-black/50 ${isMobile ? 'active:bg-black/70' : 'hover:bg-black/70'} rounded-full text-white transition-colors touch-manipulation`}
                         >
                           <ChevronRight className="w-5 h-5 sm:w-5 sm:h-5" />
                         </button>
@@ -423,10 +455,10 @@ export default function EventsSection() {
                             <button
                               key={index}
                               onClick={() => setCurrentImageIndex(index)}
-                              className={`flex-shrink-0 w-16 h-16 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-colors touch-manipulation ${
+                              className={`flex-shrink-0 w-16 h-16 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 ${isMobile ? '' : 'transition-colors'} touch-manipulation ${
                                 index === currentImageIndex
                                   ? 'border-cyan-400'
-                                  : 'border-gray-600 hover:border-gray-500'
+                                  : isMobile ? 'border-gray-600' : 'border-gray-600 hover:border-gray-500'
                               }`}
                             >
                               <img
