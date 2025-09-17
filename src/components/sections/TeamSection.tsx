@@ -372,7 +372,7 @@ export default function TeamSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[50] flex items-start justify-center p-4"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[50] flex items-start justify-center p-2 xs:p-4"
             onClick={() => setSelectedMember(null)}
             style={{
               paddingTop: `${modalPosition.y + (sectionRef.current?.offsetTop || 0)}px`
@@ -383,7 +383,7 @@ export default function TeamSection() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-3xl p-6 xs:p-8 w-[95%] max-w-6xl max-h-[90vh] overflow-y-auto relative"
+              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-3xl p-4 xs:p-6 sm:p-8 w-[95%] sm:w-[90%] md:w-[85%] lg:w-[80%] xl:w-[75%] max-w-6xl max-h-[90vh] overflow-y-auto relative mx-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}

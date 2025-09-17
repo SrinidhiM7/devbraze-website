@@ -1,59 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Calendar, MapPin, Users, Star, Clock, ExternalLink, ChevronLeft, ChevronRight, Mail, Bell, Info, X } from 'lucide-react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Calendar, MapPin } from 'lucide-react'
 import { pastEvents, upcomingEvents, Event } from '@/data/events'
 
 export default function EventsSection() {
   const [activeTab, setActiveTab] = useState<'past' | 'upcoming'>('upcoming')
-  const [email, setEmail] = useState('')
-  const [isSubscribed, setIsSubscribed] = useState(false)
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
-  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 })
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const [timeLeft, setTimeLeft] = useState<{days: number; hours: number; minutes: number; seconds: number}>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
-
-  // Countdown to last registration date: 19th September 2025 23:59:59 local
-  useEffect(() => {
-    const deadline = new Date('2025-09-19T23:59:59')
-    const timer = setInterval(() => {
-      const now = new Date()
-      const diffMs = deadline.getTime() - now.getTime()
-      const clamped = Math.max(diffMs, 0)
-      const days = Math.floor(clamped / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((clamped % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes = Math.floor((clamped % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((clamped % (1000 * 60)) / 1000)
-      setTimeLeft({ days, hours, minutes, seconds })
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [])
-
-  const handleEmailSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (email) {
-      setIsSubscribed(true)
-      setEmail('')
-      // Here you would typically send the email to your backend
-      setTimeout(() => setIsSubscribed(false), 3000)
-    }
-  }
-
-  const handleViewDetails = (event: Event, cardElement: HTMLElement) => {
-    setSelectedEvent(event)
-    
-    // Get card position relative to the section (only Y position)
-    if (sectionRef.current && cardElement) {
-      const sectionRect = sectionRef.current.getBoundingClientRect()
-      const cardRect = cardElement.getBoundingClientRect()
-      
-      setModalPosition({
-        x: 0, // Keep x as 0 for horizontal centering
-        y: cardRect.top - sectionRect.top
-      })
-    }
-  }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -76,70 +29,209 @@ export default function EventsSection() {
   }
 
   const EventCard = ({ event, index }: { event: Event; index: number }) => {
-    
     return (
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.05 }}
-        className="event-card group relative h-[400px] overflow-hidden rounded-3xl cursor-pointer"
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, delay: index * 0.1 }}
+        className="group relative overflow-hidden rounded-3xl border border-cyan-400/20 bg-black/70 backdrop-blur-lg hover:border-cyan-400/40 transition-all duration-300"
       >
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0">
+        {/* Enhanced Background gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/8 to-purple-500/8 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+        {/* Image Container - Slightly larger */}
+        <div className="relative h-56 overflow-hidden">
           {event.image ? (
-            <img 
-              src={event.image} 
+            <img
+              src={event.image}
               alt={event.title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900"></div>
+            <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+              <div className="text-white text-center">
+                <div className="text-lg font-bold">{event.title}</div>
+                <div className="text-sm opacity-75">No image available</div>
+              </div>
+            </div>
           )}
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-all duration-300"></div>
-          {/* Gradient overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+
+          {/* Event Type Badge - Enhanced */}
+          <div className="absolute top-4 left-4">
+            <span className={`px-3 py-1.5 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.type)}`}>
+              {event.type.toUpperCase()}
+            </span>
+          </div>
+
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/35 group-hover:bg-black/25 transition-all duration-300"></div>
         </div>
 
-        {/* Event Type Badge */}
-        <div className="absolute top-4 left-4 z-10">
-          <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.type)}`}>
-            {event.type.toUpperCase()}
-          </span>
+        {/* Content - Enhanced */}
+        <div className="relative z-10 p-6">
+          <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2">
+            {event.title}
+          </h3>
+
+          <p className="text-gray-300 text-base leading-relaxed mb-4 line-clamp-3">
+            {event.description}
+          </p>
+
+          {/* Event Meta - Enhanced */}
+          <div className="flex flex-col gap-3 text-sm text-gray-400 mb-4">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-cyan-400" />
+              <span className="font-medium">{formatDate(event.date)}</span>
+            </div>
+            {event.location && (
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-cyan-400" />
+                <span className="font-medium">{event.location}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Highlights - If available */}
+          {event.highlights && event.highlights.length > 0 && (
+            <div className="mb-4">
+              <div className="flex flex-wrap gap-2">
+                {event.highlights.slice(0, 3).map((highlight, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1 bg-gradient-to-r from-cyan-500/15 to-purple-500/15 border border-cyan-400/25 rounded-full text-xs text-cyan-400 font-medium"
+                  >
+                    {highlight}
+                  </span>
+                ))}
+                {event.highlights.length > 3 && (
+                  <span className="px-3 py-1 bg-gradient-to-r from-purple-500/15 to-pink-500/15 border border-purple-400/25 rounded-full text-xs text-purple-400 font-medium">
+                    +{event.highlights.length - 3} more
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
+      </motion.div>
+    )
+  };
 
-        {/* Content */}
-        <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
-          <div className="transform transition-transform duration-300 group-hover:translate-y-[-8px]">
-            <h3 className="text-2xl font-bold text-white mb-3 leading-tight">
-              {event.title}
-            </h3>
-            <p className="text-gray-200 text-sm leading-relaxed mb-4 line-clamp-2">
-              {event.description}
-            </p>
+  const FeaturedEventCard = ({ event, index }: { event: Event; index: number }) => {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8, delay: index * 0.1 }}
+        className="group relative overflow-hidden rounded-3xl border border-cyan-400/30 bg-black/80 backdrop-blur-lg hover:border-cyan-400/50 transition-all duration-300 col-span-full md:col-span-3"
+      >
+        {/* Enhanced Background gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-            {/* Action Button */}
-            {event.fullDescription && (
-              <button 
-                onClick={(e) => handleViewDetails(event, e.currentTarget.closest('.event-card') as HTMLElement)}
-                className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white font-medium hover:bg-white/30 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
-              >
-                View More
-                <Info className="w-4 h-4" />
-              </button>
+        <div className="flex flex-col lg:flex-row">
+          {/* Image Container - Larger */}
+          <div className="relative lg:w-1/2 h-64 lg:h-auto overflow-hidden">
+            {event.image ? (
+              <img
+                src={event.image}
+                alt={event.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+                <div className="text-white text-center">
+                  <div className="text-2xl font-bold">{event.title}</div>
+                  <div className="text-sm opacity-75">No image available</div>
+                </div>
+              </div>
+            )}
+
+            {/* Event Type Badge - Larger */}
+            <div className="absolute top-6 left-6">
+              <span className={`px-4 py-2 rounded-full text-sm font-semibold text-white ${getEventTypeColor(event.type)}`}>
+                {event.type.toUpperCase()}
+              </span>
+            </div>
+
+            {/* Featured Badge */}
+            <div className="absolute top-6 right-6">
+              <span className="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full text-xs font-semibold text-white">
+                FEATURED
+              </span>
+            </div>
+
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
+          </div>
+
+          {/* Content - Larger and more detailed */}
+          <div className="relative z-10 p-8 lg:w-1/2 flex flex-col justify-between">
+            <div>
+              <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors duration-300">
+                {event.title}
+              </h3>
+
+              <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                {event.description}
+              </p>
+
+              {/* Event Meta - Enhanced */}
+              <div className="flex flex-col sm:flex-row gap-4 text-sm text-gray-400 mb-6">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-cyan-400" />
+                  <span className="font-medium">{formatDate(event.date)}</span>
+                </div>
+                {event.location && (
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-cyan-400" />
+                    <span className="font-medium">{event.location}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Highlights */}
+              {event.highlights && event.highlights.length > 0 && (
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-white mb-3">Event Details</h4>
+                  <div className="flex flex-wrap gap-3">
+                    {event.highlights.map((highlight, idx) => (
+                      <span
+                        key={idx}
+                        className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-400 font-medium"
+                      >
+                        {highlight}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Register Button */}
+            {event.registrationLink && (
+              <div className="mt-6">
+                <a
+                  href={event.registrationLink}
+                  className="inline-flex items-center justify-center gap-3 w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg rounded-xl hover:from-cyan-400 hover:to-purple-400 hover:shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105"
+                >
+                  Register Now
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </a>
+              </div>
             )}
           </div>
         </div>
-
-        {/* Hover effect overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
       </motion.div>
     )
-  }
+  };
 
   return (
-    <section id="events" ref={sectionRef} className="py-16 xs:py-20 dotted-bg-primary relative overflow-hidden">
+    <section id="events" className="py-16 xs:py-20 dotted-bg-primary relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -186,287 +278,53 @@ export default function EventsSection() {
 
         {/* Events Content */}
         {activeTab === 'past' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 lg:gap-8">
-            {pastEvents.map((event, index) => (
-              <EventCard key={event.id} event={event} index={index} />
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {pastEvents.length > 0 ? (
+              pastEvents.map((event, index) => (
+                <EventCard key={event.id} event={event} index={index} />
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-400 text-lg">No past events available</p>
+              </div>
+            )}
           </div>
         )}
 
-        {activeTab === 'upcoming' && upcomingEvents.length > 0 && (
-          <div className="max-w-5xl mx-auto">
-            {(() => {
-              const event = upcomingEvents[0]
-              return (
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className="relative overflow-hidden rounded-3xl border border-white/10 bg-black/60 backdrop-blur-lg"
-                >
-                  {/* Background image */}
-                  <div className="absolute inset-0">
-                    {event.image ? (
-                      <img src={event.image} alt={event.title} className="w-full h-full object-cover opacity-30" />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900"></div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-black via-black/60 to-transparent" />
-                  </div>
+        {activeTab === 'upcoming' && (
+          <div className="space-y-8">
+            {/* Featured Event - EasyEDA Workshop */}
+            {upcomingEvents.find(event => event.id === 'easyeda-2025-09-23') && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                <FeaturedEventCard
+                  event={upcomingEvents.find(event => event.id === 'easyeda-2025-09-23')!}
+                  index={0}
+                />
+              </div>
+            )}
 
-                  {/* Content */}
-                  <div className="relative z-10 p-6 xs:p-8 md:p-10">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                      <div className="max-w-2xl">
-                        <div className="flex items-center gap-2 mb-3">
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.type)}`}>
-                            {event.type.toUpperCase()}
-                          </span>
-                          <div className="flex items-center gap-1.5 text-sm text-gray-300">
-                            <Calendar className="w-4 h-4" />
-                            {formatDate(event.date)}
-                          </div>
-                          {event.location && (
-                            <div className="flex items-center gap-1.5 text-sm text-gray-300">
-                              <MapPin className="w-4 h-4" />
-                              {event.location}
-                            </div>
-                          )}
-                        </div>
-                        <h3 className="text-2xl xs:text-3xl md:text-4xl font-extrabold text-white mb-3">
-                          {event.title}
-                        </h3>
-                        <div className="text-gray-200 text-sm md:text-base max-w-2xl">
-                          <p className="mb-2">{event.description}</p>
-                          <div className="space-y-1">
-                            <div>• Time: 9am - 4pm</div>
-                            <div>• Venue: {event.location}</div>
-                            <div>• Fee: ₹100 per head</div>
-                            <div>• Laptops are compulsory</div>
-                          </div>
-                        </div>
-                      </div>
+            {/* Other Upcoming Events */}
+            {upcomingEvents.filter(event => event.id !== 'easyeda-2025-09-23').length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {upcomingEvents
+                  .filter(event => event.id !== 'easyeda-2025-09-23')
+                  .map((event, index) => (
+                    <EventCard key={event.id} event={event} index={index + 1} />
+                  ))
+                }
+              </div>
+            )}
 
-                      {/* Countdown */}
-                      <div className="shrink-0">
-                        <div className="text-center mb-2 text-gray-300 text-xs md:text-sm">Registration closes on Sep 19</div>
-                        <div className="grid grid-cols-4 gap-2">
-                          {[
-                            { label: 'Days', value: timeLeft.days },
-                            { label: 'Hours', value: timeLeft.hours },
-                            { label: 'Mins', value: timeLeft.minutes },
-                            { label: 'Secs', value: timeLeft.seconds },
-                          ].map((t) => (
-                            <div key={t.label} className="bg-white/10 border border-white/20 rounded-xl px-3 py-2 text-center">
-                              <div className="text-xl md:text-2xl font-bold text-white leading-none">{t.value.toString().padStart(2, '0')}</div>
-                              <div className="text-[10px] md:text-xs text-gray-300 mt-1">{t.label}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Highlights */}
-                    {event.highlights && (
-                      <div className="flex flex-wrap gap-2 mt-6">
-                        {event.highlights.map((h, i) => (
-                          <span key={i} className="px-3 py-1.5 bg-devbraze-gradient/10 border border-devbraze-blue/30 text-devbraze-blue rounded-lg text-xs md:text-sm">
-                            {h}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* CTA */}
-                    <div className="mt-6 md:mt-8">
-                      <a
-                        href={event.registrationLink || '#'}
-                        className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-semibold hover:from-cyan-400 hover:to-purple-400 transition-all duration-300"
-                      >
-                        Register Now
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    </div>
-                  </div>
-                </motion.div>
-              )
-            })()}
+            {/* No events message */}
+            {upcomingEvents.length === 0 && (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-400 text-lg">No upcoming events at the moment</p>
+                <p className="text-gray-500 text-sm mt-2">Check back soon for new events!</p>
+              </div>
+            )}
           </div>
         )}
-
-        {activeTab === 'upcoming' && upcomingEvents.length === 0 && (
-          <div className="max-w-xs xs:max-w-lg sm:max-w-2xl md:max-w-4xl mx-auto">
-            <div className="text-center py-12 xs:py-16">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="bg-gradient-to-br from-blue-900/30 to-purple-900/30 border border-cyan-500/30 rounded-2xl xs:rounded-3xl p-8 xs:p-12 backdrop-blur-sm"
-              >
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-2xl xs:rounded-3xl blur-xl"></div>
-                  <div className="relative">
-                    <Bell className="w-16 h-16 xs:w-20 xs:h-20 text-cyan-400 mx-auto mb-4 xs:mb-6 animate-pulse" />
-                    <h3 className="text-2xl xs:text-3xl font-bold text-white mb-3 xs:mb-4 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                      No Upcoming Events
-                    </h3>
-                    <p className="text-gray-300 mb-6 xs:mb-8 text-base xs:text-lg">
-                      Subscribe to get updates about our next event
-                    </p>
-                    
-                    <form onSubmit={handleEmailSubmit} className="max-w-sm xs:max-w-md mx-auto">
-                      <div className="flex flex-col xs:flex-row gap-3 xs:gap-4">
-                        <div className="relative flex-1">
-                          <Mail className="absolute left-2.5 xs:left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 xs:w-5 xs:h-5 text-cyan-400" />
-                          <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
-                            required
-                            className="w-full pl-8 xs:pl-10 pr-3 xs:pr-4 py-2.5 xs:py-3 bg-black/50 border border-cyan-500/30 rounded-lg xs:rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 text-sm xs:text-base"
-                          />
-                        </div>
-                        <motion.button
-                          type="submit"
-                          disabled={isSubscribed}
-                          className="px-4 xs:px-6 py-2.5 xs:py-3 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-lg xs:rounded-xl text-white font-semibold hover:from-cyan-400 hover:to-purple-400 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm xs:text-base"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                        >
-                          {isSubscribed ? 'Subscribed!' : 'Subscribe'}
-                        </motion.button>
-                      </div>
-                    </form>
-                    
-                    {isSubscribed && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mt-3 xs:mt-4 text-green-400 font-medium text-sm xs:text-base"
-                      >
-                        ✓ Successfully subscribed! You'll be notified about upcoming events.
-                      </motion.div>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        )}
-
-        {/* Call to Action */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mt-16"
-        >
-        </motion.div>
       </div>
-
-      {/* Event Detail Modal */}
-      <AnimatePresence>
-        {selectedEvent && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[50] flex items-start justify-center p-4"
-            onClick={() => setSelectedEvent(null)}
-            style={{
-              paddingTop: `${modalPosition.y + (sectionRef.current?.offsetTop || 0)}px`
-            }}
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-2xl p-6 xs:p-8 w-[95%] max-w-6xl max-h-[90vh] overflow-y-auto relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedEvent(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200"
-              >
-                <X className="w-5 h-5 text-white" />
-              </button>
-
-              {/* Event Header */}
-              <div className="mb-6">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${getEventTypeColor(selectedEvent.type)}`}>
-                    {selectedEvent.type.toUpperCase()}
-                  </span>
-                  <div className="flex items-center gap-1.5 text-sm text-gray-400">
-                    <Calendar className="w-4 h-4" />
-                    {formatDate(selectedEvent.date)}
-                  </div>
-                </div>
-                <h3 className="text-2xl xs:text-3xl font-bold text-white mb-2 bg-gradient-to-r from-devbraze-blue to-devbraze-purple bg-clip-text text-transparent">
-                  {selectedEvent.title}
-                </h3>
-                {selectedEvent.location && (
-                  <div className="flex items-center gap-2 text-gray-400">
-                    <MapPin className="w-4 h-4" />
-                    {selectedEvent.location}
-                  </div>
-                )}
-              </div>
-
-              {/* Event Description */}
-              <div className="mb-6">
-                <h4 className="text-lg font-semibold text-white mb-3">About This Event</h4>
-                <p className="text-gray-300 leading-relaxed whitespace-pre-line">
-                  {selectedEvent.fullDescription}
-                </p>
-              </div>
-
-              {/* Highlights */}
-              {selectedEvent.highlights && (
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-white mb-3">Event Highlights</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedEvent.highlights.map((highlight, idx) => (
-                      <span
-                        key={idx}
-                        className="px-3 py-1.5 bg-devbraze-gradient/20 border border-devbraze-blue/30 rounded-lg text-sm text-devbraze-blue font-medium"
-                      >
-                        {highlight}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Image Gallery */}
-              {selectedEvent.images && selectedEvent.images.length > 0 && (
-                <div>
-                  <h4 className="text-lg font-semibold text-white mb-3">
-                    Event Gallery ({selectedEvent.images.length} photos)
-                  </h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    {selectedEvent.images.map((image, idx) => (
-                      <div key={idx} className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden">
-                        <img 
-                          src={image} 
-                          alt={`${selectedEvent.title} - Image ${idx + 1}`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   )
 }
