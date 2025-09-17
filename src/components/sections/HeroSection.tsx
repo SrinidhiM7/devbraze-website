@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ChevronDown, Users, Calendar, Code, Linkedin, Instagram } from 'lucide-react'
+import { Users, Calendar, Code, Linkedin, Instagram, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 
 export default function HeroSection() {
@@ -32,13 +32,6 @@ export default function HeroSection() {
     { icon: Linkedin, href: 'https://www.linkedin.com/in/devbraze-reva-204872289', label: 'LinkedIn' },
     { icon: Instagram, href: 'https://www.instagram.com/devbraze_reva', label: 'Instagram' }
   ]
-
-  const scrollToNext = () => {
-    const aboutSection = document.querySelector('#about')
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
 
   // Simplified animation variants for mobile
   const mobileAnimationVariants = {
@@ -167,16 +160,16 @@ export default function HeroSection() {
           ref={statsRef}
           {...animationVariants}
           transition={{ ...animationVariants.transition, delay: 0.7 }}
-          className="grid grid-cols-3 gap-4 xs:gap-6 sm:gap-8 max-w-sm xs:max-w-lg sm:max-w-2xl mx-auto px-4 xs:px-0"
+          className="grid grid-cols-3 gap-4 xs:gap-6 sm:gap-8 max-w-sm xs:max-w-lg sm:max-w-2xl mx-auto px-4 xs:px-0 mb-8 xs:mb-12"
         >
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ 
-                duration: isMobile ? 0.4 : 0.6, 
-                delay: 0.9 + index * (isMobile ? 0.05 : 0.1) 
+              transition={{
+                duration: isMobile ? 0.4 : 0.6,
+                delay: 0.9 + index * (isMobile ? 0.05 : 0.1)
               }}
               className="text-center"
             >
@@ -194,59 +187,55 @@ export default function HeroSection() {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Social Media Icons - Below Stats */}
+        <motion.div
+          {...animationVariants}
+          transition={{ ...animationVariants.transition, delay: 0.9 }}
+          className="flex justify-center gap-4 xs:gap-6 sm:gap-8 px-4 xs:px-0"
+        >
+          {socialLinks.map((social, index) => (
+            <motion.a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 xs:p-4 bg-white/10 backdrop-blur-sm rounded-xl hover:bg-devbraze-gradient transition-all duration-300 group"
+              whileHover={!isMobile ? { scale: 1.05, y: -2 } : {}}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: isMobile ? 0.4 : 0.6,
+                delay: 1.1 + index * (isMobile ? 0.05 : 0.1)
+              }}
+            >
+              <social.icon className="w-5 h-5 xs:w-6 xs:h-6 text-white group-hover:scale-110 transition-transform duration-300" />
+            </motion.a>
+          ))}
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          {...animationVariants}
+          transition={{ ...animationVariants.transition, delay: 1.1 }}
+          className="mt-8 xs:mt-12 flex justify-center"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="cursor-pointer"
+            onClick={() => {
+              const nextSection = document.getElementById('about');
+              if (nextSection) {
+                nextSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+          >
+            <ChevronDown className="w-6 h-6 xs:w-8 xs:h-8 text-devbraze-blue hover:text-cyan-300 transition-colors duration-300" />
+          </motion.div>
+        </motion.div>
       </div>
-
-      {/* Social Media Icons - Desktop */}
-      <motion.div
-        initial={{ opacity: 0, x: 30 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, delay: 1.2 }}
-        className="absolute bottom-6 xs:bottom-8 right-4 xs:right-8 hidden sm:flex flex-col gap-3 xs:gap-4"
-      >
-        {socialLinks.map((social, index) => (
-          <motion.a
-            key={social.label}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 xs:p-3 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-devbraze-gradient transition-colors duration-300"
-            whileHover={!isMobile ? { scale: 1.05 } : {}}
-            whileTap={{ scale: 0.95 }}
-          >
-            <social.icon className="w-5 h-5 xs:w-6 xs:h-6 text-white" />
-          </motion.a>
-        ))}
-      </motion.div>
-
-      {/* Social Media Icons - Mobile */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.2 }}
-        className="absolute bottom-16 xs:bottom-20 left-1/2 transform -translate-x-1/2 sm:hidden flex gap-3 xs:gap-4"
-      >
-        {socialLinks.map((social, index) => (
-          <a
-            key={social.label}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 xs:p-3 bg-white/10 backdrop-blur-sm rounded-lg active:bg-devbraze-gradient transition-colors duration-200"
-          >
-            <social.icon className="w-4 h-4 xs:w-5 xs:h-5 text-white" />
-          </a>
-        ))}
-      </motion.div>
-
-      {/* Scroll Indicator - Simplified animation */}
-      <motion.button
-        onClick={scrollToNext}
-        className="absolute bottom-4 xs:bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 text-white/60 hover:text-white transition-colors duration-300"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <ChevronDown className="w-6 h-6 xs:w-8 xs:h-8" />
-      </motion.button>
     </section>
   )
 }

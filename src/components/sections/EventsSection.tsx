@@ -1,12 +1,17 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Calendar, MapPin } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Calendar, MapPin, Info, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { pastEvents, upcomingEvents, Event } from '@/data/events'
 
 export default function EventsSection() {
   const [activeTab, setActiveTab] = useState<'past' | 'upcoming'>('upcoming')
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
+  const [selectedPastEvent, setSelectedPastEvent] = useState<Event | null>(null)
+  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 })
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const sectionRef = useRef<HTMLDivElement>(null)
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -28,6 +33,38 @@ export default function EventsSection() {
     return colors[type as keyof typeof colors] || 'bg-gray-500'
   }
 
+  const handleViewPastEventDetails = (event: Event, cardElement: HTMLElement) => {
+    setSelectedPastEvent(event)
+    setCurrentImageIndex(0)
+
+    // Position modal at the same vertical level as the clicked card
+    if (sectionRef.current && cardElement) {
+      const sectionRect = sectionRef.current.getBoundingClientRect()
+      const cardRect = cardElement.getBoundingClientRect()
+
+      setModalPosition({
+        x: 0, // Keep x as 0 for horizontal centering
+        y: cardRect.top - sectionRect.top
+      })
+    }
+  }
+
+  const nextImage = () => {
+    if (selectedPastEvent?.images) {
+      setCurrentImageIndex((prev) => 
+        prev === selectedPastEvent.images!.length - 1 ? 0 : prev + 1
+      )
+    }
+  }
+
+  const prevImage = () => {
+    if (selectedPastEvent?.images) {
+      setCurrentImageIndex((prev) => 
+        prev === 0 ? selectedPastEvent.images!.length - 1 : prev - 1
+      )
+    }
+  }
+
   const EventCard = ({ event, index }: { event: Event; index: number }) => {
     return (
       <motion.div
@@ -35,52 +72,44 @@ export default function EventsSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6, delay: index * 0.1 }}
-        className="group relative overflow-hidden rounded-3xl border border-cyan-400/20 bg-black/70 backdrop-blur-lg hover:border-cyan-400/40 transition-all duration-300"
+        className="group relative overflow-hidden rounded-3xl border border-cyan-400/20 bg-black/70 backdrop-blur-lg hover:border-cyan-400/40 transition-all duration-300 h-full min-h-[500px] flex flex-col"
       >
-        {/* Enhanced Background gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/8 to-purple-500/8 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-        {/* Image Container - Slightly larger */}
-        <div className="relative h-56 overflow-hidden">
-          {event.image ? (
+        {/* Background Image - Full Card */}
+        {event.image && (
+          <div className="absolute inset-0">
             <img
               src={event.image}
               alt={event.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               loading="lazy"
             />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
-              <div className="text-white text-center">
-                <div className="text-lg font-bold">{event.title}</div>
-                <div className="text-sm opacity-75">No image available</div>
-              </div>
-            </div>
-          )}
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-all duration-300"></div>
+          </div>
+        )}
 
+        {/* Enhanced Background gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/8 to-purple-500/8 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+        {/* Content - Positioned over image */}
+        <div className="relative z-10 p-6 flex-1 flex flex-col h-full">
           {/* Event Type Badge - Enhanced */}
-          <div className="absolute top-4 left-4">
-            <span className={`px-3 py-1.5 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.type)}`}>
+          <div className="mb-4">
+            <span className={`px-3 py-1.5 rounded-full text-xs font-semibold text-white ${getEventTypeColor(event.type)} shadow-lg`}>
               {event.type.toUpperCase()}
             </span>
           </div>
 
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-black/35 group-hover:bg-black/25 transition-all duration-300"></div>
-        </div>
-
-        {/* Content - Enhanced */}
-        <div className="relative z-10 p-6">
-          <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2">
+          <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300 line-clamp-2 drop-shadow-lg">
             {event.title}
           </h3>
 
-          <p className="text-gray-300 text-base leading-relaxed mb-4 line-clamp-3">
+          <p className="text-gray-200 text-base leading-relaxed mb-4 line-clamp-3 flex-1 drop-shadow-md">
             {event.description}
           </p>
 
           {/* Event Meta - Enhanced */}
-          <div className="flex flex-col gap-3 text-sm text-gray-400 mb-4">
+          <div className="flex flex-col gap-3 text-sm text-gray-200 mb-4 drop-shadow-md">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4 text-cyan-400" />
               <span className="font-medium">{formatDate(event.date)}</span>
@@ -100,19 +129,30 @@ export default function EventsSection() {
                 {event.highlights.slice(0, 3).map((highlight, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1 bg-gradient-to-r from-cyan-500/15 to-purple-500/15 border border-cyan-400/25 rounded-full text-xs text-cyan-400 font-medium"
+                    className="px-3 py-1 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/25 rounded-full text-xs text-cyan-400 font-medium backdrop-blur-sm"
                   >
                     {highlight}
                   </span>
                 ))}
                 {event.highlights.length > 3 && (
-                  <span className="px-3 py-1 bg-gradient-to-r from-purple-500/15 to-pink-500/15 border border-purple-400/25 rounded-full text-xs text-purple-400 font-medium">
+                  <span className="px-3 py-1 bg-gradient-to-r from-purple-500/15 to-pink-500/15 border border-purple-400/25 rounded-full text-xs text-purple-400 font-medium backdrop-blur-sm">
                     +{event.highlights.length - 3} more
                   </span>
                 )}
               </div>
             </div>
           )}
+
+          {/* View More Button - Always at bottom */}
+          <div className="mt-auto">
+            <button
+              onClick={(e) => handleViewPastEventDetails(event, e.currentTarget.closest('.group') as HTMLElement)}
+              className="w-full px-4 py-3 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-xl text-cyan-400 hover:from-cyan-500/30 hover:to-purple-500/30 hover:border-cyan-400 transition-all duration-300 flex items-center justify-center gap-2 font-medium backdrop-blur-sm"
+            >
+              <Info className="w-4 h-4" />
+              View More
+            </button>
+          </div>
         </div>
       </motion.div>
     )
@@ -125,113 +165,97 @@ export default function EventsSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.8, delay: index * 0.1 }}
-        className="group relative overflow-hidden rounded-3xl border border-cyan-400/30 bg-black/80 backdrop-blur-lg hover:border-cyan-400/50 transition-all duration-300 col-span-full md:col-span-3"
+        className="group relative overflow-hidden rounded-3xl border border-cyan-400/30 bg-black/80 backdrop-blur-lg hover:border-cyan-400/50 transition-all duration-300 col-span-full md:col-span-3 min-h-[500px] flex flex-col"
       >
+        {/* Background Image - Full Card */}
+        {event.image && (
+          <div className="absolute inset-0">
+            <img
+              src={event.image}
+              alt={event.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-all duration-300"></div>
+          </div>
+        )}
+
         {/* Enhanced Background gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-        <div className="flex flex-col lg:flex-row">
-          {/* Image Container - Larger */}
-          <div className="relative lg:w-1/2 h-64 lg:h-auto overflow-hidden">
-            {event.image ? (
-              <img
-                src={event.image}
-                alt={event.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-              />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
-                <div className="text-white text-center">
-                  <div className="text-2xl font-bold">{event.title}</div>
-                  <div className="text-sm opacity-75">No image available</div>
-                </div>
-              </div>
-            )}
-
-            {/* Event Type Badge - Larger */}
-            <div className="absolute top-6 left-6">
-              <span className={`px-4 py-2 rounded-full text-sm font-semibold text-white ${getEventTypeColor(event.type)}`}>
+        {/* Content - Positioned over image */}
+        <div className="relative z-10 p-8 flex flex-col justify-between h-full">
+          {/* Top Section - Badges and Title */}
+          <div>
+            {/* Event Type Badge */}
+            <div className="flex flex-wrap gap-3 mb-6">
+              <span className={`px-4 py-2 rounded-full text-sm font-semibold text-white ${getEventTypeColor(event.type)} shadow-lg backdrop-blur-sm`}>
                 {event.type.toUpperCase()}
               </span>
             </div>
 
-            {/* Featured Badge */}
-            <div className="absolute top-6 right-6">
-              <span className="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full text-xs font-semibold text-white">
-                FEATURED
-              </span>
-            </div>
+            <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors duration-300 drop-shadow-lg">
+              {event.title}
+            </h3>
 
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-all duration-300"></div>
-          </div>
+            <p className="text-gray-200 text-lg leading-relaxed mb-6 drop-shadow-md">
+              {event.description}
+            </p>
 
-          {/* Content - Larger and more detailed */}
-          <div className="relative z-10 p-8 lg:w-1/2 flex flex-col justify-between">
-            <div>
-              <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-cyan-400 transition-colors duration-300">
-                {event.title}
-              </h3>
-
-              <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                {event.description}
-              </p>
-
-              {/* Event Meta - Enhanced */}
-              <div className="flex flex-col sm:flex-row gap-4 text-sm text-gray-400 mb-6">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-cyan-400" />
-                  <span className="font-medium">{formatDate(event.date)}</span>
-                </div>
-                {event.location && (
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-cyan-400" />
-                    <span className="font-medium">{event.location}</span>
-                  </div>
-                )}
+            {/* Event Meta - Enhanced */}
+            <div className="flex flex-col sm:flex-row gap-4 text-sm text-gray-200 mb-6 drop-shadow-md">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-cyan-400" />
+                <span className="font-medium">{formatDate(event.date)}</span>
               </div>
-
-              {/* Highlights */}
-              {event.highlights && event.highlights.length > 0 && (
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-white mb-3">Event Details</h4>
-                  <div className="flex flex-wrap gap-3">
-                    {event.highlights.map((highlight, idx) => (
-                      <span
-                        key={idx}
-                        className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-400 font-medium"
-                      >
-                        {highlight}
-                      </span>
-                    ))}
-                  </div>
+              {event.location && (
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-cyan-400" />
+                  <span className="font-medium">{event.location}</span>
                 </div>
               )}
             </div>
 
-            {/* Register Button */}
-            {event.registrationLink && (
-              <div className="mt-6">
-                <a
-                  href={event.registrationLink}
-                  className="inline-flex items-center justify-center gap-3 w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg rounded-xl hover:from-cyan-400 hover:to-purple-400 hover:shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105"
-                >
-                  Register Now
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </a>
+            {/* Highlights */}
+            {event.highlights && event.highlights.length > 0 && (
+              <div className="mb-6">
+                <h4 className="text-lg font-semibold text-white mb-3 drop-shadow-lg">Event Details</h4>
+                <div className="flex flex-wrap gap-3">
+                  {event.highlights.map((highlight, idx) => (
+                    <span
+                      key={idx}
+                      className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-400 font-medium backdrop-blur-sm"
+                    >
+                      {highlight}
+                    </span>
+                  ))}
+                </div>
               </div>
             )}
           </div>
+
+          {/* Register Button - Bottom */}
+          {event.registrationLink && (
+            <div className="mt-6">
+              <a
+                href={event.registrationLink}
+                className="inline-flex items-center justify-center gap-3 w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg rounded-xl hover:from-cyan-400 hover:to-purple-400 hover:shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105 backdrop-blur-sm"
+              >
+                Register Now
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </a>
+            </div>
+          )}
         </div>
       </motion.div>
     )
   };
 
   return (
-    <section id="events" className="py-16 xs:py-20 dotted-bg-primary relative overflow-hidden">
+    <section id="events" ref={sectionRef} className="py-16 xs:py-20 dotted-bg-primary relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -325,6 +349,163 @@ export default function EventsSection() {
           </div>
         )}
       </div>
+
+      {/* Past Events Detail Modal */}
+      <AnimatePresence>
+        {selectedPastEvent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[50] flex items-start justify-center p-3 xs:p-4 sm:p-6"
+            onClick={() => setSelectedPastEvent(null)}
+            style={{
+              paddingTop: `${modalPosition.y + (sectionRef.current?.offsetTop || 0)}px`
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-gray-900/95 backdrop-blur-lg border border-white/10 rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-6 w-full max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-5xl max-h-[85vh] sm:max-h-[90vh] overflow-y-auto relative mx-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedPastEvent(null)}
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 sm:p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 z-10 touch-manipulation"
+              >
+                <X className="w-5 h-5 sm:w-5 sm:h-5 text-white" />
+              </button>
+
+              <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8">
+                {/* Image Gallery - Left Side */}
+                <div className="flex-shrink-0 lg:w-1/2">
+                  <div className="relative">
+                    {/* Main Image */}
+                    <div className="relative h-64 sm:h-80 lg:h-96 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden mb-3 sm:mb-4">
+                      {selectedPastEvent.images && selectedPastEvent.images.length > 0 ? (
+                        <img
+                          src={selectedPastEvent.images[currentImageIndex]}
+                          alt={`${selectedPastEvent.title} - Image ${currentImageIndex + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <img
+                          src={selectedPastEvent.image}
+                          alt={selectedPastEvent.title}
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </div>
+
+                    {/* Image Navigation */}
+                    {selectedPastEvent.images && selectedPastEvent.images.length > 1 && (
+                      <>
+                        {/* Navigation Buttons */}
+                        <button
+                          onClick={prevImage}
+                          className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 p-3 sm:p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors touch-manipulation"
+                        >
+                          <ChevronLeft className="w-5 h-5 sm:w-5 sm:h-5" />
+                        </button>
+                        <button
+                          onClick={nextImage}
+                          className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 p-3 sm:p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors touch-manipulation"
+                        >
+                          <ChevronRight className="w-5 h-5 sm:w-5 sm:h-5" />
+                        </button>
+
+                        {/* Thumbnail Images */}
+                        <div className="flex gap-2 sm:gap-2 overflow-x-auto pb-2">
+                          {selectedPastEvent.images.map((image, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setCurrentImageIndex(index)}
+                              className={`flex-shrink-0 w-16 h-16 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-colors touch-manipulation ${
+                                index === currentImageIndex
+                                  ? 'border-cyan-400'
+                                  : 'border-gray-600 hover:border-gray-500'
+                              }`}
+                            >
+                              <img
+                                src={image}
+                                alt={`Thumbnail ${index + 1}`}
+                                className="w-full h-full object-cover"
+                              />
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Image Counter */}
+                        <div className="text-center text-xs sm:text-sm text-gray-400 mt-2">
+                          {currentImageIndex + 1} / {selectedPastEvent.images.length}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Content - Right Side */}
+                <div className="flex-1 space-y-4 sm:space-y-6">
+                  <div>
+                    {/* Event Type Badge */}
+                    <div className="mb-4">
+                      <span className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold text-white ${getEventTypeColor(selectedPastEvent.type)}`}>
+                        {selectedPastEvent.type.toUpperCase()}
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">
+                      {selectedPastEvent.title}
+                    </h3>
+
+                    {/* Event Meta */}
+                    <div className="flex flex-col gap-3 sm:gap-4 text-xs sm:text-sm text-gray-400 mb-6">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
+                        <span className="font-medium">{formatDate(selectedPastEvent.date)}</span>
+                      </div>
+                      {selectedPastEvent.location && (
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
+                          <span className="font-medium">{selectedPastEvent.location}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Full Description */}
+                  <div>
+                    <h4 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">About the Event</h4>
+                    <p className="text-sm sm:text-base text-gray-300 leading-relaxed whitespace-pre-line">
+                      {selectedPastEvent.fullDescription || selectedPastEvent.description}
+                    </p>
+                  </div>
+
+                  {/* Highlights */}
+                  {selectedPastEvent.highlights && selectedPastEvent.highlights.length > 0 && (
+                    <div>
+                      <h4 className="text-lg sm:text-xl font-semibold text-white mb-3 sm:mb-4">Event Highlights</h4>
+                      <div className="flex flex-wrap gap-2 sm:gap-3">
+                        {selectedPastEvent.highlights.map((highlight, idx) => (
+                          <span
+                            key={idx}
+                            className="px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-full text-xs sm:text-sm text-cyan-400 font-medium"
+                          >
+                            {highlight}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
