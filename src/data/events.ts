@@ -15,39 +15,75 @@ export interface Event {
 export const pastEvents: Event[] = [
   {
     id: '1',
-    title: 'Tech Trinity',
-    description: 'Two Days of Intensive Learning & Innovation featuring Figma Workshop and GitHub & LinkedIn Mastery.',
-    fullDescription: 'DevBraze Presents Tech Trinity : Two Days of Intensive Learning & Innovation\nApril 7th-8th marked an incredible knowledge-sharing journey with our back-to-back workshops.\nThe Figma Workshop on the 7th saw Aniketh, Joyprakash Kalita, and Gourish Mokashi demonstrate the power of UI/UX design, transforming concepts into polished visual prototypes through hands-on sessions.\nOn the 8th, Deepak N and Darshan Krishna N led the GitHub & LinkedIn Mastery workshop, equipping participants with essential tools for version control and professional networking in the tech industry.',
-    date: '2024-04-07',
+    title: 'Figma Workshop',
+    description: 'Highly effective workshop providing clear insights into Figma fundamentals with valuable hands-on experience.',
+    fullDescription: 'The Figma workshop was highly effective, providing clear insights into Figma\'s fundamentals along with valuable hands-on experience. Participants left confident in their new skills and eager to apply them in future projects. The workshop covered essential UI/UX design principles, collaborative design workflows, and practical implementation techniques. Overall, the event was a great success, equipping attendees with industry-relevant skills for modern design challenges.',
+    date: '2024-08-28',
     type: 'workshop',
     image: '/images/Tech trinity  images/Picture10.png',
-    images: ['/images/Tech trinity  images/Picture10.png', '/images/Tech trinity  images/Picture11.png', '/images/Tech trinity  images/Picture12.png'],
+    images: ['/images/Tech trinity  images/Picture10.png', '/images/Tech trinity  images/Picture11.png'],
     location: 'ECE Department',
-    highlights: ['2-day event', 'UI/UX Design', 'Version Control', 'Professional Networking']
+    highlights: ['UI/UX Design', 'Hands-on Experience', 'Design Fundamentals', 'Practical Skills']
   },
   {
     id: '2',
     title: 'Tech Fusion Hackathon',
-    description: 'TECHFUSION Hackathon sponsored by Zaka Networks, focusing on Web3, IoT, AIML and open innovation.',
-    fullDescription: '</DevBraze> organized TECHFUSION Hackathon sponsored by Zaka Networks, that focused on fostering innovation and creativity in Web3, IoT, AIML and open innovation. It gives an opportunity to participants to discover advanced technologies and to use the skills to solve real-life problems. This hackathon was designed for tech enthusiasts who can collaborate, learn, and network.\nThe hackathon kicked off with a briefing session highlighting the event structure, the problem statements, and what was to be delivered by the end of the hackathon. The participants divided themselves into teams, worked through a problem solution over the period, and then met mentors/ industry experts.\nThe final presentations demonstrated innovative and diverse solutions for challenges in Web3, IoT, AIML and open innovation domains. The projects were judged by a panel on creativity, feasibility, and impact.',
-    date: '2024-03-15', // Estimated date as not provided
+    description: 'Spirited hackathon where innovation met teamwork, guided by helpful mentors for problem-solving and coding challenges.',
+    fullDescription: 'Tech Fusion was a spirited hackathon where innovation met teamwork. Guided by helpful mentors, participants dove into problem-solving and coding challenges. The event\'s energetic vibe and supportive atmosphere made it a memorable success. Teams collaborated intensively to develop creative solutions, leveraging cutting-edge technologies and innovative approaches. The hackathon fostered creativity, technical excellence, and collaborative spirit among participants.',
+    date: '2024-11-23',
     type: 'hackathon',
     image: '/images/Tech fusion hackathon images/Picture1.jpg',
-    images: ['/images/Tech fusion hackathon images/Picture1.jpg', '/images/Tech fusion hackathon images/Picture2.jpg', '/images/Tech fusion hackathon images/Picture3.jpg', '/images/Tech fusion hackathon images/Picture4.jpg', '/images/Tech fusion hackathon images/Picture5.jpg'],
+    images: ['/images/Tech fusion hackathon images/Picture1.jpg', '/images/Tech fusion hackathon images/Picture2.jpg', '/images/Tech fusion hackathon images/Picture3.jpg'],
     location: 'ECE Lab Complex',
-    highlights: ['Zaka Networks Sponsor', 'Web3 & IoT Focus', 'Industry Mentors', 'Innovation Challenge']
+    highlights: ['Innovation Focus', 'Mentor Guidance', 'Team Collaboration', 'Problem Solving']
   },
   {
     id: '3',
+    title: 'Diamante Hackathon',
+    description: 'Exciting milestone organized by DevBraze in collaboration with Diamante Blockchain and ActualOne featuring Web3 and Blockchain.',
+    fullDescription: 'Diamante DevHub at REVA University was an exciting milestone organized by our DevBraze club in collaboration with Diamante Blockchain and ActualOne. The event kicked off on August 30, 2024, with an insightful Web3 and Blockchain workshop, followed by a thrilling hackathon on August 31, where over 100 participants showcased their creativity and tech skills. Supported and inspired by our esteemed faculty, this event was a tremendous success, bridging academic learning with industry innovation.',
+    date: '2024-08-31',
+    type: 'hackathon',
+    image: '/images/diamante images/1.jpg',
+    images: ['/images/diamante images/1.jpg', '/images/diamante images/2.jpg'],
+    location: 'REVA University',
+    highlights: ['Web3 & Blockchain', 'Industry Collaboration', '100+ Participants', 'Faculty Support']
+  },
+  {
+    id: '4',
     title: 'TechMania',
-    description: 'Spectacular tech event with treasure hunts, coding competitions, and quiz games in collaboration with IEEE CIS.',
-    fullDescription: 'the tech world was set ablaze with excitement at #TechMania, a spectacular event hosted by </Devbraze> in collaboration with IEEE CIS, under the adept guidance of our esteemed faculty coordinator, Dr. Chaya Ravindran, and the dynamic Secretary of CIS, Dr. Manjunath Kounte.\n\nTechMania was an electrifying showcase of talent, innovation, and camaraderie, featuring three exhilarating sub-events that left everyone in awe! From brain-teasing treasure hunts to intense coding competitions and thrilling quiz games, there was something for every tech enthusiast.\n\nBut beyond the fierce competition, what truly made TechMania special was the joy and fun shared by all the students who participated. It was a day filled with laughter, learning, and unforgettable memories.',
-    date: '2024-02-10', // Estimated date as not provided
+    description: 'Spectacular tech event bursting with excitement and high energy, featuring thrilling tech challenges and friendly competition.',
+    fullDescription: 'Tech Mania burst with excitement and high energy, bringing everyone together for a day of thrilling tech challenges. Laughter and friendly competition filled the air as members dived into creative and brain-twisting games. It was an unforgettable experience packed with fun, learning, and team spirit! The games included Binary Bounty, Blind Coding, and Debugging challenges that tested participants\' technical skills and problem-solving abilities in an entertaining format.',
+    date: '2024-02-22',
     type: 'competition',
     image: '/images/TechMania images/Picture6.jpg',
     images: ['/images/TechMania images/Picture6.jpg', '/images/TechMania images/Picture7.jpg', '/images/TechMania images/Picture8.jpg', '/images/TechMania images/Picture9.jpg'],
     location: 'ECE Department',
-    highlights: ['IEEE CIS Collaboration', 'Treasure Hunt', 'Coding Competition', 'Quiz Games']
+    highlights: ['Binary Bounty', 'Blind Coding', 'Debugging Challenge', 'Team Spirit']
+  },
+  {
+    id: '5',
+    title: 'Genesis',
+    description: 'Vibrant celebration where our club transformed into a playful and energetic space with creative and entertaining games.',
+    fullDescription: 'Genesis was a vibrant celebration where our club transformed into a playful and energetic space. Members dove into creative and entertaining games designed to spark joy and strengthen our bonds. The event radiated enthusiasm, making it a standout moment of laughter, friendly competition, and pure enjoyment for everyone. This foundational event established the community spirit and collaborative culture that would define our club\'s future activities.',
+    date: '2023-11-01',
+    type: 'seminar',
+    image: '/images/genesis images/1.jpg',
+    images: ['/images/genesis images/1.jpg', '/images/genesis images/2.jpg', '/images/genesis images/3.jpg'],
+    location: 'ECE Department',
+    highlights: ['Community Building', 'Creative Games', 'Team Bonding', 'Enthusiastic Participation']
+  },
+  {
+    id: '6',
+    title: 'Aarambha',
+    description: 'The exciting start of our club led by Prof. Anitha Kumari, where founding members came together with great energy and eagerness.',
+    fullDescription: 'Aarambha, held on November 1st, 2023, was the exciting start of our club, led by our wonderful coordinator, Prof. Anitha Kumari. All the founding members came together with great energy and eagerness to build a fun and welcoming community. The event was full of hope and excitement as we shared our goals and plans for the club\'s bright future. This inaugural event marked the official beginning of our journey toward creating a thriving tech community.',
+    date: '2023-11-01',
+    type: 'seminar',
+    image: '/images/aarambha images/1.jpg',
+    images: ['/images/aarambha images/1.jpg', '/images/aarambha images/2.jpg'],
+    location: 'ECE Department',
+    highlights: ['Inaugural Event', 'Prof. Anitha Kumari', 'Founding Members', 'Community Launch']
   }
 ];
 
@@ -61,7 +97,7 @@ export const upcomingEvents: Event[] = [
     type: 'workshop',
     image: 'https://cdn.pixabay.com/photo/2016/06/08/05/44/circuit-1443251_1280.jpg',
     location: 'CV Raman Block (102/103)',
-    registrationLink: '/register/easyeda',
+    registrationLink: 'https://forms.gle/95V5PVJw39gw9VzD8',
     highlights: ['9am - 4pm', '₹100 per head', 'Laptops compulsory', 'Hands-on session']
   }
 ];

@@ -22,13 +22,14 @@ export default function ResourcesSection() {
 
   const getGradient = (index: number) => {
     const gradients = [
-      'from-blue-500 to-cyan-500',
-      'from-purple-500 to-pink-500',
-      'from-green-500 to-emerald-500',
-      'from-yellow-500 to-orange-500',
-      'from-red-500 to-pink-500'
+      { fallback: 'bg-blue-500', gradient: 'from-blue-500 to-cyan-500' },
+      { fallback: 'bg-purple-500', gradient: 'from-purple-500 to-pink-500' },
+      { fallback: 'bg-green-500', gradient: 'from-green-500 to-emerald-500' },
+      { fallback: 'bg-yellow-500', gradient: 'from-yellow-500 to-orange-500' },
+      { fallback: 'bg-red-500', gradient: 'from-red-500 to-pink-500' }
     ]
-    return gradients[index % gradients.length]
+    const selected = gradients[index % gradients.length]
+    return `${selected.fallback} bg-gradient-to-r ${selected.gradient}`
   }
 
   return (
@@ -48,10 +49,10 @@ export default function ResourcesSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 xs:mb-16"
         >
-          <h2 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
-            Learning <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Resources</span>
+          <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+            Learning <span className="gradient-text">Resources</span>
           </h2>
-          <p className="text-lg xs:text-xl text-gray-400 max-w-3xl mx-auto px-4 xs:px-0">
+          <p className="text-lg xs:text-xl text-gray-300 max-w-3xl mx-auto px-4 xs:px-0 drop-shadow-md">
             Essential resources and documentation to accelerate your development journey
           </p>
         </motion.div>
@@ -88,7 +89,7 @@ export default function ResourcesSection() {
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                 <div className="relative bg-black/60 backdrop-blur-lg border border-cyan-500/30 rounded-2xl p-6 hover:border-cyan-400/50 transition-all duration-300 h-full flex flex-col">
                   <div className="flex items-center justify-center mb-4">
-                    <div className={`p-3 bg-gradient-to-r ${getGradient(index)} rounded-xl`}>
+                    <div className={`p-3 ${getGradient(index)} rounded-xl shadow-lg`}>
                       {getIcon(learningResources[activeCategory].id)}
                     </div>
                   </div>

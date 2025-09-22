@@ -1,28 +1,31 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import { Linkedin, Instagram, Mail, MapPin, Phone, ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 
 export default function Footer() {
+  const router = useRouter()
+  
   const socialLinks = [
     {
       name: 'LinkedIn',
       icon: Linkedin,
       href: 'https://www.linkedin.com/in/devbraze-reva-204872289',
-      color: 'hover:text-blue-400'
+      color: 'text-blue-400 hover:text-blue-300 active:text-blue-500'
     },
     {
       name: 'Instagram',
       icon: Instagram,
       href: 'https://www.instagram.com/devbraze_reva',
-      color: 'hover:text-pink-400'
+      color: 'text-pink-400 hover:text-pink-300 active:text-pink-500'
     }
   ]
 
   const quickLinks = [
     { name: 'About Us', href: '#about' },
-    { name: 'Events', href: '#events' },
+    { name: 'Events', href: '/events' },
     { name: 'Team', href: '#team' },
     { name: 'Resources', href: '#resources' },
     { name: 'Join Us', href: '#join' }
@@ -47,9 +50,23 @@ export default function Footer() {
   ]
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+    if (href.startsWith('/')) {
+      // Navigate to page
+      router.push(href)
+    } else {
+      // Check if we're on the home page
+      const isHomePage = window.location.pathname === '/'
+      
+      if (isHomePage) {
+        // Scroll to section on home page
+        const element = document.querySelector(href)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      } else {
+        // Navigate to home page with hash
+        router.push(`/${href}`)
+      }
     }
   }
 
@@ -90,11 +107,11 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-1.5 xs:p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all duration-300 ${social.color}`}
+                  className={`p-2 xs:p-3 rounded-lg bg-white/10 hover:bg-white/20 active:bg-white/30 transition-all duration-300 ${social.color} touch-manipulation`}
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.9 }}
                 >
-                  <social.icon className="w-4 h-4 xs:w-5 xs:h-5" />
+                  <social.icon className="w-5 h-5 xs:w-6 xs:h-6" />
                 </motion.a>
               ))}
             </div>
@@ -162,7 +179,24 @@ export default function Footer() {
           className="border-t border-white/10 mt-8 xs:mt-12 pt-6 xs:pt-8 flex flex-col sm:flex-row justify-between items-center space-y-3 xs:space-y-4 sm:space-y-0"
         >
           <p className="text-gray-400 text-xs xs:text-sm text-center sm:text-left">
-            © {new Date().getFullYear()} {"</DevBraze>"}. All rights reserved. Made with ❤️ by {"</DevBraze>"} Team.
+            © {new Date().getFullYear()} {"</DevBraze>"}. All rights reserved. Made by{" "}
+            <a 
+              href="https://www.linkedin.com/in/srinidhi-m-839290261" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-cyan-400 hover:text-cyan-300 transition-colors duration-300 hover:underline"
+            >
+              Srinidhi
+            </a>
+            {" "}and{" "}
+            <a 
+              href="https://www.linkedin.com/in/aniketh-bhosale-849480250/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-cyan-400 hover:text-cyan-300 transition-colors duration-300 hover:underline"
+            >
+              Aniketh
+            </a>.
           </p>
           <div className="flex space-x-4 xs:space-x-6 text-xs xs:text-sm">
             <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">

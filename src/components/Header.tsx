@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
@@ -8,6 +9,7 @@ import Image from 'next/image'
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,7 +22,7 @@ export default function Header() {
   const menuItems = [
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
-    { name: 'Events', href: '#events' },
+    { name: 'Events', href: '/events' },
     { name: 'Team', href: '#team' },
     { name: 'Resources', href: '#resources' },
   ]
@@ -28,10 +30,26 @@ export default function Header() {
   const joinUsItem = { name: 'Join Us', href: '#join' }
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+    if (href.startsWith('/')) {
+      // Navigate to page
+      router.push(href)
       setIsOpen(false)
+    } else {
+      // Check if we're on the home page
+      const isHomePage = window.location.pathname === '/'
+      
+      if (isHomePage) {
+        // Scroll to section on home page
+        const element = document.querySelector(href)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+          setIsOpen(false)
+        }
+      } else {
+        // Navigate to home page with hash
+        router.push(`/${href}`)
+        setIsOpen(false)
+      }
     }
   }
 
@@ -47,12 +65,12 @@ export default function Header() {
     >
       {/* Logo - Fixed Position */}
       <motion.div 
-        className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 flex items-center space-x-3 sm:space-x-3 cursor-pointer"
+        className="fixed top-3 left-3 sm:top-4 sm:left-4 z-50 flex items-center space-x-2 sm:space-x-3 cursor-pointer max-w-[calc(100vw-120px)] sm:max-w-none"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => scrollToSection('#home')}
       >
-        <div className="relative w-12 h-12 sm:w-10 sm:h-10 lg:w-12 lg:h-12">
+        <div className="relative w-10 h-10 sm:w-12 sm:h-12 lg:w-12 lg:h-12 flex-shrink-0">
           <Image
             src="/DevBraze Logo Blue Border.png"
             alt="DevBraze Logo"
@@ -61,11 +79,11 @@ export default function Header() {
             priority
           />
         </div>
-        <div className="hidden sm:block">
-          <h1 className="text-xl sm:text-xl lg:text-2xl font-bold gradient-text">
+        <div className="block min-w-0">
+          <h1 className="text-base sm:text-xl lg:text-2xl font-bold gradient-text truncate">
             {"</DevBraze>"}
           </h1>
-          <p className="text-xs text-gray-400 -mt-1 hidden sm:block">
+          <p className="text-[10px] sm:text-xs text-gray-400 -mt-1 truncate">
             School of ECE
           </p>
         </div>

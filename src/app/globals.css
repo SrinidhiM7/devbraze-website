@@ -79,6 +79,30 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  /* Fallback for mobile browsers that don't support background-clip */
+  color: transparent;
+}
+
+/* Fallback for older browsers */
+@supports not (-webkit-background-clip: text) {
+  .gradient-text {
+    color: #3fa9f5;
+  }
+}
+
+/* Mobile-safe gradient text */
+.gradient-text-mobile-safe {
+  color: #22d3ee; /* fallback cyan color */
+}
+
+@media (min-width: 768px) {
+  .gradient-text-mobile-safe {
+    background: linear-gradient(90deg, #22d3ee, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
 }
 
 /* Card hover effects */
@@ -361,6 +385,50 @@ textarea:focus {
   /* Simplify backdrop blur */
   .backdrop-blur-sm {
     backdrop-filter: blur(2px);
+  }
+
+  .backdrop-blur-md {
+    backdrop-filter: blur(4px);
+  }
+
+  .backdrop-blur-lg,
+  .backdrop-blur-xl {
+    backdrop-filter: blur(6px);
+  }
+
+  /* Hide scrollbars on mobile for cleaner look */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Optimize modal performance */
+  [role="dialog"],
+  .fixed {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+  }
+
+  /* Prevent mobile hover states from sticking */
+  .group:hover img {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Mobile-safe touch interactions */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Optimize scrolling performance */
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   /* Mobile-specific performance optimizations for events section */
