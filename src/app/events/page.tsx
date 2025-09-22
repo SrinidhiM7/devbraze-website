@@ -288,15 +288,15 @@ export default function EventsPage() {
           {/* Background Image */}
           <div className="absolute inset-0">
             <motion.img
-              src="/images/bg.jpg"
-              alt="Background"
-              className="w-full h-full object-cover filter blur-sm"
+              src="/bg.jpg"
+              alt="DevBraze Events Background"
+              className="w-full h-full object-cover"
               initial={{ scale: 1.1, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 8, ease: "easeOut" }}
             />
             {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-black/40"></div>
+            <div className="absolute inset-0 bg-black/50"></div>
           </div>
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 via-purple-900/10 to-black/30"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(34,211,238,0.1),transparent_50%)]"></div>

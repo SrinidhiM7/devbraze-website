@@ -19,7 +19,7 @@ export const teamMembers: TeamMember[] = [
     id: '1',
     name: 'Srinidhi M',
     role: 'President',
-    image: '/team/srinidhi.png',
+    image: '/team/sri.jpg',
     bio: 'An aspiring Electronics and Communication Engineer with a strong passion for intelligent systems, automation, and real-time applications. Bridging the gap between hardware and software to create innovative solutions that make a real difference. When not coding or building projects, you\'ll find him on the football pitch, capturing moments through his DSLR lens, or exploring new places.',
     skills: ['ML & Deep Learning', 'Embedded C & IoT', 'Microcontrollers', 'Python', 'App Development', 'Web Development'],
     social: {
