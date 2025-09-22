@@ -67,7 +67,7 @@ export default function AboutSection() {
             About <span className="gradient-text">{"</DevBraze>"}</span>
           </h2>
           <p className="text-lg xs:text-xl text-gray-400 max-w-xs xs:max-w-lg sm:max-w-2xl md:max-w-3xl mx-auto">
-            We are more than just a technical community - we're a family of passionate ECE students 
+            We are more than just a technical community—we're a family of passionate ECE students 
             united by our love for technology and innovation.
           </p>
         </motion.div>
@@ -95,8 +95,8 @@ export default function AboutSection() {
               </p>
               <p className="text-gray-300 leading-relaxed text-sm xs:text-base">
                 What started as a small group of coding enthusiasts has grown into a vibrant 
-                ecosystem of 250+ members, spanning various domains from web development and AI 
-                to IoT and cybersecurity. We're not just about technical skills - we're about 
+                ecosystem of over 250 members, spanning various domains from web development and AI 
+                to IoT and cybersecurity. We're not just about technical skills—we're about 
                 building lasting friendships and professional networks.
               </p>
             </div>

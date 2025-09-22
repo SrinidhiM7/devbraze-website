@@ -221,7 +221,7 @@ ${formData.name}
           </h2>
           <p className="text-lg xs:text-xl text-gray-400 max-w-xs xs:max-w-lg sm:max-w-2xl md:max-w-3xl mx-auto">
             Ready to be part of something amazing? Join our core team and help shape the future 
-            of technology education at School of ECE.
+            of technology education at the School of ECE.
           </p>
         </motion.div>
 

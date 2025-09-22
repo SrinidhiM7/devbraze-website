@@ -34,7 +34,7 @@ export default function Footer() {
   const contactInfo = [
     {
       icon: MapPin,
-      text: 'School of ECE, REVA University',
+      text: 'The School of ECE, REVA University',
       href: null
     },
     {
@@ -143,6 +143,7 @@ export default function Footer() {
 
           {/* Contact Info */}
           <motion.div
+            id="contact"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

@@ -53,7 +53,7 @@ export default function ResourcesSection() {
             Learning <span className="gradient-text">Resources</span>
           </h2>
           <p className="text-lg xs:text-xl text-gray-300 max-w-3xl mx-auto px-4 xs:px-0 drop-shadow-md">
-            Essential resources and documentation to accelerate your development journey
+            Essential resources and documentation to accelerate your learning journey
           </p>
         </motion.div>
 

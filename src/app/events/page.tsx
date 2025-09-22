@@ -729,18 +729,10 @@ export default function EventsPage() {
               Stay updated with our latest events and opportunities.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <motion.a
-                href="#join"
+                href="/#contact"
                 className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg rounded-xl hover:from-cyan-400 hover:to-purple-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Join Our Community
-              </motion.a>
-              <motion.a
-                href="#contact"
-                className="px-8 py-4 border-2 border-cyan-400/50 text-cyan-400 font-bold text-lg rounded-xl hover:bg-cyan-400/10 hover:border-cyan-400 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

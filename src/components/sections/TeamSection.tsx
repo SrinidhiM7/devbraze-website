@@ -59,7 +59,7 @@ export default function TeamSection() {
             </h2>
           </div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Meet the passionate innovators driving DevBraze forward and shaping the future of tech education
+            Meet the passionate innovators driving DevBraze forward and shaping the future of technology education
           </p>
         </motion.div>
 

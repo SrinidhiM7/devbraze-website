@@ -16,7 +16,7 @@ export const pastEvents: Event[] = [
   {
     id: '1',
     title: 'Figma Workshop',
-    description: 'Highly effective workshop providing clear insights into Figma fundamentals with valuable hands-on experience.',
+    description: 'A highly effective workshop providing clear insights into Figma fundamentals with valuable hands-on experience.',
     fullDescription: 'The Figma workshop was highly effective, providing clear insights into Figma\'s fundamentals along with valuable hands-on experience. Participants left confident in their new skills and eager to apply them in future projects. The workshop covered essential UI/UX design principles, collaborative design workflows, and practical implementation techniques. Overall, the event was a great success, equipping attendees with industry-relevant skills for modern design challenges.',
     date: '2024-08-28',
     type: 'workshop',
@@ -28,7 +28,7 @@ export const pastEvents: Event[] = [
   {
     id: '2',
     title: 'Tech Fusion Hackathon',
-    description: 'Spirited hackathon where innovation met teamwork, guided by helpful mentors for problem-solving and coding challenges.',
+    description: 'A spirited hackathon where innovation met teamwork, guided by helpful mentors for problem-solving and coding challenges.',
     fullDescription: 'Tech Fusion was a spirited hackathon where innovation met teamwork. Guided by helpful mentors, participants dove into problem-solving and coding challenges. The event\'s energetic vibe and supportive atmosphere made it a memorable success. Teams collaborated intensively to develop creative solutions, leveraging cutting-edge technologies and innovative approaches. The hackathon fostered creativity, technical excellence, and collaborative spirit among participants.',
     date: '2024-11-23',
     type: 'hackathon',
@@ -40,7 +40,7 @@ export const pastEvents: Event[] = [
   {
     id: '3',
     title: 'Diamante Hackathon',
-    description: 'Exciting milestone organized by DevBraze in collaboration with Diamante Blockchain and ActualOne featuring Web3 and Blockchain.',
+    description: 'An exciting milestone organized by DevBraze in collaboration with Diamante Blockchain and ActualOne featuring Web3 and Blockchain.',
     fullDescription: 'Diamante DevHub at REVA University was an exciting milestone organized by our DevBraze club in collaboration with Diamante Blockchain and ActualOne. The event kicked off on August 30, 2024, with an insightful Web3 and Blockchain workshop, followed by a thrilling hackathon on August 31, where over 100 participants showcased their creativity and tech skills. Supported and inspired by our esteemed faculty, this event was a tremendous success, bridging academic learning with industry innovation.',
     date: '2024-08-31',
     type: 'hackathon',
@@ -52,7 +52,7 @@ export const pastEvents: Event[] = [
   {
     id: '4',
     title: 'TechMania',
-    description: 'Spectacular tech event bursting with excitement and high energy, featuring thrilling tech challenges and friendly competition.',
+    description: 'A spectacular tech event bursting with excitement and high energy, featuring thrilling tech challenges and friendly competition.',
     fullDescription: 'Tech Mania burst with excitement and high energy, bringing everyone together for a day of thrilling tech challenges. Laughter and friendly competition filled the air as members dived into creative and brain-twisting games. It was an unforgettable experience packed with fun, learning, and team spirit! The games included Binary Bounty, Blind Coding, and Debugging challenges that tested participants\' technical skills and problem-solving abilities in an entertaining format.',
     date: '2024-02-22',
     type: 'competition',
@@ -64,7 +64,7 @@ export const pastEvents: Event[] = [
   {
     id: '5',
     title: 'Genesis',
-    description: 'Vibrant celebration where our club transformed into a playful and energetic space with creative and entertaining games.',
+    description: 'A vibrant celebration where our club transformed into a playful and energetic space with creative and entertaining games.',
     fullDescription: 'Genesis was a vibrant celebration where our club transformed into a playful and energetic space. Members dove into creative and entertaining games designed to spark joy and strengthen our bonds. The event radiated enthusiasm, making it a standout moment of laughter, friendly competition, and pure enjoyment for everyone. This foundational event established the community spirit and collaborative culture that would define our club\'s future activities.',
     date: '2023-11-01',
     type: 'seminar',
