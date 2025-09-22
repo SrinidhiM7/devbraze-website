@@ -113,7 +113,7 @@ export const metadata: Metadata = {
     canonical: 'https://devbraze.dev',
   },
   verification: {
-    google: 'PASTE_YOUR_VERIFICATION_CODE_HERE',
+    google: 'etJB6faO2R5zN5uOXwkg8JJswXHomEH5FR2jBNtbnbc',
     yandex: 'your-yandex-verification-code',
     yahoo: 'your-yahoo-verification-code',
     other: {
