@@ -89,15 +89,22 @@ export const pastEvents: Event[] = [
 
 export const upcomingEvents: Event[] = [
   {
-    id: 'easyeda-2025-09-23',
-    title: 'EasyEDA Workshop',
-    description: 'PCB Design Workshop using EasyEDA Pro',
-    fullDescription: 'Hands-on PCB Design Workshop using EasyEDA Pro. Learn the complete workflow: schematic capture, custom libraries, routing & layout techniques, exporting 2-layer PCBs, 2D/3D visualization, DRC checks, preparing Gerber files for manufacturing, and guidance on ordering PCBs through EasyEDA.',
-    date: '2025-09-23',
-    type: 'workshop',
-    image: 'https://cdn.pixabay.com/photo/2016/06/08/05/44/circuit-1443251_1280.jpg',
-    location: 'CV Raman Block (102/103)',
-    registrationLink: 'https://forms.gle/95V5PVJw39gw9VzD8',
-    highlights: ['9am - 4pm', '₹100 per head', 'Laptops compulsory', 'Hands-on session']
+    id: 'code-crusade-2025',
+    title: 'Code Crusade 2025',
+    description: 'A 14-hour hackathon bringing together developers, innovators, and problem-solvers to build solutions addressing real-world challenges aligned with UN Sustainable Development Goals.',
+    fullDescription: 'Code Crusade 2025 is a 14-hour innovation marathon bringing together developers, innovators, and problem-solvers to build solutions addressing real-world challenges aligned with UN Sustainable Development Goals. Work on cutting-edge technologies including AI, Blockchain, IoT, Cloud Computing, and Cybersecurity. Get mentorship from industry experts, network with like-minded individuals, and compete for exciting prizes and incubation support through REVA Nest.',
+    date: '2025-11-21',
+    type: 'hackathon',
+    image: 'https://cdn.pixabay.com/photo/2016/11/23/14/45/coding-1853305_1280.jpg',
+    location: 'School of ECE, REVA University',
+    registrationLink: 'https://forms.gle/aSwhGe4uGQDNdDW9A',
+    highlights: [
+      '14-hour hackathon',
+      'Mentorship from industry experts',
+      'Work on AI, Blockchain, IoT, Cloud & Cybersecurity',
+      'Exciting prizes & certificates',
+      'Incubation support via REVA Nest',
+      'Networking opportunities'
+    ]
   }
 ];
