@@ -23,6 +23,7 @@ export default function Header() {
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
     { name: 'Events', href: '/events' },
+    { name: 'Code Crusade', href: '/events/code-crusade-2025' },
     { name: 'Team', href: '#team' },
     { name: 'Resources', href: '#resources' },
   ]

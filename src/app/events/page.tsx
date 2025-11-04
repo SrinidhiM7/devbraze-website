@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, MapPin, Info, X, ChevronLeft, ChevronRight, Users, Trophy, Lightbulb, Sparkles, Zap, Target } from 'lucide-react'
 import { pastEvents, upcomingEvents, Event } from '@/data/events'
@@ -16,6 +17,7 @@ export default function EventsPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const isMobile = useIsMobile(768)
   const sectionRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
 
   useEffect(() => {
     // Smooth scrolling for the entire page
@@ -74,17 +76,23 @@ export default function EventsPage() {
   }
 
   const handleRegistrationClick = (event: Event, cardElement: HTMLElement) => {
-    setSelectedRegistrationEvent(event)
+    if (event.id === 'code-crusade-2025') {
+      // Navigate to dedicated page for Code Crusade
+      router.push('/events/code-crusade-2025')
+    } else {
+      // For other events, open modal (if needed in future)
+      setSelectedRegistrationEvent(event)
 
-    // Position modal at the same vertical level as the clicked card
-    if (cardElement) {
-      const cardRect = cardElement.getBoundingClientRect()
-      const scrollY = window.scrollY
+      // Position modal at the same vertical level as the clicked card
+      if (cardElement) {
+        const cardRect = cardElement.getBoundingClientRect()
+        const scrollY = window.scrollY
 
-      setRegistrationModalPosition({
-        x: 0, // Keep x as 0 for horizontal centering
-        y: cardRect.top + scrollY
-      })
+        setRegistrationModalPosition({
+          x: 0, // Keep x as 0 for horizontal centering
+          y: cardRect.top + scrollY
+        })
+      }
     }
   }
 
