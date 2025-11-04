@@ -81,19 +81,34 @@ export default function CodeCrusade2025Page() {
               </div>
             </div>
 
-            <motion.a
-              href="https://forms.gle/aSwhGe4uGQDNdDW9A"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg rounded-xl hover:from-cyan-400 hover:to-purple-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Register Now
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </motion.a>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <motion.a
+                href="/images/sponsors/Code crusade brochure.pdf"
+                download="Code Crusade 2025 Brochure.pdf"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-semibold text-lg rounded-xl hover:from-gray-500 hover:to-gray-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-gray-500/30"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download Brochure
+              </motion.a>
+
+              <motion.a
+                href="https://forms.gle/aSwhGe4uGQDNdDW9A"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg rounded-xl hover:from-cyan-400 hover:to-purple-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Register Now
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </motion.a>
+            </div>
           </motion.div>
         </div>
 
@@ -294,6 +309,69 @@ export default function CodeCrusade2025Page() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Sponsors Section */}
+      <section className="py-16 xs:py-20 dotted-bg-primary relative">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Award className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
+              Our <span className="gradient-text">Sponsors</span>
+            </h2>
+            <p className="text-lg xs:text-xl text-gray-400 max-w-2xl mx-auto">
+              Proudly supported by leading organizations and institutions
+            </p>
+          </motion.div>
+
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="bg-gradient-to-r from-black/40 to-gray-900/40 backdrop-blur-sm rounded-3xl p-8 border border-white/10"
+            >
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+                {[
+                  { name: "AICTE IdeaLab", logo: "/images/sponsors/AICTEIdeaLabFooterLogo.png", size: "w-24 h-16" },
+                  { name: "IEEE AP-S", logo: "/images/sponsors/AP-S.png", size: "w-20 h-20" },
+                  { name: "IEEE SPS", logo: "/images/sponsors/SPS.png", size: "w-20 h-20" },
+                                    { name: "IEEE REVA", logo: "/images/sponsors/IEEE REVA(bg removed).png", size: "w-32 h-20" }
+                ].map((sponsor, idx) => (
+                  <motion.div
+                    key={sponsor.name}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    className="flex flex-col items-center justify-center p-4 bg-white/5 rounded-xl border border-white/10 hover:border-white/20 transition-all duration-300 hover:bg-white/10 group"
+                  >
+                    <div className={`${sponsor.size} relative mb-3 group-hover:scale-110 transition-transform duration-300`}>
+                      <img
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        className="w-full h-full object-contain filter brightness-90 group-hover:brightness-100 transition-all duration-300"
+                        loading="lazy"
+                      />
+                    </div>
+                    <h4 className="text-sm font-medium text-gray-300 text-center group-hover:text-white transition-colors duration-300">
+                      {sponsor.name}
+                    </h4>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           </div>
@@ -713,19 +791,34 @@ export default function CodeCrusade2025Page() {
               </div>
             </div>
 
-            <motion.a
-              href="https://forms.gle/aSwhGe4uGQDNdDW9A"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-xl rounded-xl hover:from-cyan-400 hover:to-purple-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Register Now
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </motion.a>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <motion.a
+                href="/images/sponsors/Code crusade brochure.pdf"
+                download="Code Crusade 2025 Brochure.pdf"
+                className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-semibold text-lg rounded-xl hover:from-gray-500 hover:to-gray-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-gray-500/30"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Download Brochure
+              </motion.a>
+
+              <motion.a
+                href="https://forms.gle/aSwhGe4uGQDNdDW9A"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-xl rounded-xl hover:from-cyan-400 hover:to-purple-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Register Now
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </motion.a>
+            </div>
           </motion.div>
         </div>
       </section>
