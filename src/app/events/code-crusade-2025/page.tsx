@@ -344,12 +344,13 @@ export default function CodeCrusade2025Page() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="bg-gradient-to-r from-black/40 to-gray-900/40 backdrop-blur-sm rounded-3xl p-8 border border-white/10"
             >
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center justify-items-center">
                 {[
                   { name: "AICTE IdeaLab", logo: "/images/sponsors/AICTEIdeaLabFooterLogo.png", size: "w-24 h-16" },
                   { name: "IEEE AP-S", logo: "/images/sponsors/AP-S.png", size: "w-20 h-20" },
                   { name: "IEEE SPS", logo: "/images/sponsors/SPS.png", size: "w-20 h-20" },
-                                    { name: "IEEE REVA", logo: "/images/sponsors/IEEE REVA(bg removed).png", size: "w-32 h-20" }
+                  { name: "IEEE SMC", logo: "/images/sponsors/ieee smc.png", size: "w-20 h-20" },
+                  { name: "IEEE Sensors Council", logo: "/images/sponsors/IEEE REVA(bg removed).png", size: "w-32 h-20" }
                 ].map((sponsor, idx) => (
                   <motion.div
                     key={sponsor.name}
