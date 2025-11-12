@@ -280,7 +280,7 @@ export default function CodeCrusade2025Page() {
               
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-orange-400 mb-3">Round 1: Idea and Concept Pre-Screening (18th November 2025)</h4>
+                  <h4 className="text-lg font-semibold text-orange-400 mb-3">Round 1: Idea and Concept Pre-Screening (17th November 2025)</h4>
                   <p className="text-gray-300 mb-3">Mandatory pre-qualification phase. Only shortlisted teams proceed to the hackathon.</p>
                   <p className="text-gray-300 mb-3"><strong>Submission Deadline:</strong> 17th November 2025</p>
                   <div className="space-y-2">
@@ -301,7 +301,7 @@ export default function CodeCrusade2025Page() {
 
                 <div>
                   <h4 className="text-lg font-semibold text-orange-400 mb-3">Round 2: Final Prototype Demonstration (22nd November 2025)</h4>
-                  <p className="text-gray-300 mb-3">Working prototype demonstration and final evaluation (12:40 PM - 2:40 PM).</p>
+                  <p className="text-gray-300 mb-3">Working prototype demonstration and final evaluation (2:40 PM - 3:20 PM).</p>
                   <div className="space-y-2">
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
