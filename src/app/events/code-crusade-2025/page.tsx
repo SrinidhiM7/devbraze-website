@@ -58,12 +58,11 @@ export default function CodeCrusade2025Page() {
             </h1>
 
             <p className="text-xl xs:text-2xl md:text-3xl text-gray-300 mb-8 leading-relaxed">
-              14-Hour Innovation Marathon
+              14-Hour Hackathon
             </p>
 
             <p className="text-lg xs:text-xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-              Join the ultimate coding battle where developers, innovators, and problem-solvers unite to build solutions
-              addressing real-world challenges aligned with UN Sustainable Development Goals.
+              The School of ECE, in collaboration with the &lt;/DevBraze&gt; Club and IEEE, proudly presents an exciting 14-hour Hackathon aimed at fostering innovation, creativity, and problem-solving skills among students.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
@@ -73,7 +72,7 @@ export default function CodeCrusade2025Page() {
               </div>
               <div className="flex items-center gap-4 text-purple-400">
                 <MapPin className="w-6 h-6" />
-                <span className="text-lg font-medium">REVA University</span>
+                <span className="text-lg font-medium">Amphitheatre, CV Raman Block</span>
               </div>
               <div className="flex items-center gap-4 text-pink-400">
                 <Users className="w-6 h-6" />
@@ -96,7 +95,7 @@ export default function CodeCrusade2025Page() {
               </motion.a>
 
               <motion.a
-                href="https://forms.gle/aSwhGe4uGQDNdDW9A"
+                href="https://forms.gle/UcBMJPUAyEhgdwNn9"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg rounded-xl hover:from-cyan-400 hover:to-purple-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
@@ -175,10 +174,10 @@ export default function CodeCrusade2025Page() {
                 About the Event
               </h3>
               <p className="text-gray-300 leading-relaxed text-lg mb-6">
-                Code Crusade 2025 is a 14-hour innovation marathon bringing together developers, innovators, and problem-solvers to build solutions addressing real-world challenges aligned with UN Sustainable Development Goals. Work on cutting-edge technologies including AI, Blockchain, IoT, Cloud Computing, and Cybersecurity.
+                The School of ECE, in collaboration with the &lt;/DevBraze&gt; Club and IEEE, proudly presents an exciting 14-hour Hackathon aimed at fostering innovation, creativity, and problem-solving skills among students. This event provides an excellent platform for participants to ideate, design, and develop impactful technological solutions to real-world challenges.
               </p>
               <p className="text-gray-300 leading-relaxed text-lg">
-                Get mentorship from industry experts, network with like-minded individuals, and compete for exciting prizes and incubation support through REVA Nest.
+                Work on cutting-edge technologies including GenAI, Machine Learning, FinTech, Blockchain, IoT, Cloud Computing, and Cybersecurity. Get mentorship from industry experts, network with like-minded individuals, and compete for exciting prizes.
               </p>
             </motion.div>
 
@@ -206,8 +205,8 @@ export default function CodeCrusade2025Page() {
               >
                 <MapPin className="w-12 h-12 text-purple-400 mx-auto mb-4" />
                 <h4 className="text-xl font-semibold text-white mb-2">Venue</h4>
-                <p className="text-gray-300">REVA University</p>
-                <p className="text-gray-400 text-sm">School of ECE</p>
+                <p className="text-gray-300">Amphitheatre</p>
+                <p className="text-gray-400 text-sm">CV Raman Block, REVA University</p>
               </motion.div>
 
               <motion.div
@@ -251,10 +250,10 @@ export default function CodeCrusade2025Page() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
-                  '14-hour hackathon with mentorship',
-                  'Work on cutting-edge technologies',
-                  'Compete for exciting prizes & certificates',
-                  'Incubation support via REVA Nest',
+                  'Promote hands-on learning in advanced technologies',
+                  'Encourage collaborative problem-solving and innovation',
+                  'Bridge the gap between academic knowledge and industry',
+                  'Nurture future-ready engineers',
                   'Two-round evaluation process',
                   'Networking with industry experts'
                 ].map((highlight, idx) => (
@@ -281,31 +280,40 @@ export default function CodeCrusade2025Page() {
               
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-orange-400 mb-3">Round 1: Idea Pre-Screening (8th November 2025)</h4>
-                  <p className="text-gray-300 mb-3">Mandatory pre-qualification phase. Only shortlisted teams participate in the hackathon.</p>
+                  <h4 className="text-lg font-semibold text-orange-400 mb-3">Round 1: Idea and Concept Pre-Screening (18th November 2025)</h4>
+                  <p className="text-gray-300 mb-3">Mandatory pre-qualification phase. Only shortlisted teams proceed to the hackathon.</p>
+                  <p className="text-gray-300 mb-3"><strong>Submission Deadline:</strong> 17th November 2025</p>
                   <div className="space-y-2">
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="text-gray-300">Submit concise presentation with Lean Canvas</span>
+                      <span className="text-gray-300">Concise presentation based on Lean Canvas (mandatory)</span>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="text-gray-300">Focus: Novelty, Innovation, SDG Alignment</span>
+                      <span className="text-gray-300">Problem statement clearly outlined</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-300">Proposed solution with SDG alignment</span>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-semibold text-orange-400 mb-3">Round 2: Final Prototype Demo (22nd November 2025)</h4>
-                  <p className="text-gray-300 mb-3">Working prototype demonstration and final evaluation.</p>
+                  <h4 className="text-lg font-semibold text-orange-400 mb-3">Round 2: Final Prototype Demonstration (22nd November 2025)</h4>
+                  <p className="text-gray-300 mb-3">Working prototype demonstration and final evaluation (12:40 PM - 2:40 PM).</p>
                   <div className="space-y-2">
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="text-gray-300">Functional prototype with live demo</span>
+                      <span className="text-gray-300">Final codebase submission with live demo</span>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
-                      <span className="text-gray-300">Focus: Technical complexity, Presentation, Feasibility</span>
+                      <span className="text-gray-300">Focus: Working prototype, Presentation & Teamwork, Feasibility</span>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-orange-400 rounded-full mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-300 font-semibold text-red-400">Critical: Failure to demonstrate functional prototype = disqualification</span>
                     </div>
                   </div>
                 </div>
@@ -563,12 +571,12 @@ export default function CodeCrusade2025Page() {
                   {[
                     { time: "9:00 AM - 10:20 AM", activity: "Hackathon Continues", icon: "💻", color: "from-cyan-500 to-blue-500", description: "Final push to complete your projects" },
                     { time: "10:20 AM - 10:40 AM", activity: "Short Break", icon: "☕", color: "from-yellow-500 to-orange-500", description: "Quick refresh before final hours" },
-                    { time: "10:40 AM - 11:00 AM", activity: "Hackathon Continues", icon: "⚡", color: "from-cyan-500 to-blue-500", description: "Last coding session" },
-                    { time: "11:00 AM - 11:15 AM", activity: "Snacks Distribution", icon: "🍪", color: "from-green-500 to-emerald-500", description: "Energy boost for presentations" },
-                    { time: "11:15 AM - 12:40 PM", activity: "Mentoring Session", icon: "👨‍🏫", color: "from-indigo-500 to-purple-500", description: "Final mentorship and guidance" },
-                    { time: "12:40 PM - 2:40 PM", activity: "Hackathon Continues", icon: "🔥", color: "from-cyan-500 to-blue-500", description: "Final touches and testing" },
-                    { time: "2:40 PM - 3:20 PM", activity: "Demonstration & Final Evaluation", icon: "📊", color: "from-pink-500 to-rose-500", description: "Present your innovations to judges" },
-                    { time: "3:20 PM - 4:00 PM", activity: "Closing Ceremony & Winners Announcement", icon: "🏆", color: "from-yellow-500 to-amber-500", description: "Celebrate winners and wrap up the event" }
+                    { time: "10:40 AM - 11:00 AM", activity: "Mentoring Session", icon: "👨‍🏫", color: "from-indigo-500 to-purple-500", description: "Final mentoring round for presentation refinement" },
+                    { time: "11:00 AM - 11:15 AM", activity: "Snacks Distribution", icon: "🍪", color: "from-green-500 to-emerald-500", description: "Light refreshments" },
+                    { time: "11:15 AM - 12:40 PM", activity: "Hackathon Continues", icon: "�", color: "from-cyan-500 to-blue-500", description: "Final coding and testing phase" },
+                    { time: "12:40 PM - 2:40 PM", activity: "Mentoring & Pitch Preparation", icon: "🎯", color: "from-purple-500 to-pink-500", description: "Presentation rehearsal and demo setup" },
+                    { time: "2:40 PM - 3:20 PM", activity: "Final Demonstration & Evaluation", icon: "📊", color: "from-pink-500 to-rose-500", description: "Live demos and Q&A with jury" },
+                    { time: "3:20 PM - 4:00 PM", activity: "Closing Ceremony", icon: "🏆", color: "from-yellow-500 to-amber-500", description: "Winner announcement and prize distribution" }
                   ].map((item, idx) => (
                     <motion.div
                       key={idx}
@@ -656,12 +664,16 @@ export default function CodeCrusade2025Page() {
                   <h4 className="text-lg font-semibold text-yellow-400 mb-4">Important Rules</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {[
-                      "All projects must be built during the hackathon",
-                      "Pre-built projects are strictly not allowed",
-                      "No cloning of existing GitHub repositories",
-                      "Basic programming knowledge required",
-                      "Each team should provide a Lean Canvas",
-                      "Projects must align with given themes and SDGs"
+                      "All projects must be developed entirely during the hackathon",
+                      "Pre-built or previously submitted projects are not allowed",
+                      "No cloning of existing GitHub repositories - all work must be original",
+                      "Teams may use open-source libraries, frameworks, APIs, and datasets",
+                      "Both hardware and software projects are accepted",
+                      "All submissions must be made before the official deadline",
+                      "Lean Canvas submission is mandatory for Round 1",
+                      "Code must be built only between 9:30 AM on Day 1 and submission deadline on Day 2",
+                      "Plagiarism or unethical behavior will result in immediate disqualification",
+                      "The judges' decision will be final and binding"
                     ].map((req, idx) => (
                       <div key={idx} className="flex items-start gap-3">
                         <div className="w-3 h-3 bg-yellow-400 rounded-full mt-2 flex-shrink-0"></div>
@@ -676,60 +688,42 @@ export default function CodeCrusade2025Page() {
         </div>
       </section>
 
-      {/* Organizers & Contact Section */}
+      {/* Coordinators Section */}
       <section className="py-16 xs:py-20 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/10 via-purple-900/10 to-pink-900/10"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            {/* Organizers */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Users className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
+              Contact <span className="gradient-text">Coordinators</span>
+            </h2>
+            <p className="text-lg xs:text-xl text-gray-400 max-w-2xl mx-auto">
+              Reach out to our coordinators for any queries or assistance
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {/* Faculty Coordinators */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-gradient-to-r from-green-500/5 to-teal-500/5 rounded-3xl p-8 border border-green-400/20"
+              className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-3xl p-8 border border-blue-400/30 backdrop-blur-sm"
             >
               <h3 className="text-2xl font-semibold text-white mb-6 flex items-center gap-3">
-                <Trophy className="w-6 h-6 text-green-400" />
-                Organized By
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-green-400 rounded-full flex-shrink-0"></div>
-                  <span className="text-white font-medium text-lg">&lt;/DevBraze&gt;</span>
+                <div className="w-10 h-10 bg-blue-400 rounded-xl flex items-center justify-center">
+                  <Users className="w-5 h-5 text-white" />
                 </div>
-                <div className="ml-7 space-y-3">
-                  <div className="text-gray-300 text-sm">In collaboration with:</div>
-                  {[
-                    'AICTE IdeaLab',
-                    'IEEE Sensor Council',
-                    'IEEE Systems, Man, & Cybernetics Society',
-                    'IEEE Antenna & Propagation Society',
-                    'IEEE Signal Processing Society',
-                    'School of ECE, REVA University',
-                    'IEEE Student Branch',
-                    'REVA Nest'
-                  ].map((org, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-400/60 rounded-full flex-shrink-0"></div>
-                      <span className="text-gray-300 text-sm">{org}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Contact Coordinators */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-gradient-to-r from-blue-500/5 to-indigo-500/5 rounded-3xl p-8 border border-blue-400/20"
-            >
-              <h3 className="text-2xl font-semibold text-white mb-6 flex items-center gap-3">
-                <Users className="w-6 h-6 text-blue-400" />
-                Contact Coordinators
+                Faculty Coordinators
               </h3>
               <div className="grid grid-cols-1 gap-4">
                 {[
@@ -738,15 +732,70 @@ export default function CodeCrusade2025Page() {
                   { name: "Dr. Nikhat Tabassum", phone: "9986370826" },
                   { name: "Dr. Ravi Shankar D", phone: "9743508318" }
                 ].map((coordinator, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-4 bg-black/20 rounded-xl">
-                    <div className="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-sm font-bold">
-                        {coordinator.name.split(' ').map(n => n[0]).join('')}
-                      </span>
+                  <div key={idx} className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 hover:border-blue-400/50 hover:bg-white/10 transition-all duration-300 group">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
                     </div>
-                    <div>
-                      <div className="text-white text-sm font-medium">{coordinator.name}</div>
-                      <div className="text-gray-400 text-xs">{coordinator.phone}</div>
+                    <div className="flex-1">
+                      <div className="text-white font-medium mb-1 flex items-center gap-2">
+                        <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        {coordinator.name}
+                      </div>
+                      <a href={`tel:${coordinator.phone}`} className="text-gray-400 text-sm flex items-center gap-2 hover:text-blue-400 transition-colors duration-200 cursor-pointer">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        {coordinator.phone}
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Student Coordinators */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-gradient-to-br from-cyan-500/10 to-teal-500/10 rounded-3xl p-8 border border-cyan-400/30 backdrop-blur-sm"
+            >
+              <h3 className="text-2xl font-semibold text-white mb-6 flex items-center gap-3">
+                <div className="w-10 h-10 bg-cyan-400 rounded-xl flex items-center justify-center">
+                  <Star className="w-5 h-5 text-white" />
+                </div>
+                Student Coordinators
+              </h3>
+              <div className="grid grid-cols-1 gap-4">
+                {[
+                  { name: "Viha S.", phone: "7899723206" },
+                  { name: "G. Sai Santosh", phone: "8050832299" },
+                  { name: "Mohammed Affaan", phone: "9632064994" }
+                ].map((coordinator, idx) => (
+                  <div key={idx} className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 hover:border-cyan-400/50 hover:bg-white/10 transition-all duration-300 group">
+                    <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-white font-medium mb-1 flex items-center gap-2">
+                        <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        {coordinator.name}
+                      </div>
+                      <a href={`tel:${coordinator.phone}`} className="text-gray-400 text-sm flex items-center gap-2 hover:text-cyan-400 transition-colors duration-200 cursor-pointer">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        {coordinator.phone}
+                      </a>
                     </div>
                   </div>
                 ))}
@@ -807,7 +856,7 @@ export default function CodeCrusade2025Page() {
               </motion.a>
 
               <motion.a
-                href="https://forms.gle/aSwhGe4uGQDNdDW9A"
+                href="https://forms.gle/UcBMJPUAyEhgdwNn9"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-xl rounded-xl hover:from-cyan-400 hover:to-purple-400 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"

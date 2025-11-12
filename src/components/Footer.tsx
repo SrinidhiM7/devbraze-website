@@ -199,17 +199,13 @@ export default function Footer() {
               Aniketh
             </a>.
           </p>
-          <div className="flex space-x-4 xs:space-x-6 text-xs xs:text-sm">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
-              Terms of Service
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
-              Code of Conduct
-            </a>
-          </div>
+          <a 
+            href="/LICENSE.txt" 
+            target="_blank"
+            className="text-xs xs:text-sm text-gray-400 hover:text-white transition-colors duration-300 hover:underline"
+          >
+            MIT License
+          </a>
         </motion.div>
       </div>
     </footer>
